@@ -5,11 +5,10 @@ This document contains the app map and all wireframe diagrams for the Minimum Vi
 ---
 
 ## App Map
+<img src="ux-design/Student Expense Tracker App - App Map.png" alt="App Map" width="1000">
 
 The app is structured around four main sections accessible from the navigation menu, preceded by an onboarding flow for new and returning users.
 
-```
-```
 ---
 ## Prototype 
 Mobile prototype link: [Figma Prototype](https://www.figma.com/proto/7yWqCcVscmOe9qnbFZPaC3/Student-Expense-Tracker-App---Wireframe?node-id=47-129&p=f&t=GGNZIUIjtlwsmozZ-0&scaling=scale-down&content-scaling=fixed&page-id=0%3A1&starting-point-node-id=47%3A129)
