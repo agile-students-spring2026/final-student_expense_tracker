@@ -12,9 +12,7 @@ The app is structured around four main sections accessible from the navigation m
 ```
 ---
 ## Prototype 
-Mobile prototype link: 
-
----
+Mobile prototype link: [Figma Prototype](https://www.figma.com/proto/7yWqCcVscmOe9qnbFZPaC3/Student-Expense-Tracker-App---Wireframe?node-id=6-6&p=f&t=GGNZIUIjtlwsmozZ-0&scaling=scale-down&content-scaling=fixed&page-id=0%3A1&starting-point-node-id=47%3A129)
 
 ## Wireframe Diagrams
 Wireframe Pages: [Figma Pages](https://www.figma.com/design/7yWqCcVscmOe9qnbFZPaC3/Student-Expense-Tracker-App---Wireframe?node-id=23-44&t=sJ3tzJiBZp4yVj7I-0)
