@@ -17,6 +17,7 @@ Mobile prototype link:
 ---
 
 ## Wireframe Diagrams
+Wireframe Pages: [Figma Pages](https://www.figma.com/design/7yWqCcVscmOe9qnbFZPaC3/Student-Expense-Tracker-App---Wireframe?node-id=23-44&t=sJ3tzJiBZp4yVj7I-0)
 
 ---
 
