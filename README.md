@@ -24,6 +24,18 @@ For students who want to take control of their finances, Trackr is a simple and 
 
 Trackr started as a class project for an Agile Software Development and DevOps course at NYU. We wanted to build something that solved a problem we face as students, keeping track of where our money goes. Most budgeting apps feel overwhelming or are built for people with full-time salaries. Trackr is different: it's student-friendly, and designed to grow with you.
 
+Trackr is scoped for a team of 4-5 developers to build within one semester. Each core feature is separable which makes the work easy to delegate and work on sprint by sprint.
+
+The initial MVP will focus on the following core features:
+
+- Account creation and secure login/logout
+- Adding, viewing, and managing expenses
+- Categorising expenses for better organisation
+- Viewing a full expense list with individual expense details
+- A budgeting tool to set income, fixed costs, and spending limits
+
+These features establish the foundation of the Trackr experience.
+
 ---
 
 ## Contributing
@@ -48,23 +60,4 @@ Trackr started as a class project for an Agile Software Development and DevOps c
 
 - [Project Repository](https://github.com/agile-students-spring2026/final-student_expense_tracker)
 
----
-# Project Repository
 
-This repository will be used for team projects.
-
-Several sets of instructions are included in this repository. They should each be treated as separate assignments with their own due dates and sets of requirements.
-
-1. See the [App Map & Wireframes](instructions-0a-app-map-wireframes.md) and [Prototyping](./instructions-0b-prototyping.md) instructions for the requirements of the initial user experience design of the app.
-
-1. Delete the contents of this file and replace with the contents of a proper README.md, as described in the [project setup instructions](./instructions-0c-project-setup.md)
-
-1. See the [Sprint Planning instructions](instructions-0d-sprint-planning.md) for the requirements of Sprint Planning for each Sprint.
-
-1. See the [Front-End Development instructions](./instructions-1-front-end.md) for the requirements of the initial Front-End Development.
-
-1. See the [Back-End Development instructions](./instructions-2-back-end.md) for the requirements of the initial Back-End Development.
-
-1. See the [Database Integration instructions](./instructions-3-database.md) for the requirements of integrating a database into the back-end.
-
-1. See the [Deployment instructions](./instructions-4-deployment.md) for the requirements of deploying an app.
