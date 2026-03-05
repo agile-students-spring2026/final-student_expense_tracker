@@ -31,7 +31,7 @@ We switch roles each sprint
 
 ### Standups
 
-*Meeting times TBD*
+Meeting on **Tues/Thurs 3:30pm EST** on zoom
 
 All team members are expected to attend. If you can't make it, let the team know why (so we can advocate for each other) and if possible post a written standup update in Discord **before** the meeting with:
 - What you worked on since the last standup
