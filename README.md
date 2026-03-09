@@ -14,7 +14,7 @@ For students who want to take control of their finances, Trackr is a simple and 
 |------|--------|
 | Sean Alliman  |[@seana12](https://github.com/seana12)|
 | Chinwe Otti |[@chinweot](https://github.com/chinweot) |
-| Nebiyu Ayele | |
+| Nebiyu Ayele |[@nebiyu01](https://github.com/nebiyu01) |
 | Shreya Dharayan|[@sd4994](https://github.com/sd4994)|
 | Shuhan Ge|[@gshm446](https://github.com/gshm446) |
 
