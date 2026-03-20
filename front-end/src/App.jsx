@@ -1,0 +1,62 @@
+import { useState } from 'react'
+import {BrowserRouter, Routes, Route} from "react-router-dom"
+
+import AddExpense from "./pages/AddExpense.jsx"
+import Budget from "./pages/Budget.jsx"
+import BudgetReport from "./pages/BudgetReport.jsx"
+import ConfirmExpense from "./pages/ConfirmExpense.jsx"
+import CreateBudget from "./pages/CreateBudget.jsx"
+import EditProfile from "./pages/EditProfile.jsx"
+import ExpenseInfo from "./pages/ExpenseInfo.jsx"
+import ExpenseList from "./pages/ExpenseList.jsx"
+import ExpenseTracking from "./pages/ExpenseTracking.jsx"
+import Home from "./pages/Home.jsx"
+import Landing from "./pages/Landing.jsx"
+import Login from "./pages/Login.jsx"
+import Policies from "./pages/Policies.jsx"
+import Profile from "./pages/Profile.jsx"
+import Signup from "./pages/Signup.jsx"
+
+import Navbar from "./components/Navbar.jsx"
+import Logo from "./components/Logo.jsx"
+
+import './App.css'
+
+function App() {
+  const [count, setCount] = useState(0)
+
+  return (
+    <>
+      <BrowserRouter>
+        <Navbar />
+        <Logo />
+
+        <Routes>
+          <Route path="/" element={<Landing />} />
+          <Route path="/signup" element={<Signup />} />
+          <Route path="/login" element={<Login />} />
+
+          <Route path="/home" element={<Home />} />
+
+          <Route path="/expenses" element={<ExpenseTracking />} />
+          <Route path="/expenses/list" element={<ExpenseList />} />
+          <Route path="/expenses/add" element={<AddExpense />} />
+          <Route path="/expenses/confirm" element={<ConfirmExpense />} />
+          <Route path="/expenses/info" element={<ExpenseInfo />} />
+
+          <Route path="/budget" element={<Budget />} />
+          <Route path="/budget/create" element={<CreateBudget />} />
+          <Route path="/budget/report" element={<BudgetReport />} />
+
+          <Route path="/profile" element={<Profile />} />
+          <Route path="/profile/edit" element={<EditProfile />} />
+
+          <Route path="/policies" element={<Policies />} />
+        </Routes>
+      
+      </BrowserRouter>
+    </>
+  )
+}
+
+export default App

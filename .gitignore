@@ -130,3 +130,6 @@ typings/
 
 ## editor files
 .cursor/
+
+# Vite
+.vite/
