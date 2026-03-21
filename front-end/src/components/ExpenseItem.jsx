@@ -1,8 +1,8 @@
 import { useState } from 'react'
 import { Link } from "react-router-dom"
 
-function ExpenseItem() {
-
+function ExpenseItem({expense}) {
+    
     return (
         <div>
             <div className="expenseContainerTop"> 
@@ -10,9 +10,9 @@ function ExpenseItem() {
                 <button className="infoX">X</button>
             </div>
             <div className="expenseContainerBottom">
-                <div className="expensedetail">Name</div>
-                <div className="expensedetail">Amount</div>
-                <div className="expensedetail">Date</div>
+                <div className="expensedetail">{expense.name}</div>
+                <div className="expensedetail">{expense.amount}</div>
+                <div className="expensedetail">{expense.dateAdded}</div>
             </div>
         </div>
     )

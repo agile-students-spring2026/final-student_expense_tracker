@@ -24,6 +24,8 @@ import './App.css'
 
 function App() {
   const [count, setCount] = useState(0)
+  const [expenses, setExpenses] = useState([]);
+  const [pendingExpense, setPendingExpense] = useState(null);
 
   return (
     <>
@@ -38,10 +40,16 @@ function App() {
 
           <Route path="/home" element={<Home />} />
 
-          <Route path="/expenses" element={<ExpenseTracking />} />
-          <Route path="/expenses/list" element={<ExpenseList />} />
-          <Route path="/expenses/add" element={<AddExpense />} />
-          <Route path="/expenses/confirm" element={<ConfirmExpense />} />
+          <Route path="/expenses" element={<ExpenseTracking expenses={expenses}/>} />
+          <Route path="/expenses/list" element={<ExpenseList expenses={expenses}/>} />
+          <Route path="/expenses/add" element={<AddExpense setPendingExpense={setPendingExpense}/>} />
+          <Route path="/expenses/confirm" element={
+            <ConfirmExpense
+            pendingExpense={pendingExpense}
+            expenses={expenses}
+            setExpenses={setExpenses}
+            setPendingExpense={setPendingExpense}
+            />} />
           <Route path="/expenses/info" element={<ExpenseInfo />} />
 
           <Route path="/budget" element={<Budget />} />

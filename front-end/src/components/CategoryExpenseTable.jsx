@@ -2,13 +2,27 @@ import { useState } from 'react'
 import { Link } from "react-router-dom"
 import Category from "./Category"
 
-function CategoryExpenseTable() {
+function CategoryExpenseTable({expenses}) {
+    const groupedExpenses = expenses.reduce((groups, expense) => {
+        const category = expense.category || "none";
+
+        if (!groups[category]) {
+            groups[category] = [];
+        }
+
+        groups[category].push(expense);
+        return groups;
+    }, {});
 
     return (
         <div> 
-            <Category name="Category1"/>
-            <Category name="Category2"/>
-            <Category name="Category3"/>
+            {Object.entries(groupedExpenses).map(([categoryName, categoryExpenses]) => (
+                <Category 
+                    key={categoryName} 
+                    categoryName={categoryName} 
+                    expenses={categoryExpenses}
+                />
+            ))}
         </div>
     )
 }

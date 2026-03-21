@@ -2,7 +2,7 @@ import { useState } from 'react'
 import { Link } from "react-router-dom"
 import ExpenseItem from "./ExpenseItem"
 
-function Category({name}) {
+function Category({categoryName, expenses}) {
 
     return (
         <div> 
@@ -10,12 +10,11 @@ function Category({name}) {
                 <button className="categoryX">X</button>
             </div>
             <div className="expenseContainerBottom">
-                <h3 className="categorydetail">{name}</h3>
+                <h3 className="categorydetail">{categoryName}</h3>
             </div>
-
-            <ExpenseItem/>
-            <ExpenseItem/>
-            <ExpenseItem/>
+            {expenses.map((expense) => (
+                <ExpenseItem key={expense.id} expense={expense}/>
+            ))}
         </div>
     )
 }
