@@ -2,11 +2,11 @@ import { useState } from 'react'
 import { Link } from "react-router-dom"
 
 function ExpenseItem({expense}) {
-    
+
     return (
         <div>
             <div className="expenseContainerTop"> 
-                <span className="infobuttonWrap"><Link to="/expenses/info" className="infobutton">Info</Link></span>
+                <span className="infobuttonWrap"><Link to={`/expenses/info/${expense.id}`} className="infobutton">Info</Link></span>
                 <button className="infoX">X</button>
             </div>
             <div className="expenseContainerBottom">

@@ -50,7 +50,7 @@ function App() {
             setExpenses={setExpenses}
             setPendingExpense={setPendingExpense}
             />} />
-          <Route path="/expenses/info" element={<ExpenseInfo />} />
+          <Route path="/expenses/info/:id" element={<ExpenseInfo expenses={expenses} setExpenses={setExpenses}/>} />
 
           <Route path="/budget" element={<Budget />} />
           <Route path="/budget/create" element={<CreateBudget />} />
