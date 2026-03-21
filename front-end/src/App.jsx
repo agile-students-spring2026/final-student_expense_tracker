@@ -27,6 +27,14 @@ function App() {
   const [expenses, setExpenses] = useState([]);
   const [pendingExpense, setPendingExpense] = useState(null);
 
+  function deleteExpense(id) {
+    setExpenses((prev) => prev.filter((expense => expense.id !== id)));
+  }
+  function deleteCategory(categoryName) {
+    setExpenses((prev) =>
+    prev.filter((expense) => expense.category !== categoryName));
+  }
+
   return (
     <>
       <BrowserRouter>
@@ -41,7 +49,11 @@ function App() {
           <Route path="/home" element={<Home />} />
 
           <Route path="/expenses" element={<ExpenseTracking expenses={expenses}/>} />
-          <Route path="/expenses/list" element={<ExpenseList expenses={expenses}/>} />
+          <Route path="/expenses/list" element={<ExpenseList 
+          expenses={expenses}
+          deleteExpense={deleteExpense}
+          deleteCategory={deleteCategory}
+          />} />
           <Route path="/expenses/add" element={<AddExpense setPendingExpense={setPendingExpense}/>} />
           <Route path="/expenses/confirm" element={
             <ConfirmExpense

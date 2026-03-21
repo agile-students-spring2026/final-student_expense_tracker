@@ -3,6 +3,10 @@
   margin:0;
 }
 
+h2 {
+  margin-top:2rem;
+}
+
 .logo {
   position:fixed;
   top:0;
@@ -18,9 +22,14 @@
 }
 
 nav {
-  background-color: #f0f0f0;
-  padding: 0.5rem;
+  position:fixed;
+  top:0;
+  left:0;
+  background-color:#ffffff5d;
   width:10%;
+  padding: 0.5rem;
+  z-index:100;
+  border-bottom-right-radius: 10px;
 }
 
 nav button {
@@ -36,6 +45,24 @@ nav div {
   gap: 0.5rem;
   margin-top: 8px;
 }
+
+.navitem {
+  text-decoration:none;
+  color:#2C3E50;
+  font-weight:bold;
+  border-bottom:solid 4px rgba(0, 0, 0, 0.491);
+}
+
+.navitem:hover {
+  color:#364f69;
+  background-color: #b3b0b099;
+  border-bottom:solid 4px rgb(0, 0, 0);
+}
+
+a {
+  text-decoration:none;
+}
+
 
 .linkbutton {
   background-color:#2eb566;

@@ -10,10 +10,10 @@ function Navbar() {
             
             { menuOpen &&(
                 <div>
-                    <Link to="/home">Home</Link>
-                    <Link to="/expenses">Expenses</Link>
-                    <Link to="/budget">Budget</Link>
-                    <Link to="/profile">Profile</Link>
+                    <span><Link to="/home" className="navitem">Home</Link></span>
+                    <span><Link to="/expenses" className="navitem">Expenses</Link></span>
+                    <span><Link to="/budget" className="navitem">Budget</Link></span>
+                    <span><Link to="/profile" className="navitem">Profile</Link></span>
                 </div>)}
         </nav>
     )
