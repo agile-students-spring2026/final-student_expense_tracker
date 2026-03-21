@@ -94,8 +94,6 @@ function ExpenseInfo({expenses, setExpenses}) {
                     </div>
                 </form>
             )}
-
-            <div className="buttonWrap"><Link to="/expenses/list" className="linkbutton">Edit</Link></div>
         </div>
     )
 }

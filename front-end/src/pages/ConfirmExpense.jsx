@@ -11,7 +11,7 @@ function ConfirmExpense({pendingExpense,expenses,setExpenses,setPendingExpense})
     }
     function handleCancel() {
         setPendingExpense(null);
-        navigate("/expense/list");
+        navigate("/expenses/list");
     }
     if (!pendingExpense) {
         return (
@@ -24,15 +24,13 @@ function ConfirmExpense({pendingExpense,expenses,setExpenses,setPendingExpense})
     return (
         <div>
             <h2>Confirm Expense</h2>
-            <p>Expense Name: {pendingExpense.name}</p>
-            <p>Expense Amount: {pendingExpense.amount}</p>
-            <p>Category: {pendingExpense.category}</p>
-            <p>Details Name: {pendingExpense.details}</p>
-            <p>Date Added: {pendingExpense.dateAdded}</p>
-            <button onClick={handleCancel}>Cancel</button>
-            <button onClick={handleConfirm}>Confirm</button>
-            <div className="buttonWrap"><Link to="/expenses/list" className="linkbutton">Cancel</Link></div>
-            <div className="buttonWrap"><Link to="/expenses/list" className="linkbutton">Confirm</Link></div>
+            <p className="infodetail">Expense Name: {pendingExpense.name}</p>
+            <p className="infodetail">Expense Amount: {pendingExpense.amount}</p>
+            <p className="infodetail">Category: {pendingExpense.category}</p>
+            <p className="infodetail">Details Name: {pendingExpense.details}</p>
+            <p className="infodetail">Date Added: {pendingExpense.dateAdded}</p>
+            <button className="linkbutton conf" onClick={handleCancel}>Cancel</button>
+            <button className="linkbutton conf" onClick={handleConfirm}>Confirm</button>
         </div>
     )
 }

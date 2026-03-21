@@ -61,7 +61,6 @@ function AddExpense({ setPendingExpense}) {
             
 
             </form>
-            <div className="buttonWrap"><Link to="/expenses/confirm" className="linkbutton">Add</Link></div>
         </div>
     )
 }

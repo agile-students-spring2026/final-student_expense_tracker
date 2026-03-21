@@ -14,10 +14,10 @@ function ExpenseList({expenses, deleteExpense, deleteCategory}) {
     return (
         <div>
             <h2>Expense List</h2>
-            <h3 className="leftHeader">Expenses</h3>
             <div className="buttonWrap"><Link to="/expenses/add" className="linkbutton">+ Add Expense</Link></div>
+            <h3 className="leftHeader" style={{marginBottom: "1rem"}}>Expenses</h3>
             <ExpenseTable expenses={regularExpenses} deleteExpense={deleteExpense}/>
-            <h3 className="leftHeader">Category Expenses</h3>
+            <h3 className="leftHeader" style={{marginTop: "2rem", marginBottom:"1rem"}}>Category Expenses</h3>
             <CategoryExpenseTable 
             expenses={categorizedExpenses}
             deleteExpense={deleteExpense}

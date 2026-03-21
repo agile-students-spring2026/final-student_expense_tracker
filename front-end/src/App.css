@@ -202,3 +202,7 @@ a {
   margin-top:1rem;
   align-self:flex-end;
 }
+
+.conf {
+  margin-inline:1.5rem;
+}
