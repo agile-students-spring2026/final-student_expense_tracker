@@ -63,33 +63,35 @@ function ExpenseInfo({expenses, setExpenses}) {
 
             {!isEditing ? (
                 <>
-                    <p>Expense Name: {expense.name}</p>
-                    <p>Expense Amount: {expense.amount}</p>
-                    <p>Expense Category: {expense.category}</p>
-                    <p>Details: {expense.details}</p>
-                    <button onClick={() => setIsEditing(true)}>Edit</button>
-                    <button onClick={() => navigate("/expenses/list")}>Back</button>
+                    <p className="infodetail">Expense Name: {expense.name}</p>
+                    <p className="infodetail">Expense Amount: {expense.amount}</p>
+                    <p className="infodetail">Expense Category: {expense.category}</p>
+                    <p className="infodetail">Details: {expense.details}</p>
+                    <button className="linkbutton infodetailbutton" onClick={() => setIsEditing(true)}>Edit</button>
+                    <button className="linkbutton infodetailbutton"  onClick={() => navigate("/expenses/list")}>Back</button>
                 </>
                 ) : (
                 <form onSubmit={handleSave}>
-                    <div>
-                        <label>Expense Name</label>
+                    <div className="formContainer">
+                        <label >Expense Name</label>
                         <input name="name" value={formData.name} onChange={handleChange}/>
                     </div>
-                    <div>
+                    <div className="formContainer">
                         <label>Expense Amount</label>
                         <input name="amount" value={formData.amount} onChange={handleChange}/>
                     </div>
-                    <div>
+                    <div className="formContainer">
                         <label>Expense Category</label>
                         <input name="category" value={formData.category} onChange={handleChange}/>
                     </div>
-                    <div>
+                    <div className="formContainer">
                         <label>Details</label>
                         <input name="details" value={formData.details} onChange={handleChange}/>
                     </div>
-                    <button type="button" onClick={handleCancelEdit}>Cancel</button>
-                    <button type="submit">Save</button>
+                    <div className="formButtonContainer">
+                        <button className="linkbutton" type="button" onClick={handleCancelEdit}>Cancel</button>
+                        <button className="linkbutton" type="submit">Save</button>
+                    </div>
                 </form>
             )}
 

@@ -39,11 +39,27 @@ function AddExpense({ setPendingExpense}) {
         <div>
             <h2>Add Expense</h2>
             <form onSubmit={handleSubmit}>
-                <input name="name" value ={formData.name} placeholder="Expense Name" onChange={handleChange}/>
-                <input name="amount" value ={formData.amount} placeholder="Expense Amount" onChange={handleChange}/>
-                <input name="category" value ={formData.category} placeholder="Category Name" onChange={handleChange}/>
-                <textarea name="details" value ={formData.details} placeholder="Details" onChange={handleChange}/>
-                <button type="submit">Add</button>
+                <div className="formContainer">
+                        <label >Expense Name</label>
+                        <input name="name" value ={formData.name} placeholder="Expense Name" onChange={handleChange}/>
+                    </div>
+                    <div className="formContainer">
+                        <label>Expense Amount</label>
+                        <input name="amount" value ={formData.amount} placeholder="Expense Amount" onChange={handleChange}/>
+                    </div>
+                    <div className="formContainer">
+                        <label>Expense Category</label>
+                        <input name="category" value ={formData.category} placeholder="Category Name" onChange={handleChange}/>
+                    </div>
+                    <div className="formContainer">
+                        <label>Details</label>
+                        <textarea name="details" value ={formData.details} placeholder="Details" onChange={handleChange}/>
+                    </div>
+                    <div className="formButtonContainer">
+                        <button className="linkbutton" type="submit">Add</button>
+                    </div>
+            
+
             </form>
             <div className="buttonWrap"><Link to="/expenses/confirm" className="linkbutton">Add</Link></div>
         </div>

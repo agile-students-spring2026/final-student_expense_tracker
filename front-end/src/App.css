@@ -72,7 +72,7 @@ a {
   border-radius:5px;
   padding-inline:3rem;
   padding-block:.2rem;
-
+  border:none;
 }
 
 .linkbutton:hover {
@@ -121,6 +121,14 @@ a {
   align-self:flex-end;
 }
 
+.infodetail {
+  color:black;
+}
+
+.infodetailbutton {
+  margin-inline:1.5rem
+}
+
 .expensedetail {
   flex:0 0 33.3%;
   background-color:darkgray;
@@ -154,4 +162,43 @@ a {
   background-color:black;
   color:white;
   font-weight:bold;
+}
+
+.formContainer {
+  display: flex;
+  flex-direction: column;
+}
+
+.formContainer > label {
+  flex:0 0 100%;
+  margin-inline:1.5rem;
+  margin-top:1rem;
+  align-self:flex-start;
+  color:black;
+}
+
+.formContainer > input {
+  flex:0 0 100%;
+  margin-inline:1.5rem;
+  margin-top:.25rem;
+}
+
+.formContainer > textarea {
+  flex:0 0 100%;
+  margin-inline:1.5rem;
+  margin-top:.25rem;
+}
+
+.formButtonContainer {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;;
+  margin-inline:1.5rem;
+  gap: 1rem;
+}
+
+.formButtonContainer > button {
+  flex:0 0 20%;
+  margin-top:1rem;
+  align-self:flex-end;
 }
