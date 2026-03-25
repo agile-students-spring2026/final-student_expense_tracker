@@ -3,6 +3,10 @@
   margin:0;
 }
 
+h2 {
+  margin-top:2rem;
+}
+
 .logo {
   position:fixed;
   top:0;
@@ -18,9 +22,14 @@
 }
 
 nav {
-  background-color: #f0f0f0;
-  padding: 0.5rem;
+  position:fixed;
+  top:0;
+  left:0;
+  background-color:#ffffff5d;
   width:10%;
+  padding: 0.5rem;
+  z-index:100;
+  border-bottom-right-radius: 10px;
 }
 
 nav button {
@@ -37,6 +46,24 @@ nav div {
   margin-top: 8px;
 }
 
+.navitem {
+  text-decoration:none;
+  color:#2C3E50;
+  font-weight:bold;
+  border-bottom:solid 4px rgba(0, 0, 0, 0.491);
+}
+
+.navitem:hover {
+  color:#364f69;
+  background-color: #b3b0b099;
+  border-bottom:solid 4px rgb(0, 0, 0);
+}
+
+a {
+  text-decoration:none;
+}
+
+
 .linkbutton {
   background-color:#2eb566;
   color:#2C3E50;
@@ -45,7 +72,7 @@ nav div {
   border-radius:5px;
   padding-inline:3rem;
   padding-block:.2rem;
-
+  border:none;
 }
 
 .linkbutton:hover {
@@ -94,6 +121,14 @@ nav div {
   align-self:flex-end;
 }
 
+.infodetail {
+  color:black;
+}
+
+.infodetailbutton {
+  margin-inline:1.5rem
+}
+
 .expensedetail {
   flex:0 0 33.3%;
   background-color:darkgray;
@@ -127,4 +162,47 @@ nav div {
   background-color:black;
   color:white;
   font-weight:bold;
+}
+
+.formContainer {
+  display: flex;
+  flex-direction: column;
+}
+
+.formContainer > label {
+  flex:0 0 100%;
+  margin-inline:1.5rem;
+  margin-top:1rem;
+  align-self:flex-start;
+  color:black;
+}
+
+.formContainer > input {
+  flex:0 0 100%;
+  margin-inline:1.5rem;
+  margin-top:.25rem;
+}
+
+.formContainer > textarea {
+  flex:0 0 100%;
+  margin-inline:1.5rem;
+  margin-top:.25rem;
+}
+
+.formButtonContainer {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;;
+  margin-inline:1.5rem;
+  gap: 1rem;
+}
+
+.formButtonContainer > button {
+  flex:0 0 20%;
+  margin-top:1rem;
+  align-self:flex-end;
+}
+
+.conf {
+  margin-inline:1.5rem;
 }

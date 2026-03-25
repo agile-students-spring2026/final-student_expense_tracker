@@ -24,6 +24,16 @@ import './App.css'
 
 function App() {
   const [count, setCount] = useState(0)
+  const [expenses, setExpenses] = useState([]);
+  const [pendingExpense, setPendingExpense] = useState(null);
+
+  function deleteExpense(id) {
+    setExpenses((prev) => prev.filter((expense => expense.id !== id)));
+  }
+  function deleteCategory(categoryName) {
+    setExpenses((prev) =>
+    prev.filter((expense) => expense.category !== categoryName));
+  }
 
   return (
     <>
@@ -38,11 +48,21 @@ function App() {
 
           <Route path="/home" element={<Home />} />
 
-          <Route path="/expenses" element={<ExpenseTracking />} />
-          <Route path="/expenses/list" element={<ExpenseList />} />
-          <Route path="/expenses/add" element={<AddExpense />} />
-          <Route path="/expenses/confirm" element={<ConfirmExpense />} />
-          <Route path="/expenses/info" element={<ExpenseInfo />} />
+          <Route path="/expenses" element={<ExpenseTracking expenses={expenses}/>} />
+          <Route path="/expenses/list" element={<ExpenseList 
+          expenses={expenses}
+          deleteExpense={deleteExpense}
+          deleteCategory={deleteCategory}
+          />} />
+          <Route path="/expenses/add" element={<AddExpense setPendingExpense={setPendingExpense}/>} />
+          <Route path="/expenses/confirm" element={
+            <ConfirmExpense
+            pendingExpense={pendingExpense}
+            expenses={expenses}
+            setExpenses={setExpenses}
+            setPendingExpense={setPendingExpense}
+            />} />
+          <Route path="/expenses/info/:id" element={<ExpenseInfo expenses={expenses} setExpenses={setExpenses}/>} />
 
           <Route path="/budget" element={<Budget />} />
           <Route path="/budget/create" element={<CreateBudget />} />
