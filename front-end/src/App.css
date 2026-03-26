@@ -221,23 +221,10 @@ a {
 
 .homeNavCard {
   display: block;
-  background-color: #2C3E50;
+  background-color: #637082;;
   color: #ffffff;
   border-radius: 8px;
   padding: 1rem 1.5rem;
   text-decoration: none;
-}
-
-.homeNavCard h3 {
-  color: #2eb566;
-  margin-bottom: 0.25rem;
-}
-
-.homeNavCard p {
-  font-size: 0.9rem;
-  color: #cdd4db;
-}
-
-.homeNavCard:hover {
-  background-color: #364f69;
+  font-weight: bold;
 }
