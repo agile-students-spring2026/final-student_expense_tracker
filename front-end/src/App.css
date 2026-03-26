@@ -25,7 +25,7 @@ nav {
   position:fixed;
   top:0;
   left:0;
-  background-color:#ffffff5d;
+  background-color:#c8cdd2;
   width:10%;
   padding: 0.5rem;
   z-index:100;
@@ -205,4 +205,26 @@ a {
 
 .conf {
   margin-inline:1.5rem;
+}
+
+.homeContainer {
+  padding: 1rem;
+}
+
+.homeNav {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  margin-top: 1.5rem;
+  padding-inline: 1rem;
+}
+
+.homeNavCard {
+  display: block;
+  background-color: #637082;;
+  color: #ffffff;
+  border-radius: 8px;
+  padding: 1rem 1.5rem;
+  text-decoration: none;
+  font-weight: bold;
 }
