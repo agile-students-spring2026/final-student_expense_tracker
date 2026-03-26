@@ -48,7 +48,7 @@ function App() {
 
           <Route path="/home" element={<Home />} />
 
-          <Route path="/expenses" element={<ExpenseTracking expenses={expenses}/>} />
+          <Route path="/expenses" element={<ExpenseTracking expenses={expenses} deleteExpense={deleteExpense} deleteCategory={deleteCategory}/>} />
           <Route path="/expenses/list" element={<ExpenseList 
           expenses={expenses}
           deleteExpense={deleteExpense}
