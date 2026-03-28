@@ -16,7 +16,6 @@ function ExpenseList({expenses, deleteExpense, deleteCategory}) {
             <h2 style={{ textAlign: "center" }}>Expense List</h2>
             <div className="expense-list-header">
                 <span className="expense-list-header-label">Expenses</span>
-                <Link to="/expenses/add" className="expense-black-btn">+ Add Expense</Link>
             </div>
             <ExpenseTable expenses={regularExpenses} deleteExpense={deleteExpense}/>
             <h3 className="leftHeader" style={{ marginTop: "2rem", marginBottom: "0.5rem" }}>Category Expenses</h3>
@@ -25,6 +24,9 @@ function ExpenseList({expenses, deleteExpense, deleteCategory}) {
                 deleteExpense={deleteExpense}
                 deleteCategory={deleteCategory}
             />
+            <div className="expense-btn-center" style={{ marginTop: "2rem" }}>
+                <Link to="/expenses/add" className="expense-black-btn" style={{ padding: "0.3rem 1.2rem", fontSize: "0.8rem" }}>+ Add Expense</Link>
+            </div>
         </div>
     )
 }
