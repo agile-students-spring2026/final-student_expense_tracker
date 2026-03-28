@@ -1,7 +1,7 @@
 import { useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
-function AddExpense({ setPendingExpense}) {
+function AddExpense({ setPendingExpense }) {
 
     const navigate = useNavigate();
     const [formData, setFormData] = useState({
@@ -12,10 +12,10 @@ function AddExpense({ setPendingExpense}) {
     });
 
     function handleChange(e) {
-        const {name, value} = e.target;
+        const { name, value } = e.target;
         setFormData((prev) => ({
             ...prev,
-            [name]:value
+            [name]: value
         }));
     }
 
@@ -37,29 +37,36 @@ function AddExpense({ setPendingExpense}) {
 
     return (
         <div>
-            <h2>Add Expense</h2>
+            <h2 style={{ textAlign: "center" }}>Add Expense</h2>
             <form onSubmit={handleSubmit}>
                 <div className="formContainer">
-                        <label >Expense Name</label>
-                        <input name="name" value ={formData.name} placeholder="Expense Name" onChange={handleChange}/>
+                    <label className="expense-field-label">Expense Name</label>
+                    <input className="expense-input" name="name" value={formData.name} placeholder="Expense Name" onChange={handleChange} />
+                </div>
+                <div className="formContainer">
+                    <label className="expense-field-label">Expense Amount</label>
+                    <input className="expense-input" name="amount" value={formData.amount} placeholder="$$$" onChange={handleChange} />
+                </div>
+                <div className="formContainer">
+                    <label className="expense-field-label">Category Name / Expense Category</label>
+                    <input className="expense-input" name="category" value={formData.category} placeholder="Category Name" onChange={handleChange} />
+                </div>
+                <div className="formContainer">
+                    <label className="expense-field-label">Details</label>
+                    <div className="expense-details-box">
+                        <p className="expense-details-box-title">Details About Expense</p>
+                        <textarea
+                            className="expense-details-textarea"
+                            name="details"
+                            value={formData.details}
+                            placeholder="[Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer nec odio. Praesent libero. Sed cursus ante dapibus diam...]"
+                            onChange={handleChange}
+                        />
                     </div>
-                    <div className="formContainer">
-                        <label>Expense Amount</label>
-                        <input name="amount" value ={formData.amount} placeholder="Expense Amount" onChange={handleChange}/>
-                    </div>
-                    <div className="formContainer">
-                        <label>Expense Category</label>
-                        <input name="category" value ={formData.category} placeholder="Category Name" onChange={handleChange}/>
-                    </div>
-                    <div className="formContainer">
-                        <label>Details</label>
-                        <textarea name="details" value ={formData.details} placeholder="Details" onChange={handleChange}/>
-                    </div>
-                    <div className="formButtonContainer">
-                        <button className="linkbutton" type="submit">Add</button>
-                    </div>
-            
-
+                </div>
+                <div className="expense-btn-center">
+                    <button className="expense-black-btn" type="submit">Add</button>
+                </div>
             </form>
         </div>
     )

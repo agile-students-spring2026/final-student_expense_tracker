@@ -228,3 +228,229 @@ a {
   text-decoration: none;
   font-weight: bold;
 }
+
+/* ===== Expense Screens ===== */
+
+.expense-section-header {
+  font-weight: bold;
+  text-align: left;
+  padding: 0.5rem 1rem 0.25rem;
+  color: #000;
+  text-transform: uppercase;
+  font-size: 0.9rem;
+}
+
+.expense-section-header-light {
+  text-align: left;
+  padding: 0.5rem 1rem 0.25rem;
+  color: #888;
+  text-transform: uppercase;
+  font-size: 0.75rem;
+  letter-spacing: 0.05em;
+}
+
+.expense-divider {
+  border: none;
+  border-top: 1px solid #ccc;
+  margin: 0.25rem 0;
+}
+
+.expense-overview-stats {
+  display: flex;
+  gap: 0.5rem;
+  padding: 0.5rem 1rem;
+}
+
+.expense-stat-box {
+  flex: 1;
+  background-color: #d0d0d0;
+  padding: 0.4rem;
+  text-align: center;
+}
+
+.expense-stat-value {
+  font-weight: bold;
+  font-size: 1rem;
+  display: block;
+}
+
+.expense-stat-label {
+  font-size: 0.7rem;
+  display: block;
+}
+
+.expense-category-breakdown {
+  padding: 0 1rem;
+}
+
+.expense-category-breakdown-item {
+  padding: 0.4rem 0;
+  border-bottom: 1px solid #ccc;
+}
+
+.expense-category-breakdown-name {
+  font-size: 0.9rem;
+  margin-bottom: 0.2rem;
+}
+
+.expense-progress-bar {
+  height: 8px;
+  background-color: #bbb;
+}
+
+.expense-black-btn {
+  background-color: #000;
+  color: #fff;
+  font-weight: bold;
+  font-family: Arial, Helvetica, sans-serif;
+  border: none;
+  padding: 0.5rem 2.5rem;
+  cursor: pointer;
+  font-size: 0.95rem;
+  display: inline-block;
+  text-decoration: none;
+}
+
+.expense-cancel-btn {
+  background-color: #ccc;
+  color: #000;
+  font-weight: bold;
+  font-family: Arial, Helvetica, sans-serif;
+  border: none;
+  padding: 0.5rem 2.5rem;
+  cursor: pointer;
+  font-size: 0.95rem;
+}
+
+.expense-btn-center {
+  display: flex;
+  justify-content: center;
+  margin-top: 2rem;
+}
+
+.expense-btn-row {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 2rem;
+  gap: 0.5rem;
+}
+
+.expense-list-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0.5rem 1rem;
+}
+
+.expense-list-header-label {
+  font-weight: bold;
+  font-size: 1rem;
+}
+
+.expense-item-top {
+  display: flex;
+  align-items: center;
+  gap: 0.25rem;
+  padding: 0.1rem 0.5rem;
+}
+
+.expense-item-info-btn {
+  background-color: #000;
+  color: #fff;
+  font-size: 0.75rem;
+  border: none;
+  padding: 0.1rem 0.5rem;
+  cursor: pointer;
+  text-decoration: none;
+  display: inline-block;
+}
+
+.expense-item-x-btn {
+  background-color: #000;
+  color: #fff;
+  font-size: 0.75rem;
+  border: none;
+  padding: 0.1rem 0.5rem;
+  cursor: pointer;
+}
+
+.expense-item-bottom {
+  display: flex;
+  padding: 0.1rem 0.5rem;
+}
+
+.expense-item-cell {
+  flex: 1;
+  background-color: #d0d0d0;
+  color: #000;
+  font-size: 0.85rem;
+  padding: 0.1rem 0.3rem;
+}
+
+.expense-category-x-btn {
+  display: block;
+  width: 100%;
+  background-color: #000;
+  color: #fff;
+  border: none;
+  padding: 0.15rem;
+  cursor: pointer;
+  text-align: center;
+  font-size: 0.85rem;
+}
+
+.expense-category-name-row {
+  background-color: #d0d0d0;
+  padding: 0.2rem 0.5rem;
+  font-weight: bold;
+  font-size: 0.9rem;
+  text-align: left;
+}
+
+.expense-details-box {
+  background-color: #d0d0d0;
+  min-height: 140px;
+  margin: 0.25rem 1.5rem;
+  padding: 1rem;
+  text-align: center;
+}
+
+.expense-details-box-title {
+  text-align: center;
+  margin-bottom: 0.5rem;
+  font-size: 0.9rem;
+}
+
+.expense-details-textarea {
+  background-color: transparent;
+  border: none;
+  width: 100%;
+  resize: none;
+  font-size: 0.8rem;
+  text-align: center;
+  min-height: 80px;
+}
+
+.expense-input {
+  background-color: #d0d0d0;
+  border: none;
+  padding: 0.3rem 0.5rem;
+  font-size: 0.9rem;
+  width: calc(100% - 3rem);
+  margin-inline: 1.5rem;
+  margin-top: 0.25rem;
+}
+
+.expense-field-label {
+  display: block;
+  color: #000;
+  margin: 0.75rem 1.5rem 0.1rem;
+  font-size: 0.9rem;
+}
+
+.expense-field-value {
+  display: block;
+  color: #000;
+  margin: 0.6rem 1.5rem 0;
+  font-size: 0.9rem;
+}

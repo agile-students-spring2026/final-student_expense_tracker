@@ -5,7 +5,7 @@ import CategoryExpenseTable from "../components/CategoryExpenseTable"
 function ExpenseList({expenses, deleteExpense, deleteCategory}) {
 
     const regularExpenses = expenses.filter(
-        (expense) => !expense.category || !expense.category.trim() === ""
+        (expense) => !expense.category || expense.category.trim() === ""
     );
     const categorizedExpenses = expenses.filter(
         (expense) => expense.category && expense.category.trim() !== ""
@@ -13,15 +13,17 @@ function ExpenseList({expenses, deleteExpense, deleteCategory}) {
 
     return (
         <div>
-            <h2>Expense List</h2>
-            <div className="buttonWrap"><Link to="/expenses/add" className="linkbutton">+ Add Expense</Link></div>
-            <h3 className="leftHeader" style={{marginBottom: "1rem"}}>Expenses</h3>
+            <h2 style={{ textAlign: "center" }}>Expense List</h2>
+            <div className="expense-list-header">
+                <span className="expense-list-header-label">Expenses</span>
+                <Link to="/expenses/add" className="expense-black-btn">+ Add Expense</Link>
+            </div>
             <ExpenseTable expenses={regularExpenses} deleteExpense={deleteExpense}/>
-            <h3 className="leftHeader" style={{marginTop: "2rem", marginBottom:"1rem"}}>Category Expenses</h3>
-            <CategoryExpenseTable 
-            expenses={categorizedExpenses}
-            deleteExpense={deleteExpense}
-            deleteCategory={deleteCategory}
+            <h3 className="leftHeader" style={{ marginTop: "2rem", marginBottom: "0.5rem" }}>Category Expenses</h3>
+            <CategoryExpenseTable
+                expenses={categorizedExpenses}
+                deleteExpense={deleteExpense}
+                deleteCategory={deleteCategory}
             />
         </div>
     )
