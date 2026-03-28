@@ -11,8 +11,13 @@ function AddExpense({ setPendingExpense }) {
         details: ""
     });
 
+    const [amountError, setAmountError] = useState(false);
+
     function handleChange(e) {
         const { name, value } = e.target;
+        if (name === "amount") {
+            setAmountError(value !== "" && isNaN(value));
+        }
         setFormData((prev) => ({
             ...prev,
             [name]: value
@@ -64,8 +69,13 @@ function AddExpense({ setPendingExpense }) {
                         />
                     </div>
                 </div>
+                {amountError && (
+                    <p style={{ color: "red", fontSize: "0.8rem", textAlign: "center", marginTop: "0.5rem" }}>
+                        Expense Amount must be a number.
+                    </p>
+                )}
                 <div className="expense-btn-center">
-                    <button className="expense-black-btn" type="submit">Add</button>
+                    <button className="expense-black-btn" type="submit" disabled={amountError}>Add</button>
                 </div>
             </form>
         </div>
