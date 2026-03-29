@@ -26,6 +26,7 @@ function App() {
   const [count, setCount] = useState(0)
   const [expenses, setExpenses] = useState([]);
   const [pendingExpense, setPendingExpense] = useState(null);
+  const [budget, setBudget] = useState({ incomeSources: [], fixedExpenses: [], period: "Monthly" });
 
   function deleteExpense(id) {
     setExpenses((prev) => prev.filter((expense => expense.id !== id)));
@@ -64,9 +65,9 @@ function App() {
             />} />
           <Route path="/expenses/info/:id" element={<ExpenseInfo expenses={expenses} setExpenses={setExpenses}/>} />
 
-          <Route path="/budget" element={<Budget />} />
-          <Route path="/budget/create" element={<CreateBudget />} />
-          <Route path="/budget/report" element={<BudgetReport />} />
+          <Route path="/budget" element={<Budget budget={budget} expenses={expenses} />} />
+          <Route path="/budget/create" element={<CreateBudget budget={budget} setBudget={setBudget} />} />
+          <Route path="/budget/report" element={<BudgetReport budget={budget} expenses={expenses} />} />
 
           <Route path="/profile" element={<Profile />} />
           <Route path="/profile/edit" element={<EditProfile />} />
