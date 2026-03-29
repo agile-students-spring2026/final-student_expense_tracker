@@ -19,15 +19,7 @@ import Navbar from "./components/Navbar.jsx"
 import Logo from "./components/Logo.jsx"
 import './App.css'
 
-<<<<<<< HEAD
 const NO_NAV_PAGES = ["/", "/login", "/signup"]
-=======
-function App() {
-  const [count, setCount] = useState(0)
-  const [expenses, setExpenses] = useState([]);
-  const [pendingExpense, setPendingExpense] = useState(null);
-  const [budget, setBudget] = useState({ incomeSources: [], fixedExpenses: [], period: "Monthly" });
->>>>>>> b562d11af5ad0c6df08c398a68a7597e1ed9cfd8
 
 function AppContent({ expenses, setExpenses, pendingExpense, setPendingExpense, deleteExpense, deleteCategory, budget, setBudget }) {
   const location = useLocation()
@@ -55,7 +47,6 @@ function AppContent({ expenses, setExpenses, pendingExpense, setPendingExpense, 
             expenses={expenses}
             setExpenses={setExpenses}
             setPendingExpense={setPendingExpense}
-<<<<<<< HEAD
           />} />
         <Route path="/expenses/info/:id" element={<ExpenseInfo expenses={expenses} setExpenses={setExpenses} />} />
         <Route path="/budget" element={<Budget budget={budget} expenses={expenses} />} />
@@ -65,22 +56,6 @@ function AppContent({ expenses, setExpenses, pendingExpense, setPendingExpense, 
         <Route path="/profile/edit" element={<EditProfile />} />
         <Route path="/policies" element={<Policies />} />
       </Routes>
-=======
-            />} />
-          <Route path="/expenses/info/:id" element={<ExpenseInfo expenses={expenses} setExpenses={setExpenses}/>} />
-
-          <Route path="/budget" element={<Budget budget={budget} expenses={expenses} />} />
-          <Route path="/budget/create" element={<CreateBudget budget={budget} setBudget={setBudget} />} />
-          <Route path="/budget/report" element={<BudgetReport budget={budget} expenses={expenses} />} />
-
-          <Route path="/profile" element={<Profile />} />
-          <Route path="/profile/edit" element={<EditProfile />} />
-
-          <Route path="/policies" element={<Policies />} />
-        </Routes>
-      
-      </BrowserRouter>
->>>>>>> b562d11af5ad0c6df08c398a68a7597e1ed9cfd8
     </>
   )
 }
