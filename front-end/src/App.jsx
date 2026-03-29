@@ -1,6 +1,5 @@
 import { useState } from 'react'
 import { BrowserRouter, Routes, Route, useLocation } from "react-router-dom"
-
 import AddExpense from "./pages/AddExpense.jsx"
 import Budget from "./pages/Budget.jsx"
 import BudgetReport from "./pages/BudgetReport.jsx"
@@ -16,15 +15,13 @@ import Login from "./pages/Login.jsx"
 import Policies from "./pages/Policies.jsx"
 import Profile from "./pages/Profile.jsx"
 import Signup from "./pages/Signup.jsx"
-
 import Navbar from "./components/Navbar.jsx"
 import Logo from "./components/Logo.jsx"
-
 import './App.css'
 
 const NO_NAV_PAGES = ["/", "/login", "/signup"]
 
-function AppContent({ expenses, setExpenses, pendingExpense, setPendingExpense, deleteExpense, deleteCategory }) {
+function AppContent({ expenses, setExpenses, pendingExpense, setPendingExpense, deleteExpense, deleteCategory, budget, setBudget }) {
   const location = useLocation()
   const showNav = !NO_NAV_PAGES.includes(location.pathname)
 
@@ -32,14 +29,11 @@ function AppContent({ expenses, setExpenses, pendingExpense, setPendingExpense, 
     <>
       {showNav && <Navbar />}
       {showNav && <Logo />}
-
       <Routes>
         <Route path="/" element={<Landing />} />
         <Route path="/signup" element={<Signup />} />
         <Route path="/login" element={<Login />} />
-
         <Route path="/home" element={<Home />} />
-
         <Route path="/expenses" element={<ExpenseTracking expenses={expenses} />} />
         <Route path="/expenses/list" element={<ExpenseList
           expenses={expenses}
@@ -55,14 +49,11 @@ function AppContent({ expenses, setExpenses, pendingExpense, setPendingExpense, 
             setPendingExpense={setPendingExpense}
           />} />
         <Route path="/expenses/info/:id" element={<ExpenseInfo expenses={expenses} setExpenses={setExpenses} />} />
-
-        <Route path="/budget" element={<Budget />} />
-        <Route path="/budget/create" element={<CreateBudget />} />
-        <Route path="/budget/report" element={<BudgetReport />} />
-
+        <Route path="/budget" element={<Budget budget={budget} expenses={expenses} />} />
+        <Route path="/budget/create" element={<CreateBudget budget={budget} setBudget={setBudget} />} />
+        <Route path="/budget/report" element={<BudgetReport budget={budget} expenses={expenses} />} />
         <Route path="/profile" element={<Profile />} />
         <Route path="/profile/edit" element={<EditProfile />} />
-
         <Route path="/policies" element={<Policies />} />
       </Routes>
     </>
@@ -72,6 +63,7 @@ function AppContent({ expenses, setExpenses, pendingExpense, setPendingExpense, 
 function App() {
   const [expenses, setExpenses] = useState([])
   const [pendingExpense, setPendingExpense] = useState(null)
+  const [budget, setBudget] = useState({ incomeSources: [], fixedExpenses: [], period: "Monthly" })
 
   function deleteExpense(id) {
     setExpenses((prev) => prev.filter((expense) => expense.id !== id))
@@ -90,6 +82,8 @@ function App() {
         setPendingExpense={setPendingExpense}
         deleteExpense={deleteExpense}
         deleteCategory={deleteCategory}
+        budget={budget}
+        setBudget={setBudget}
       />
     </BrowserRouter>
   )
