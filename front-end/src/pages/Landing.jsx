@@ -5,11 +5,8 @@ function Landing() {
     return (
         <div className="land">
 
-            <nav className="land-nav">
-                <div className="land-logo">Track<span>r</span></div>
-            </nav>
-
             <div className="hero">
+                <div className="land-logo">Track<span>r</span></div>
                 <div className="badge"><span className="badge-dot"></span>Free for students</div>
                 <h1>Know where your<br />money <em>actually goes</em></h1>
                 <p>Log expenses, set budgets, and build better money habits — simple enough for student life.</p>

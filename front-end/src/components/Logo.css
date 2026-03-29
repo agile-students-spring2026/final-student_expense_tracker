@@ -6,7 +6,7 @@
 }
 
 .logo-wordmark {
-    font-family: 'DM Serif Display', serif;
+    font-family: system-ui, 'Segoe UI', Roboto, sans-serif;
     font-size: 1.3rem;
     color: #1a1a1a;
     text-decoration: none;

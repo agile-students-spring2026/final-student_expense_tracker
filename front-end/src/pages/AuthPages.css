@@ -1,5 +1,3 @@
-@import url('https://fonts.googleapis.com/css2?family=DM+Serif+Display&family=DM+Sans:wght@400;500;600&display=swap');
-
 .auth-page {
     background: #fffef9;
     min-height: 100vh;
@@ -7,9 +5,8 @@
     align-items: center;
     justify-content: center;
     padding: 3rem 2rem;
-    font-family: 'DM Sans', sans-serif;
+    font-family: system-ui, 'Segoe UI', Roboto, sans-serif;
 }
-
 .auth-card {
     background: #fff;
     border: 1px solid #e8e4dc;
@@ -25,7 +22,7 @@
 }
 
 .auth-logo {
-    font-family: 'DM Serif Display', serif;
+    font-family: system-ui, 'Segoe UI', Roboto, sans-serif;
     font-size: 1.3rem;
     color: #111;
     margin-bottom: 0.75rem;
@@ -78,7 +75,7 @@
     border: 1.5px solid #e8e4dc;
     border-radius: 8px;
     font-size: 14px;
-    font-family: 'DM Sans', sans-serif;
+    font-family: system-ui, 'Segoe UI', Roboto, sans-serif;
     color: #111;
     background: #fdfcf9;
     transition: border-color 0.15s, background 0.15s;
@@ -100,7 +97,7 @@
     font-size: 14px;
     font-weight: 600;
     cursor: pointer;
-    font-family: 'DM Sans', sans-serif;
+    font-family: system-ui, 'Segoe UI', Roboto, sans-serif;
     margin-top: 0.25rem;
     transition: background 0.15s;
 }
