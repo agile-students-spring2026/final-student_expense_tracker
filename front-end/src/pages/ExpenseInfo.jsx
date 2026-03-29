@@ -1,23 +1,18 @@
 import { useState, useMemo } from "react";
-import { Link, useParams, useNavigate } from "react-router-dom"
+import { useParams, useNavigate } from "react-router-dom"
 
-function ExpenseInfo({expenses, setExpenses}) {
+function ExpenseInfo({ expenses, setExpenses }) {
 
-    const {id} = useParams();
+    const { id } = useParams();
     const navigate = useNavigate();
     const expense = useMemo(
         () => expenses.find((item) => String(item.id) === id),
-        [expenses,id]
+        [expenses, id]
     );
 
     const [isEditing, setIsEditing] = useState(false);
     const [formData, setFormData] = useState(
-        expense || {
-            name: "",
-            amount: "",
-            category: "",
-            details: ""
-        }
+        expense || { name: "", amount: "", category: "", details: "" }
     );
 
     if (!expense) {
@@ -25,30 +20,19 @@ function ExpenseInfo({expenses, setExpenses}) {
     }
 
     function handleChange(e) {
-        const {name, value} = e.target;
-
-        setFormData((prev) => ({
-            ...prev,
-            [name]:value
-        }));
+        const { name, value } = e.target;
+        setFormData((prev) => ({ ...prev, [name]: value }));
     }
 
     function handleSave(e) {
         e.preventDefault();
-
         setExpenses((prev) =>
             prev.map((item) =>
                 item.id === expense.id
-                    ? {
-                        ...item,
-                        name: formData.name,
-                        amount: formData.amount,
-                        category: formData.category.trim(),
-                        details: formData.details
-                    } : item
-                )
+                    ? { ...item, name: formData.name, amount: formData.amount, category: formData.category.trim(), details: formData.details }
+                    : item
+            )
         );
-
         setIsEditing(false);
     }
 
@@ -59,38 +43,51 @@ function ExpenseInfo({expenses, setExpenses}) {
 
     return (
         <div>
-            <h2>Expense Info</h2>
+            <h2 style={{ textAlign: "center" }}>Expense Info</h2>
 
             {!isEditing ? (
                 <>
-                    <p className="infodetail">Expense Name: {expense.name}</p>
-                    <p className="infodetail">Expense Amount: {expense.amount}</p>
-                    <p className="infodetail">Expense Category: {expense.category}</p>
-                    <p className="infodetail">Details: {expense.details}</p>
-                    <button className="linkbutton infodetailbutton" onClick={() => setIsEditing(true)}>Edit</button>
-                    <button className="linkbutton infodetailbutton"  onClick={() => navigate("/expenses/list")}>Back</button>
+                    <p className="expense-field-value">Expense Name: {expense.name}</p>
+                    <p className="expense-field-value">Expense Amount: {expense.amount}</p>
+                    <p className="expense-field-value">Expense Category: {expense.category}</p>
+                    <p className="expense-field-label">Details</p>
+                    <div className="expense-details-box">
+                        <p className="expense-details-box-title">Details About Expense</p>
+                        <p style={{ fontSize: "0.85rem" }}>{expense.details}</p>
+                    </div>
+                    <div className="expense-btn-center">
+                        <button className="expense-black-btn" onClick={() => setIsEditing(true)}>Edit</button>
+                    </div>
                 </>
-                ) : (
+            ) : (
                 <form onSubmit={handleSave}>
                     <div className="formContainer">
-                        <label >Expense Name</label>
-                        <input name="name" value={formData.name} onChange={handleChange}/>
+                        <label className="expense-field-label">Expense Name</label>
+                        <input className="expense-input" name="name" value={formData.name} onChange={handleChange} />
                     </div>
                     <div className="formContainer">
-                        <label>Expense Amount</label>
-                        <input name="amount" value={formData.amount} onChange={handleChange}/>
+                        <label className="expense-field-label">Expense Amount</label>
+                        <input className="expense-input" name="amount" value={formData.amount} onChange={handleChange} />
                     </div>
                     <div className="formContainer">
-                        <label>Expense Category</label>
-                        <input name="category" value={formData.category} onChange={handleChange}/>
+                        <label className="expense-field-label">Expense Category</label>
+                        <input className="expense-input" name="category" value={formData.category} onChange={handleChange} />
                     </div>
                     <div className="formContainer">
-                        <label>Details</label>
-                        <input name="details" value={formData.details} onChange={handleChange}/>
+                        <label className="expense-field-label">Details</label>
+                        <div className="expense-details-box">
+                            <p className="expense-details-box-title">Details About Expense</p>
+                            <textarea
+                                className="expense-details-textarea"
+                                name="details"
+                                value={formData.details}
+                                onChange={handleChange}
+                            />
+                        </div>
                     </div>
-                    <div className="formButtonContainer">
-                        <button className="linkbutton" type="button" onClick={handleCancelEdit}>Cancel</button>
-                        <button className="linkbutton" type="submit">Save</button>
+                    <div className="expense-btn-row">
+                        <button className="expense-cancel-btn" type="button" onClick={handleCancelEdit}>Cancel</button>
+                        <button className="expense-black-btn" type="submit">Save</button>
                     </div>
                 </form>
             )}
