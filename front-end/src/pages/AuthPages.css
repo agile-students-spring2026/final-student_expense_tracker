@@ -1,0 +1,140 @@
+@import url('https://fonts.googleapis.com/css2?family=DM+Serif+Display&family=DM+Sans:wght@400;500;600&display=swap');
+
+.auth-page {
+    background: #fffef9;
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 3rem 2rem;
+    font-family: 'DM Sans', sans-serif;
+}
+
+.auth-card {
+    background: #fff;
+    border: 1px solid #e8e4dc;
+    border-radius: 16px;
+    padding: 2.5rem 2rem;
+    width: 100%;
+    max-width: 360px;
+}
+
+.auth-top {
+    text-align: center;
+    margin-bottom: 1.75rem;
+}
+
+.auth-logo {
+    font-family: 'DM Serif Display', serif;
+    font-size: 1.3rem;
+    color: #111;
+    margin-bottom: 0.75rem;
+    text-decoration: none;
+    display: block;
+}
+
+.auth-logo span {
+    color: #3db87a;
+}
+
+.auth-top h2 {
+    font-size: 1.1rem;
+    font-weight: 600;
+    color: #111;
+    margin-bottom: 3px;
+    margin-top: 0;
+}
+
+.auth-top p {
+    font-size: 13px;
+    color: #aaa;
+}
+
+.auth-error {
+    background: #fef2f2;
+    color: #c0392b;
+    font-size: 13px;
+    padding: 10px 12px;
+    border-radius: 8px;
+    margin-bottom: 1rem;
+    text-align: center;
+}
+
+.field {
+    margin-bottom: 0.9rem;
+}
+
+.field label {
+    display: block;
+    font-size: 12px;
+    font-weight: 600;
+    color: #555;
+    margin-bottom: 4px;
+}
+
+.field input {
+    width: 100%;
+    padding: 10px 12px;
+    border: 1.5px solid #e8e4dc;
+    border-radius: 8px;
+    font-size: 14px;
+    font-family: 'DM Sans', sans-serif;
+    color: #111;
+    background: #fdfcf9;
+    transition: border-color 0.15s, background 0.15s;
+}
+
+.field input:focus {
+    outline: none;
+    border-color: #3db87a;
+    background: #fff;
+}
+
+.auth-btn {
+    width: 100%;
+    background: #3db87a;
+    color: #fff;
+    border: none;
+    border-radius: 9px;
+    padding: 12px;
+    font-size: 14px;
+    font-weight: 600;
+    cursor: pointer;
+    font-family: 'DM Sans', sans-serif;
+    margin-top: 0.25rem;
+    transition: background 0.15s;
+}
+
+.auth-btn:hover {
+    background: #2ea368;
+}
+
+.auth-note {
+    font-size: 12px;
+    color: #bbb;
+    text-align: center;
+    margin-top: 1rem;
+}
+
+.auth-link {
+    color: #3db87a;
+    font-weight: 600;
+    text-decoration: none;
+}
+
+.auth-link:hover {
+    text-decoration: underline;
+}
+
+.auth-back {
+    display: block;
+    text-align: center;
+    font-size: 11px;
+    color: #ccc;
+    margin-top: 0.5rem;
+    text-decoration: none;
+}
+
+.auth-back:hover {
+    color: #aaa;
+}

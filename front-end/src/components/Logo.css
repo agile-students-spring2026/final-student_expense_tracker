@@ -1,0 +1,22 @@
+.logo-corner {
+    position: fixed;
+    top: 1rem;
+    right: 1.25rem;
+    z-index: 999;
+}
+
+.logo-wordmark {
+    font-family: 'DM Serif Display', serif;
+    font-size: 1.3rem;
+    color: #1a1a1a;
+    text-decoration: none;
+    letter-spacing: -0.3px;
+}
+
+.logo-wordmark span {
+    color: #3db87a;
+}
+
+.logo-wordmark:hover {
+    opacity: 0.8;
+}
