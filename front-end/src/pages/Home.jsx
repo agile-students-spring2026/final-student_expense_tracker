@@ -8,6 +8,7 @@ function Home() {
                 <Link to="/expenses" className="homeNavCard">Expenses</Link>
                 <Link to="/budget" className="homeNavCard">Budget</Link>
                 <Link to="/profile" className="homeNavCard">Profile</Link>
+                <Link to="/policies" className="homeNavCard">Policies</Link>
             </div>
         </div>
     )
