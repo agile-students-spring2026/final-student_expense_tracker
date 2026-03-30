@@ -3,8 +3,15 @@ import ExpenseItem from "./ExpenseItem"
 function Category({ categoryName, expenses, deleteExpense, deleteCategory }) {
     return (
         <div>
-            <button className="expense-category-x-btn" onClick={() => deleteCategory(categoryName)}>X</button>
-            <div className="expense-category-name-row">{categoryName}</div>
+            <div className="expense-category-name-row">
+  {categoryName}
+  <button 
+    className="expense-category-x-btn" 
+    onClick={() => deleteCategory(categoryName)}
+  >
+    X
+  </button>
+</div>
             {expenses.map((expense) => (
                 <ExpenseItem
                     key={expense.id}
