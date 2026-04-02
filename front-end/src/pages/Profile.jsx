@@ -1,8 +1,6 @@
 import { useNavigate } from "react-router-dom"
 import PolicyFooter from "../components/PolicyFooter"
 
-const USER = { name: "Janedoe", email: "janedoe @ email.com" }
-
 function Profile() {
     const navigate = useNavigate()
 
@@ -13,28 +11,27 @@ function Profile() {
     }
 
     return (
-        <div className="profile-page">
-            <h2 style={{ textAlign: "center", fontWeight: "bold", marginTop: "4rem" }}>Profile</h2>
+        <div className="edit-profile-page">
+            <h2 className="edit-profile-title">Profile</h2>
 
-            <div className="profile-avatar-wrap">
-                <div className="profile-avatar">{USER.name.charAt(0)}</div>
+            <div className="edit-profile-header">
+                <div className="edit-profile-avatar">J</div>
+                <h3 className="edit-profile-name">Janedoe</h3>
+                <p className="edit-profile-email">janedoe@email.com</p>
             </div>
 
-            <p className="profile-name">{USER.name}</p>
-            <p className="profile-email">{USER.email}</p>
+            <hr className="edit-profile-divider" />
 
-            <hr className="profile-divider" />
+            <div className="profile-settings-section">
+                <h3 className="profile-settings-title">Account Settings</h3>
 
-            <p className="profile-section-label">Account Settings</p>
+                <div className="profile-settings-row">Username</div>
+                <div className="profile-settings-row">Email</div>
+                <div className="profile-settings-row">Password</div>
+                <div className="profile-settings-row">Currency Preference</div>
+            </div>
 
-            <div className="profile-field-row">Username</div>
-            <div className="profile-field-row">Email</div>
-            <div className="profile-field-row">Password</div>
-            <div className="profile-field-row">Currency Preference</div>
-
-            <hr className="profile-divider" />
-
-            <div className="profile-logout-wrap">
+            <div className="expense-btn-center" style={{ marginTop: "1.5rem" }}>
                 <button className="profile-logout-btn" onClick={handleLogout}>Logout</button>
             </div>
 
