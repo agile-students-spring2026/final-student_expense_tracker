@@ -1,6 +1,6 @@
 import { useState } from "react"
 import { Link } from "react-router-dom"
-import PolicyFooter from "../components/PolicyFooter" 
+import PolicyFooter from "../components/PolicyFooter"
 
 function EditProfile() {
     const [formData, setFormData] = useState({
@@ -107,4 +107,4 @@ function EditProfile() {
     )
 }
 
-export default EditProfile;
+export default EditProfile

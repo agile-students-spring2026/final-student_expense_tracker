@@ -559,6 +559,103 @@ a {
 
 
 
+/* ===== Profile / Edit Profile Pages ===== */
+
+.profile-page {
+  padding-bottom: 5rem;
+}
+
+.profile-avatar-wrap {
+  display: flex;
+  justify-content: center;
+  margin-top: 1rem;
+}
+
+.profile-avatar {
+  width: 150px;
+  height: 150px;
+  background-color: #d3d3d3;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 4rem;
+  color: #555;
+}
+
+.profile-name {
+  text-align: center;
+  font-weight: bold;
+  font-size: 1.1rem;
+  margin-top: 0.75rem;
+  color: #111;
+}
+
+.profile-email {
+  text-align: center;
+  color: #555;
+  font-size: 0.95rem;
+  margin-top: 0.2rem;
+}
+
+.profile-divider {
+  border: none;
+  border-top: 1px solid #ccc;
+  margin: 1rem 1rem;
+}
+
+.profile-section-label {
+  font-weight: bold;
+  font-size: 1rem;
+  padding: 0.5rem 1rem 0.25rem;
+  color: #111;
+}
+
+.profile-field-row {
+  background-color: #d3d3d3;
+  padding: 0.65rem 1rem;
+  margin: 0.35rem 1rem;
+  font-size: 0.95rem;
+  color: #111;
+}
+
+.profile-logout-wrap {
+  display: flex;
+  justify-content: center;
+  margin: 1.25rem 1rem;
+}
+
+.profile-logout-btn {
+  width: 100%;
+  background-color: #c0bfbf;
+  color: red;
+  font-weight: bold;
+  font-size: 1.1rem;
+  border: none;
+  border-radius: 8px;
+  padding: 1rem;
+  cursor: pointer;
+}
+
+.profile-field-label {
+  display: block;
+  font-size: 0.8rem;
+  font-weight: bold;
+  color: #111;
+  margin: 0.75rem 1rem 0.2rem;
+  letter-spacing: 0.05em;
+}
+
+.profile-field-input {
+  display: block;
+  width: calc(100% - 2rem);
+  margin: 0 1rem;
+  background-color: #d3d3d3;
+  border: none;
+  padding: 0.6rem 0.75rem;
+  font-size: 0.95rem;
+  color: #333;
+}
+
 /* ===== Policies Page ===== */
 
 .policies-page {
@@ -715,6 +812,298 @@ a {
 .edit-profile-button:hover {
     background: #333;
 }
+
+/* ===== Landing-style shared UI ===== */
+
+.land-page {
+  background: #fffef9;
+  min-height: 100vh;
+  font-family: system-ui, 'Segoe UI', Roboto, sans-serif;
+  padding-bottom: 5rem;
+}
+
+.land-page h2 {
+  text-align: center;
+  font-size: 1.8rem;
+  font-weight: 700;
+  color: #111;
+  padding: 2rem 1rem 0.5rem;
+  margin-top: 0;
+}
+
+.land-section-label {
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 1.2px;
+  color: #3db87a;
+  text-transform: uppercase;
+  padding: 1.25rem 1rem 0.5rem;
+}
+
+.land-card-row {
+  background: #fff;
+  border: 1px solid #ede9e0;
+  border-radius: 12px;
+  padding: 0.9rem 1rem;
+  margin: 0.4rem 1rem;
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+}
+
+.land-card-row .expense-item-cell {
+  background: transparent;
+  color: #333;
+  font-size: 0.9rem;
+}
+
+.land-card-row .expense-item-cell:hover {
+  background: transparent;
+}
+
+.land-category-header {
+  background: #f0faf4;
+  border: 1px solid #c3e8d4;
+  border-radius: 9px;
+  padding: 0.5rem 1rem;
+  margin: 0.75rem 1rem 0.25rem;
+  font-weight: 600;
+  color: #1a7a4a;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.land-btn-row {
+  display: flex;
+  gap: 10px;
+  justify-content: center;
+  flex-wrap: wrap;
+  padding: 1rem;
+}
+
+.land-budget-row {
+  background: #fff;
+  border: 1px solid #ede9e0;
+  border-radius: 8px;
+  display: flex;
+  margin: 0.3rem 1rem;
+  padding: 0.5rem 1rem;
+}
+
+.land-budget-total {
+  font-size: 0.9rem;
+  padding: 0.3rem 1rem;
+  color: #555;
+  font-weight: 500;
+}
+
+.land-summary-box {
+  background: #fff;
+  border: 1px solid #ede9e0;
+  border-radius: 12px;
+  margin: 0.5rem 1rem;
+  padding: 0.5rem 0;
+}
+
+.land-stat-box {
+  flex: 1;
+  background: #fff;
+  border: 1px solid #ede9e0;
+  border-radius: 12px;
+  padding: 1rem 0.5rem;
+  text-align: center;
+}
+
+.land-stat-value {
+  font-weight: 700;
+  font-size: 1.3rem;
+  display: block;
+  color: #111;
+}
+
+.land-stat-label {
+  font-size: 0.75rem;
+  display: block;
+  color: #999;
+  margin-top: 0.2rem;
+}
+
+.land-divider {
+  border: none;
+  border-top: 1px solid #ede9e0;
+  margin: 0.5rem 1rem;
+}
+
+.land-breakdown-item {
+  padding: 0.6rem 0;
+  border-bottom: 1px solid #ede9e0;
+}
+
+.land-breakdown-name {
+  font-size: 0.9rem;
+  color: #333;
+  margin-bottom: 0.4rem;
+  font-weight: 500;
+}
+
+.land-progress-track {
+  height: 8px;
+  background: #f0faf4;
+  border-radius: 4px;
+  overflow: hidden;
+}
+
+.land-progress-bar {
+  height: 100%;
+  background: #3db87a;
+  border-radius: 4px;
+  transition: width 0.3s ease;
+}
+
+.land-form-card {
+  background: #fff;
+  border: 1px solid #ede9e0;
+  border-radius: 12px;
+  padding: 1rem 1.25rem;
+  margin: 0.4rem 1rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+}
+
+.land-form-label {
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: #555;
+  letter-spacing: 0.04em;
+  margin-top: 0.4rem;
+}
+
+.land-form-input {
+  background: #f5f4ef;
+  border: 1px solid #ede9e0;
+  border-radius: 8px;
+  padding: 0.55rem 0.75rem;
+  font-size: 0.95rem;
+  color: #111;
+  font-family: system-ui, 'Segoe UI', Roboto, sans-serif;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.land-form-input:focus {
+  outline: none;
+  border-color: #3db87a;
+}
+
+.land-details-box {
+  background: #f5f4ef;
+  border: 1px solid #ede9e0;
+  border-radius: 8px;
+  padding: 0.75rem 1rem;
+  margin-top: 0.25rem;
+}
+
+.land-details-title {
+  font-size: 0.8rem;
+  color: #aaa;
+  text-align: center;
+  margin-bottom: 0.4rem;
+}
+
+.land-details-textarea {
+  background: transparent;
+  border: none;
+  width: 100%;
+  resize: none;
+  font-size: 0.85rem;
+  color: #555;
+  text-align: center;
+  min-height: 80px;
+  font-family: system-ui, 'Segoe UI', Roboto, sans-serif;
+}
+
+.land-details-textarea:focus {
+  outline: none;
+}
+
+.land-confirm-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0.35rem 0;
+  border-bottom: 1px solid #f0ede6;
+}
+
+.land-confirm-value {
+  font-size: 0.95rem;
+  color: #111;
+  font-weight: 500;
+}
+
+.land-summary-pair {
+  display: flex;
+  gap: 2rem;
+  padding: 0.1rem 0;
+}
+
+.land-report-table {
+  margin: 0.3rem 1rem;
+  border: 1px solid #ede9e0;
+  border-radius: 12px;
+  overflow: hidden;
+}
+
+.land-report-row {
+  display: flex;
+  border-bottom: 1px solid #f0ede6;
+}
+
+.land-report-row:last-child {
+  border-bottom: none;
+}
+
+.land-report-total-row {
+  display: flex;
+  background: #f0faf4;
+  border-top: 1px solid #c3e8d4;
+}
+
+.land-report-cell {
+  flex: 1;
+  padding: 0.5rem 0.75rem;
+  font-size: 0.85rem;
+  color: #555;
+  text-align: center;
+}
+
+.land-report-total {
+  font-weight: 700;
+  color: #1a7a4a;
+}
+
+.land-home-card {
+  background: #fff;
+  border: 1px solid #ede9e0;
+  border-radius: 12px;
+  padding: 1.25rem;
+  text-decoration: none;
+  display: block;
+}
+
+.land-home-card h3 {
+  font-size: 14px;
+  font-weight: 600;
+  color: #111;
+  margin: 0;
+}
+
+.land-home-card:hover {
+  border-color: #3db87a;
+}
+
+/* ===== Profile Settings ===== */
 
 .profile-settings-section {
   margin-top: 1.5rem;

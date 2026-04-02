@@ -35,77 +35,69 @@ function CreateBudget({ budget, setBudget }) {
     }
 
     return (
-        <div>
-            <h2 style={{ textAlign: "center" }}>Create Budget</h2>
+        <div className="land-page">
+            <h2>Create Budget</h2>
 
             <form onSubmit={handleSave}>
-                <p className="budget-form-section-title">Income Sources</p>
+                <div className="land-section-label">Income Sources</div>
                 {incomeSources.map((src, i) => (
-                    <div key={i}>
-                        <div className="formContainer">
-                            <label className="expense-field-label">Source Name</label>
-                            <input
-                                className="expense-input"
-                                value={src.name}
-                                placeholder="e.g. Salary"
-                                onChange={e => handleIncomeChange(i, "name", e.target.value)}
-                            />
-                        </div>
-                        <div className="formContainer">
-                            <label className="expense-field-label">Amount</label>
-                            <input
-                                className="expense-input"
-                                value={src.amount}
-                                placeholder="$$$"
-                                onChange={e => handleIncomeChange(i, "amount", e.target.value)}
-                            />
-                        </div>
+                    <div key={i} className="land-form-card">
+                        <label className="land-form-label">Source Name</label>
+                        <input
+                            className="land-form-input"
+                            value={src.name}
+                            placeholder="e.g. Salary"
+                            onChange={e => handleIncomeChange(i, "name", e.target.value)}
+                        />
+                        <label className="land-form-label">Amount</label>
+                        <input
+                            className="land-form-input"
+                            value={src.amount}
+                            placeholder="$$$"
+                            onChange={e => handleIncomeChange(i, "amount", e.target.value)}
+                        />
                     </div>
                 ))}
-                <div className="expense-btn-center" style={{ marginTop: "0.75rem" }}>
+                <div className="land-btn-row" style={{ marginTop: "0.75rem" }}>
                     <button
                         type="button"
-                        className="expense-black-btn"
+                        className="btn-green"
                         onClick={() => setIncomeSources(prev => [...prev, { name: "", amount: "" }])}
                     >+ Add Another Source</button>
                 </div>
 
-                <p className="budget-form-section-title">Fixed Expenses</p>
+                <div className="land-section-label" style={{ marginTop: "1rem" }}>Fixed Expenses</div>
                 {fixedExpenses.map((exp, i) => (
-                    <div key={i}>
-                        <div className="formContainer">
-                            <label className="expense-field-label">Expense Name</label>
-                            <input
-                                className="expense-input"
-                                value={exp.name}
-                                placeholder="e.g. Salary"
-                                onChange={e => handleFixedChange(i, "name", e.target.value)}
-                            />
-                        </div>
-                        <div className="formContainer">
-                            <label className="expense-field-label">Amount</label>
-                            <input
-                                className="expense-input"
-                                value={exp.amount}
-                                placeholder="$$$"
-                                onChange={e => handleFixedChange(i, "amount", e.target.value)}
-                            />
-                        </div>
+                    <div key={i} className="land-form-card">
+                        <label className="land-form-label">Expense Name</label>
+                        <input
+                            className="land-form-input"
+                            value={exp.name}
+                            placeholder="e.g. Rent"
+                            onChange={e => handleFixedChange(i, "name", e.target.value)}
+                        />
+                        <label className="land-form-label">Amount</label>
+                        <input
+                            className="land-form-input"
+                            value={exp.amount}
+                            placeholder="$$$"
+                            onChange={e => handleFixedChange(i, "amount", e.target.value)}
+                        />
                     </div>
                 ))}
-                <div className="expense-btn-center" style={{ marginTop: "0.75rem" }}>
+                <div className="land-btn-row" style={{ marginTop: "0.75rem" }}>
                     <button
                         type="button"
-                        className="expense-black-btn"
+                        className="btn-green"
                         onClick={() => setFixedExpenses(prev => [...prev, { name: "", amount: "" }])}
                     >+ Add Another Expense</button>
                 </div>
 
-                <p className="budget-form-section-title-light">Budget Period</p>
-                <div className="formContainer">
-                    <label className="expense-field-label">Period</label>
+                <div className="land-section-label" style={{ marginTop: "1rem" }}>Budget Period</div>
+                <div className="land-form-card">
+                    <label className="land-form-label">Period</label>
                     <select
-                        className="budget-period-select"
+                        className="land-form-input"
                         value={period}
                         onChange={e => setPeriod(e.target.value)}
                     >
@@ -116,8 +108,8 @@ function CreateBudget({ budget, setBudget }) {
                 </div>
 
                 <div className="expense-btn-row" style={{ padding: "0 1.5rem", marginTop: "2rem" }}>
-                    <button type="button" className="expense-cancel-btn" onClick={handleCancel}>Cancel</button>
-                    <button type="submit" className="expense-black-btn">Save Budget</button>
+                    <button type="button" className="btn-plain" onClick={handleCancel}>Cancel</button>
+                    <button type="submit" className="btn-green">Save Budget</button>
                 </div>
             </form>
         </div>

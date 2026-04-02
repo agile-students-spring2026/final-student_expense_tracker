@@ -18,47 +18,47 @@ function Budget({ budget, expenses }) {
     const totalCategory = categoryTotals.reduce((sum, [, amt]) => sum + amt, 0);
 
     return (
-        <div>
-            <h2 style={{ textAlign: "center" }}>Budgeting</h2>
+        <div className="land-page">
+            <h2>Budgeting</h2>
 
-            <div style={{ display: "flex", flexDirection: "column", gap: "0.5rem", padding: "0.75rem 1rem" }}>
-                <Link to="/budget/create" className="expense-black-btn" style={{ textAlign: "center" }}>Create New Budget</Link>
-                <Link to="/budget/report" className="expense-black-btn" style={{ textAlign: "center" }}>Budget Report</Link>
+            <div className="land-btn-row">
+                <Link to="/budget/create" className="btn-green">Create New Budget</Link>
+                <Link to="/budget/report" className="btn-plain">Budget Report</Link>
             </div>
 
-            <div className="budget-section-header">Income</div>
+            <div className="land-section-label">Income</div>
             {incomeSources.map((src, i) => (
-                <div key={i} className="budget-row">
+                <div key={i} className="land-budget-row">
                     <div className="budget-cell">{src.name}</div>
                     <div className="budget-cell">{src.amount}</div>
                 </div>
             ))}
-            <p className="budget-total-label">Total Income: {totalIncome > 0 ? `$${totalIncome.toFixed(2)}` : ""}</p>
+            <p className="land-budget-total">Total Income: {totalIncome > 0 ? `$${totalIncome.toFixed(2)}` : ""}</p>
 
-            <div className="budget-section-header">Fixed Expenses</div>
+            <div className="land-section-label">Fixed Expenses</div>
             {fixedExpenses.map((exp, i) => (
-                <div key={i} className="budget-row">
+                <div key={i} className="land-budget-row">
                     <div className="budget-cell">{exp.name}</div>
                     <div className="budget-cell">{exp.amount}</div>
                 </div>
             ))}
-            <p className="budget-total-label">Total Expenses: {totalFixed > 0 ? `$${totalFixed.toFixed(2)}` : ""}</p>
+            <p className="land-budget-total">Total Expenses: {totalFixed > 0 ? `$${totalFixed.toFixed(2)}` : ""}</p>
 
-            <div className="budget-section-header">Category Expenses</div>
+            <div className="land-section-label">Category Expenses</div>
             {categoryTotals.map(([name, amt], i) => (
-                <div key={i} className="budget-row">
+                <div key={i} className="land-budget-row">
                     <div className="budget-cell">{name}</div>
                     <div className="budget-cell">${amt.toFixed(2)}</div>
                 </div>
             ))}
-            <p className="budget-total-label">Total Category Expenses: {totalCategory > 0 ? `$${totalCategory.toFixed(2)}` : ""}</p>
+            <p className="land-budget-total">Total Category Expenses: {totalCategory > 0 ? `$${totalCategory.toFixed(2)}` : ""}</p>
 
-            <div className="budget-section-header">Summary</div>
-            <div className="budget-summary-pair">
-                <p className="budget-total-label">Total Income: {totalIncome > 0 ? `$${totalIncome.toFixed(2)}` : ""}</p>
-                <p className="budget-total-label">Total Expenses: {totalFixed > 0 ? `$${totalFixed.toFixed(2)}` : ""}</p>
+            <div className="land-section-label">Summary</div>
+            <div className="land-summary-box">
+                <p className="land-budget-total">Total Income: {totalIncome > 0 ? `$${totalIncome.toFixed(2)}` : ""}</p>
+                <p className="land-budget-total">Total Expenses: {totalFixed > 0 ? `$${totalFixed.toFixed(2)}` : ""}</p>
+                <p className="land-budget-total">Total Category Expenses: {totalCategory > 0 ? `$${totalCategory.toFixed(2)}` : ""}</p>
             </div>
-            <p className="budget-total-label">Total Category Expenses: {totalCategory > 0 ? `$${totalCategory.toFixed(2)}` : ""}</p>
         </div>
     )
 }

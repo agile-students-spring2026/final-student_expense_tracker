@@ -41,27 +41,24 @@ function AddExpense({ setPendingExpense }) {
     }
 
     return (
-        <div>
-            <h2 style={{ textAlign: "center" }}>Add Expense</h2>
+        <div className="land-page">
+            <h2>Add Expense</h2>
             <form onSubmit={handleSubmit}>
-                <div className="formContainer">
-                    <label className="expense-field-label">Expense Name</label>
-                    <input className="expense-input" name="name" value={formData.name} placeholder="Expense Name" onChange={handleChange} />
-                </div>
-                <div className="formContainer">
-                    <label className="expense-field-label">Expense Amount</label>
-                    <input className="expense-input" name="amount" value={formData.amount} placeholder="$$$" onChange={handleChange} />
-                </div>
-                <div className="formContainer">
-                    <label className="expense-field-label">Category Name / Expense Category</label>
-                    <input className="expense-input" name="category" value={formData.category} placeholder="Category Name" onChange={handleChange} />
-                </div>
-                <div className="formContainer">
-                    <label className="expense-field-label">Details</label>
-                    <div className="expense-details-box">
-                        <p className="expense-details-box-title">Details About Expense</p>
+                <div className="land-form-card">
+                    <label className="land-form-label">Expense Name</label>
+                    <input className="land-form-input" name="name" value={formData.name} placeholder="Expense Name" onChange={handleChange} />
+
+                    <label className="land-form-label">Expense Amount</label>
+                    <input className="land-form-input" name="amount" value={formData.amount} placeholder="$$$" onChange={handleChange} />
+
+                    <label className="land-form-label">Category Name / Expense Category</label>
+                    <input className="land-form-input" name="category" value={formData.category} placeholder="Category Name" onChange={handleChange} />
+
+                    <label className="land-form-label">Details</label>
+                    <div className="land-details-box">
+                        <p className="land-details-title">Details About Expense</p>
                         <textarea
-                            className="expense-details-textarea"
+                            className="land-details-textarea"
                             name="details"
                             value={formData.details}
                             placeholder="[Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer nec odio. Praesent libero. Sed cursus ante dapibus diam...]"
@@ -69,13 +66,14 @@ function AddExpense({ setPendingExpense }) {
                         />
                     </div>
                 </div>
+
                 {amountError && (
                     <p style={{ color: "red", fontSize: "0.8rem", textAlign: "center", marginTop: "0.5rem" }}>
                         Expense Amount must be a number.
                     </p>
                 )}
-                <div className="expense-btn-center">
-                    <button className="expense-black-btn" type="submit" disabled={amountError}>Add</button>
+                <div className="land-btn-row" style={{ marginTop: "1.5rem" }}>
+                    <button className="btn-green" type="submit" disabled={amountError}>Add</button>
                 </div>
             </form>
         </div>

@@ -1,7 +1,15 @@
-import { Link } from "react-router-dom"
+import { useNavigate } from "react-router-dom"
 import PolicyFooter from "../components/PolicyFooter"
 
 function Profile() {
+    const navigate = useNavigate()
+
+    function handleLogout() {
+        localStorage.clear()
+        sessionStorage.clear()
+        navigate("/")
+    }
+
     return (
         <div className="edit-profile-page">
             <h2 className="edit-profile-title">Profile</h2>
@@ -24,9 +32,7 @@ function Profile() {
             </div>
 
             <div className="expense-btn-center" style={{ marginTop: "1.5rem" }}>
-                <Link to="/" className="profile-logout-btn">
-                    Logout
-                </Link>
+                <button className="profile-logout-btn" onClick={handleLogout}>Logout</button>
             </div>
 
             <PolicyFooter />

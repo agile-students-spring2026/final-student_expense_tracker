@@ -24,70 +24,74 @@ function BudgetReport({ budget, expenses }) {
         : null;
 
     return (
-        <div>
-            <h2 style={{ textAlign: "center" }}>Budget Report</h2>
+        <div className="land-page">
+            <h2>Budget Report</h2>
 
-            {/* Income */}
-            <div className="budget-section-header">Income</div>
-            {incomeSources.map((src, i) => (
-                <div key={i} className="budget-row">
-                    <div className="budget-cell">{src.name}</div>
-                    <div className="budget-cell">{src.amount}</div>
-                    <div className="budget-cell">{src.amount}</div>
-                    <div className="budget-cell">$0</div>
+            <div className="land-section-label">Income</div>
+            <div className="land-report-table">
+                {incomeSources.map((src, i) => (
+                    <div key={i} className="land-report-row">
+                        <div className="land-report-cell">{src.name}</div>
+                        <div className="land-report-cell">{src.amount}</div>
+                        <div className="land-report-cell">{src.amount}</div>
+                        <div className="land-report-cell">$0</div>
+                    </div>
+                ))}
+                <div className="land-report-total-row">
+                    <div className="land-report-cell land-report-total">Total:</div>
+                    <div className="land-report-cell land-report-total">${totalIncome.toFixed(2)}</div>
+                    <div className="land-report-cell land-report-total">${totalIncome.toFixed(2)}</div>
+                    <div className="land-report-cell land-report-total">$0</div>
                 </div>
-            ))}
-            <div className="budget-total-row">
-                <div className="budget-total-row-label">Total:</div>
-                <div className="budget-total-row-label">${totalIncome.toFixed(2)}</div>
-                <div className="budget-total-row-label">${totalIncome.toFixed(2)}</div>
-                <div className="budget-total-row-label">$0</div>
             </div>
 
-            {/* Fixed Expenses */}
-            <div className="budget-section-header">Fixed Expenses</div>
-            {fixedExpenses.map((exp, i) => (
-                <div key={i} className="budget-row">
-                    <div className="budget-cell">{exp.name}</div>
-                    <div className="budget-cell">{exp.amount}</div>
-                    <div className="budget-cell">{exp.amount}</div>
-                    <div className="budget-cell">$0</div>
+            <div className="land-section-label">Fixed Expenses</div>
+            <div className="land-report-table">
+                {fixedExpenses.map((exp, i) => (
+                    <div key={i} className="land-report-row">
+                        <div className="land-report-cell">{exp.name}</div>
+                        <div className="land-report-cell">{exp.amount}</div>
+                        <div className="land-report-cell">{exp.amount}</div>
+                        <div className="land-report-cell">$0</div>
+                    </div>
+                ))}
+                <div className="land-report-total-row">
+                    <div className="land-report-cell land-report-total">Total:</div>
+                    <div className="land-report-cell land-report-total">${totalFixed.toFixed(2)}</div>
+                    <div className="land-report-cell land-report-total">${totalFixed.toFixed(2)}</div>
+                    <div className="land-report-cell land-report-total">$0</div>
                 </div>
-            ))}
-            <div className="budget-total-row">
-                <div className="budget-total-row-label">Total:</div>
-                <div className="budget-total-row-label">${totalFixed.toFixed(2)}</div>
-                <div className="budget-total-row-label">${totalFixed.toFixed(2)}</div>
-                <div className="budget-total-row-label">$0</div>
             </div>
 
-            {/* Category Expenses */}
-            <div className="budget-section-header">Category Expenses</div>
-            {categoryTotals.map(([name, amt], i) => (
-                <div key={i} className="budget-row">
-                    <div className="budget-cell">{name}</div>
-                    <div className="budget-cell">${amt.toFixed(2)}</div>
-                    <div className="budget-cell">$0</div>
-                    <div className="budget-cell">-${amt.toFixed(2)}</div>
+            <div className="land-section-label">Category Expenses</div>
+            <div className="land-report-table">
+                {categoryTotals.map(([name, amt], i) => (
+                    <div key={i} className="land-report-row">
+                        <div className="land-report-cell">{name}</div>
+                        <div className="land-report-cell">${amt.toFixed(2)}</div>
+                        <div className="land-report-cell">$0</div>
+                        <div className="land-report-cell">-${amt.toFixed(2)}</div>
+                    </div>
+                ))}
+                <div className="land-report-total-row">
+                    <div className="land-report-cell land-report-total">Total:</div>
+                    <div className="land-report-cell land-report-total">${totalCategory.toFixed(2)}</div>
+                    <div className="land-report-cell land-report-total">$0</div>
+                    <div className="land-report-cell land-report-total">-${totalCategory.toFixed(2)}</div>
                 </div>
-            ))}
-            <div className="budget-total-row">
-                <div className="budget-total-row-label">Total:</div>
-                <div className="budget-total-row-label">${totalCategory.toFixed(2)}</div>
-                <div className="budget-total-row-label">$0</div>
-                <div className="budget-total-row-label">-${totalCategory.toFixed(2)}</div>
             </div>
 
-            {/* General Summary */}
-            <div className="budget-section-header">General Summary</div>
-            <div className="budget-summary-pair">
-                <p className="budget-total-label">Total Income: ${totalIncome.toFixed(2)}</p>
-                <p className="budget-total-label">Total Expenses: ${totalFixed.toFixed(2)}</p>
+            <div className="land-section-label">General Summary</div>
+            <div className="land-summary-box">
+                <div className="land-summary-pair">
+                    <p className="land-budget-total">Total Income: ${totalIncome.toFixed(2)}</p>
+                    <p className="land-budget-total">Total Expenses: ${totalFixed.toFixed(2)}</p>
+                </div>
+                <p className="land-budget-total">Total Category Expenses: ${totalCategory.toFixed(2)}</p>
+                <p className="land-budget-total">Net Balance: ${netBalance.toFixed(2)}</p>
+                <p className="land-budget-total">Highest Fixed Expense: {highestFixed ? highestFixed.name : ""}</p>
+                <p className="land-budget-total">Highest Category Expense: {highestCategory ? highestCategory[0] : ""}</p>
             </div>
-            <p className="budget-total-label">Total Category Expenses: ${totalCategory.toFixed(2)}</p>
-            <p className="budget-total-label">Net Balance: ${netBalance.toFixed(2)}</p>
-            <p className="budget-total-label">Highest Fixed Expense: {highestFixed ? highestFixed.name : ""}</p>
-            <p className="budget-total-label">Highest Category Expense: {highestCategory ? highestCategory[0] : ""}</p>
         </div>
     )
 }

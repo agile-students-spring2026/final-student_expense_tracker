@@ -18,29 +18,40 @@ function ConfirmExpense({ pendingExpense, expenses, setExpenses, setPendingExpen
 
     if (!pendingExpense) {
         return (
-            <div>
-                <h2 style={{ textAlign: "center" }}>Confirm Expense</h2>
-                <p>No expense is waiting for confirmation.</p>
+            <div className="land-page">
+                <h2>Confirm Expense</h2>
+                <p style={{ textAlign: "center", color: "#777", marginTop: "1rem" }}>No expense is waiting for confirmation.</p>
             </div>
         )
     }
 
     return (
-        <div>
-            <h2 style={{ textAlign: "center" }}>Confirm Expense</h2>
+        <div className="land-page">
+            <h2>Confirm Expense</h2>
 
-            <p className="expense-field-value">Expense Name: {pendingExpense.name}</p>
-            <p className="expense-field-value">Expense Amount: {pendingExpense.amount}</p>
-            <p className="expense-field-value">Category Name / Expense Category: {pendingExpense.category}</p>
-            <p className="expense-field-label">Details</p>
-            <div className="expense-details-box">
-                <p className="expense-details-box-title">Details About Expense</p>
-                <p style={{ fontSize: "0.85rem" }}>{pendingExpense.details}</p>
+            <div className="land-form-card">
+                <div className="land-confirm-row">
+                    <span className="land-form-label">Expense Name</span>
+                    <span className="land-confirm-value">{pendingExpense.name}</span>
+                </div>
+                <div className="land-confirm-row">
+                    <span className="land-form-label">Expense Amount</span>
+                    <span className="land-confirm-value">{pendingExpense.amount}</span>
+                </div>
+                <div className="land-confirm-row">
+                    <span className="land-form-label">Category</span>
+                    <span className="land-confirm-value">{pendingExpense.category}</span>
+                </div>
+                <label className="land-form-label" style={{ marginTop: "0.5rem" }}>Details</label>
+                <div className="land-details-box">
+                    <p className="land-details-title">Details About Expense</p>
+                    <p style={{ fontSize: "0.85rem", color: "#555", textAlign: "center" }}>{pendingExpense.details}</p>
+                </div>
             </div>
 
-            <div className="expense-btn-row">
-                <button className="expense-cancel-btn" onClick={handleCancel}>Cancel</button>
-                <button className="expense-black-btn" onClick={handleConfirm}>Confirm</button>
+            <div className="expense-btn-row" style={{ padding: "0 1.5rem", marginTop: "2rem" }}>
+                <button className="btn-plain" onClick={handleCancel}>Cancel</button>
+                <button className="btn-green" onClick={handleConfirm}>Confirm</button>
             </div>
         </div>
     )
