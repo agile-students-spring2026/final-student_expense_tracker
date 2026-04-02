@@ -1,5 +1,25 @@
 {
   "dependencies": {
+    "express": "^5.2.1",
     "react-router-dom": "^7.13.1"
-  }
+  },
+  "name": "final-student_expense_tracker",
+  "version": "1.0.0",
+  "description": "Trackr is an expense tracking app built for students, by students. Trackr helps you log your spending, set budgets, and start building smarter money habits, all in one place.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/agile-students-spring2026/final-student_expense_tracker.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "bugs": {
+    "url": "https://github.com/agile-students-spring2026/final-student_expense_tracker/issues"
+  },
+  "homepage": "https://github.com/agile-students-spring2026/final-student_expense_tracker#readme"
 }
