@@ -715,3 +715,58 @@ a {
 .edit-profile-button:hover {
     background: #333;
 }
+
+.profile-settings-section {
+  margin-top: 1.5rem;
+  text-align: left;
+}
+
+.profile-settings-title {
+  font-size: 1rem;
+  font-weight: bold;
+  margin: 0 1.5rem 0.75rem;
+  color: #000;
+}
+
+.profile-settings-row {
+  background-color: #d0d0d0;
+  color: #000;
+  margin: 0.6rem 1.5rem;
+  padding: 0.55rem 0.75rem;
+  font-size: 0.9rem;
+}
+
+.policy-footer {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  background-color: #000;
+  text-align: center;
+  padding: 0.8rem 0;
+}
+
+.policy-link {
+  color: white;
+  text-decoration: none;
+  font-size: 0.9rem;
+  font-weight: 500;
+}
+
+.profile-logout-btn {
+  background-color: #ccc;
+  color: red;
+  font-weight: bold;
+  font-family: Arial, Helvetica, sans-serif;
+  border: none;
+  padding: 0.5rem 2.5rem;
+  cursor: pointer;
+  font-size: 0.95rem;
+  text-decoration: none;
+  display: inline-block;
+}
+
+.profile-logout-btn:hover {
+  background-color: #bfbfbf;
+  color: darkred;
+}
