@@ -8,10 +8,6 @@ app.use(express.json());
 
 let expenses = [];
 
-app.get("/api/health", (req,res) => {
-    res.json({message: "Backend is working."})
-});
-
 app.get("/api/expenses", (req,res) => {
     res.json(expenses);
 });
