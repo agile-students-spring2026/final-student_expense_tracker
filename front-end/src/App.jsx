@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { BrowserRouter, Routes, Route, useLocation } from "react-router-dom"
 import AddExpense from "./pages/AddExpense.jsx"
 import Budget from "./pages/Budget.jsx"
@@ -65,12 +65,40 @@ function App() {
   const [pendingExpense, setPendingExpense] = useState(null)
   const [budget, setBudget] = useState({ incomeSources: [], fixedExpenses: [], period: "Monthly" })
 
-  function deleteExpense(id) {
-    setExpenses((prev) => prev.filter((expense) => expense.id !== id))
+  useEffect(() => {
+    async function loadExpenses() {
+      try {
+        const res = await fetch("http://localhost:3000/api/expenses");
+        const data = await res.json();
+        setExpenses(data);
+      } catch (err) {
+        console.log("Failed to load expenses:",err);
+      }
+    }
+    loadExpenses();
+  }, []);
+
+  async function deleteExpense(id) {
+    try {
+      await fetch(`http://localhost:3000/api/expenses/${id}`, {
+        method: "DELETE"
+      })
+
+      setExpenses((prev) => prev.filter((expense) => expense.id !== id));
+    } catch (err) {
+      console.error("Failed to delete expense:", err);
+    }
   }
 
-  function deleteCategory(categoryName) {
-    setExpenses((prev) => prev.filter((expense) => expense.category !== categoryName))
+  async function deleteCategory(categoryName) {
+    try {
+      await fetch(`http://localhost:3000/api/categories/${encodeURIComponent(categoryName)}`, {
+        method: "DELETE"
+      })
+      setExpenses((prev) => prev.filter((expense) => expense.category !== categoryName));
+    } catch (err) {
+      console.error("Failed to delete category:", err);
+    }
   }
 
   return (

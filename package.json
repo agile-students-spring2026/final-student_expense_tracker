@@ -21,5 +21,11 @@
   "bugs": {
     "url": "https://github.com/agile-students-spring2026/final-student_expense_tracker/issues"
   },
-  "homepage": "https://github.com/agile-students-spring2026/final-student_expense_tracker#readme"
+  "homepage": "https://github.com/agile-students-spring2026/final-student_expense_tracker#readme",
+  "devDependencies": {
+    "c8": "^11.0.0",
+    "chai": "^6.2.2",
+    "chai-http": "^5.1.2",
+    "mocha": "^11.7.5"
+  }
 }

@@ -4,11 +4,22 @@
   "description": "",
   "main": "server.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
+    "test": "mocha --exit",
+    "dev": "nodemon server.js",
     "start": "node server.js"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
-  "type": "module"
+  "type": "module",
+  "dependencies": {
+    "cors": "^2.8.6",
+    "superagent": "^6.1.0"
+  },
+  "devDependencies": {
+    "c8": "^11.0.0",
+    "chai": "^4.3.7",
+    "chai-http": "^4.3.0",
+    "mocha": "^11.7.5"
+  }
 }

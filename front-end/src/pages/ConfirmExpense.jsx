@@ -4,11 +4,25 @@ function ConfirmExpense({ pendingExpense, expenses, setExpenses, setPendingExpen
 
     const navigate = useNavigate();
 
-    function handleConfirm() {
+    async function handleConfirm() {
         if (!pendingExpense) return;
-        setExpenses([...expenses, pendingExpense]);
-        setPendingExpense(null);
-        navigate("/expenses/list");
+
+        try {
+            const res = await fetch("http://localhost:3000/api/expenses", {
+                method:"POST",
+                headers: {
+                    "Content-Type":"application/json"
+                },
+                body: JSON.stringify(pendingExpense)
+            });
+            const savedExpense = await res.json();
+
+            setExpenses([...expenses, savedExpense]);
+            setPendingExpense(null);
+            navigate("/expenses/list");
+        } catch (err) {
+            console.log("Failed to save expense:", err);
+        }
     }
 
     function handleCancel() {
