@@ -24,16 +24,32 @@ function ExpenseInfo({ expenses, setExpenses }) {
         setFormData((prev) => ({ ...prev, [name]: value }));
     }
 
-    function handleSave(e) {
+    async function handleSave(e) {
         e.preventDefault();
-        setExpenses((prev) =>
-            prev.map((item) =>
-                item.id === expense.id
-                    ? { ...item, name: formData.name, amount: formData.amount, category: formData.category.trim(), details: formData.details }
-                    : item
+
+        try {
+            const res = await fetch(`http://localhost:3000/api/expenses/${expense.id}`, {
+                method:"PUT",
+                headers:{
+                    "Content-Type":"application/json"
+                },
+                body: JSON.stringify({
+                    name: formData.name,
+                    amount: formData.amount,
+                    category: formData.category.trim(),
+                    details: formData.details
+                })
+            });
+            const updatedExpenses = await res.json();
+            setExpenses((prev) =>
+                prev.map((item) =>
+                    item.id === updatedExpenses.id ? updatedExpenses : item
             )
         );
         setIsEditing(false);
+        } catch (err) {
+            console.log("Failed to update expense:", err);
+        }
     }
 
     function handleCancelEdit() {
