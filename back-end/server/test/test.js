@@ -85,4 +85,11 @@ describe("Expense Tracker API", function () {
         expect(res).to.have.status(200);
         expect(res.body).to.have.property("message");
     });
+
+    it("POST /api/logout should logout successfully", async function() {
+        const res = await chai.request(app).post("/api/logout");
+        expect(res).to.have.status(200);
+        expect(res.body).to.have.property("message");
+        expect(res.body.message).to.equal("Logout successful");
+    });
 });

@@ -47,4 +47,10 @@ app.put("/api/expenses/:id", (req, res) => {
     res.json(updatedExpense);
 })
 
+app.post("/api/logout", (req, res) => {
+    res.status(200).json({
+        message: "Logout successful"
+    });
+});
+
 export default app;
