@@ -50,7 +50,7 @@ function AppContent({ expenses, setExpenses, pendingExpense, setPendingExpense, 
           />} />
         <Route path="/expenses/info/:id" element={<ExpenseInfo expenses={expenses} setExpenses={setExpenses} />} />
         <Route path="/budget" element={<Budget budget={budget} expenses={expenses} />} />
-        <Route path="/budget/create" element={<CreateBudget budget={budget} setBudget={setBudget} />} />
+        <Route path="/budget/create" element={<CreateBudget key={JSON.stringify(budget)} budget={budget} setBudget={setBudget} />} />
         <Route path="/budget/report" element={<BudgetReport budget={budget} expenses={expenses} />} />
         <Route path="/profile" element={<Profile />} />
         <Route path="/profile/edit" element={<EditProfile />} />
@@ -76,6 +76,19 @@ function App() {
       }
     }
     loadExpenses();
+  }, []);
+
+  useEffect(() => {
+    async function loadBudget() {
+      try {
+        const res = await fetch("http://localhost:3000/api/budget");
+        const data = await res.json();
+        setBudget(data);
+      } catch (err) {
+        console.log("Failed to load budget:",err);
+      }
+    }
+    loadBudget();
   }, []);
 
   async function deleteExpense(id) {
