@@ -1,4 +1,4 @@
-import { useState } from "react"
+import { useState, useEffect } from "react"
 import { useNavigate } from "react-router-dom"
 
 function CreateBudget({ budget, setBudget }) {
@@ -20,14 +20,39 @@ function CreateBudget({ budget, setBudget }) {
         setFixedExpenses(prev => prev.map((e, i) => i === index ? { ...e, [field]: value } : e));
     }
 
-    function handleSave(e) {
+    function handleDeleteIncome(index) {
+        setIncomeSources(prev => prev.filter((_,i) => i !== index));
+    }
+
+    function handleDeleteFixed(index) {
+        setFixedExpenses(prev => prev.filter((_,i) => i !== index));
+    }
+
+    async function handleSave(e) {
         e.preventDefault();
-        setBudget({
+        const payload = {
             incomeSources: incomeSources.filter(s => s.name.trim()),
             fixedExpenses: fixedExpenses.filter(e => e.name.trim()),
             period
-        });
-        navigate("/budget");
+        };
+
+        try {
+            const res = await fetch("http://localhost:3000/api/budget", {
+                method: "POST",
+                headers: {
+                    "Content-Type":"application/json"
+                },
+                body: JSON.stringify(payload)
+            });
+            if (!res.ok) {
+                throw new Error(`Request failed: ${res.status}`);
+            }
+            const savedBudget = await res.json();
+            setBudget(savedBudget);
+            navigate("/budget");
+        } catch (err) {
+            console.log("Failed to save budget:", err);
+        }
     }
 
     function handleCancel() {
@@ -42,6 +67,13 @@ function CreateBudget({ budget, setBudget }) {
                 <div className="land-section-label">Income Sources</div>
                 {incomeSources.map((src, i) => (
                     <div key={i} className="land-form-card">
+                        <div>
+                            <button
+                                type="button"
+                                className="btn-plain"
+                                onClick={() => handleDeleteIncome(i)}
+                            >X</button>
+                        </div>
                         <label className="land-form-label">Source Name</label>
                         <input
                             className="land-form-input"
@@ -69,6 +101,13 @@ function CreateBudget({ budget, setBudget }) {
                 <div className="land-section-label" style={{ marginTop: "1rem" }}>Fixed Expenses</div>
                 {fixedExpenses.map((exp, i) => (
                     <div key={i} className="land-form-card">
+                        <div>
+                            <button
+                                type="button"
+                                className="btn-plain"
+                                onClick={() => handleDeleteFixed(i)}
+                            >X</button>
+                        </div>
                         <label className="land-form-label">Expense Name</label>
                         <input
                             className="land-form-input"
