@@ -33,7 +33,7 @@ function AppContent({ expenses, setExpenses, pendingExpense, setPendingExpense, 
         <Route path="/" element={<Landing />} />
         <Route path="/signup" element={<Signup />} />
         <Route path="/login" element={<Login />} />
-        <Route path="/home" element={<Home />} />
+        <Route path="/home" element={<Home expenses={expenses} budget={budget} />} />
         <Route path="/expenses" element={<ExpenseTracking expenses={expenses} />} />
         <Route path="/expenses/list" element={<ExpenseList
           expenses={expenses}

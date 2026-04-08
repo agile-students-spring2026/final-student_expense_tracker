@@ -1,0 +1,291 @@
+.home-sub {
+    text-align: center;
+    color: #aaa;
+    font-size: 14px;
+    margin-bottom: 1.5rem;
+}
+
+/* Dashboard box */
+.home-dashboard {
+    background: #fff;
+    border: 1px solid #ede9e0;
+    border-radius: 16px;
+    padding: 1.5rem;
+    margin: 0 1rem 1rem;
+}
+
+.home-divider {
+    border: none;
+    border-top: 1px solid #ede9e0;
+    margin: 1.25rem 0;
+}
+
+/* Stats */
+.home-stats {
+    display: flex;
+    border: 1px solid #ede9e0;
+    border-radius: 12px;
+    overflow: hidden;
+    margin-bottom: 1.5rem;
+}
+
+.home-stat {
+    flex: 1;
+    padding: 1rem;
+    text-align: center;
+    border-right: 1px solid #ede9e0;
+}
+
+.home-stat:last-child {
+    border-right: none;
+}
+
+.home-stat-dark {
+    background: #1a1a1a;
+}
+
+.home-stat-num {
+    font-size: 1.6rem;
+    font-weight: 800;
+    color: #111;
+    line-height: 1;
+    margin-bottom: 4px;
+}
+
+.home-stat-dark .home-stat-num {
+    color: #fff;
+}
+
+.home-stat-lbl {
+    font-size: 10px;
+    color: #aaa;
+    font-weight: 600;
+    letter-spacing: 0.5px;
+}
+
+.home-stat-dark .home-stat-lbl {
+    color: rgba(255, 255, 255, 0.6);
+}
+
+/* Two column layout */
+.home-two-col {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1.5rem;
+    margin-bottom: 1.25rem;
+}
+
+/* Bar chart */
+.home-bars {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.home-bar-row {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.home-bar-label {
+    font-size: 12px;
+    color: #555;
+    width: 70px;
+    flex-shrink: 0;
+    text-align: right;
+}
+
+.home-bar-track {
+    flex: 1;
+    background: #f5f2eb;
+    border-radius: 6px;
+    height: 20px;
+    overflow: hidden;
+}
+
+.home-bar-fill {
+    height: 100%;
+    border-radius: 6px;
+}
+
+.home-bar-amt {
+    font-size: 12px;
+    color: #555;
+    width: 45px;
+    text-align: right;
+    flex-shrink: 0;
+}
+
+.home-empty {
+    font-size: 13px;
+    color: #aaa;
+    text-align: center;
+    padding: 1rem 0;
+}
+
+/* Recent expenses */
+.home-recent-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 7px 0;
+    border-bottom: 1px solid #f5f2eb;
+}
+
+.home-recent-item:last-child {
+    border-bottom: none;
+}
+
+.home-recent-name {
+    font-size: 13px;
+    font-weight: 500;
+    color: #111;
+}
+
+.home-recent-cat {
+    font-size: 11px;
+    color: #aaa;
+}
+
+.home-recent-amt {
+    font-size: 13px;
+    font-weight: 600;
+    color: #e05454;
+}
+
+/* Donut */
+.home-donut-row {
+    display: flex;
+    align-items: center;
+    gap: 1.25rem;
+}
+
+.home-donut {
+    position: relative;
+    width: 110px;
+    height: 110px;
+    flex-shrink: 0;
+}
+
+.home-donut-center {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    text-align: center;
+}
+
+.home-donut-pct {
+    font-size: 1.2rem;
+    font-weight: 800;
+    color: #111;
+}
+
+.home-donut-lbl {
+    font-size: 10px;
+    color: #aaa;
+}
+
+.home-donut-info {
+    flex: 1;
+}
+
+.home-donut-title {
+    font-size: 1rem;
+    font-weight: 700;
+    color: #111;
+    margin-bottom: 4px;
+}
+
+.home-donut-sub {
+    font-size: 12px;
+    color: #888;
+    line-height: 1.5;
+    margin-bottom: 8px;
+}
+
+.home-legend {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    font-size: 12px;
+    color: #555;
+}
+
+.home-dot {
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    display: inline-block;
+    margin-right: 6px;
+}
+
+.home-dot-empty {
+    background: #f5f2eb;
+    border: 1px solid #ddd;
+}
+
+/* 50/30/20 split */
+.home-split-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 6px;
+}
+
+.home-split-block {
+    border-radius: 10px;
+    padding: 0.6rem;
+}
+
+.home-split-needs { background: #f0faf4; border: 1.5px solid #c3e8d4; }
+.home-split-wants { background: #f0f4ff; border: 1.5px solid #c7d7f9; }
+.home-split-savings { background: #fef9ec; border: 1.5px solid #fde4a0; }
+
+.home-split-pill {
+    font-size: 8px;
+    font-weight: 700;
+    padding: 2px 6px;
+    border-radius: 20px;
+    display: inline-block;
+    margin-bottom: 5px;
+}
+
+.home-split-pill-needs { background: #c3e8d4; color: #0f6e56; }
+.home-split-pill-wants { background: #c7d7f9; color: #1a4ba8; }
+.home-split-pill-savings { background: #fde4a0; color: #854f0b; }
+
+.home-split-pct {
+    font-size: 1.2rem;
+    font-weight: 800;
+    line-height: 1;
+}
+
+.home-split-pct-needs { color: #3db87a; }
+.home-split-pct-wants { color: #5b8dee; }
+.home-split-pct-savings { color: #f0a500; }
+
+.home-split-name {
+    font-size: 10px;
+    font-weight: 700;
+    color: #111;
+    margin-top: 2px;
+}
+
+.home-split-amt {
+    font-size: 11px;
+    font-weight: 700;
+    color: #111;
+    margin-top: 3px;
+}
+/* Add button */
+.home-add-wrap {
+    display: flex;
+    justify-content: center;
+    padding-bottom: 2rem;
+}
+
+.home-add-btn {
+    font-size: 15px;
+    padding: 13px 32px;
+}
