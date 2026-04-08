@@ -5,6 +5,105 @@ import app from "../app.js";
 
 chai.use(chaiHttp);
 
+// ===== Auth Tests =====
+
+describe("Auth API", function () {
+
+    // Signup Tests
+
+    it("POST /api/signup should create a new user", async function () {
+        const res = await chai.request(app)
+            .post("/api/signup")
+            .send({ name: "John Doe", email: "john@example.com", password: "123456", confirm: "123456" });
+        expect(res).to.have.status(201);
+        expect(res.body).to.have.property("message", "User created.");
+        expect(res.body).to.have.property("userId");
+        expect(res.body).to.have.property("name", "John Doe");
+    });
+
+    it("POST /api/signup should fail if any field is missing", async function () {
+        const res = await chai.request(app)
+            .post("/api/signup")
+            .send({ name: "Jane", email: "", password: "123456", confirm: "123456" });
+        expect(res).to.have.status(400);
+        expect(res.body).to.have.property("error", "All fields are required.");
+    });
+
+    it("POST /api/signup should fail if passwords do not match", async function () {
+        const res = await chai.request(app)
+            .post("/api/signup")
+            .send({ name: "Jane", email: "jane@example.com", password: "123456", confirm: "654321" });
+        expect(res).to.have.status(400);
+        expect(res.body).to.have.property("error", "Passwords do not match.");
+    });
+
+    it("POST /api/signup should fail if password is too short", async function () {
+        const res = await chai.request(app)
+            .post("/api/signup")
+            .send({ name: "Jane", email: "jane2@example.com", password: "123", confirm: "123" });
+        expect(res).to.have.status(400);
+        expect(res.body).to.have.property("error", "Password must be at least 6 characters.");
+    });
+
+    it("POST /api/signup should fail if email already exists", async function () {
+        await chai.request(app)
+            .post("/api/signup")
+            .send({ name: "Existing", email: "existing@example.com", password: "123456", confirm: "123456" });
+
+        const res = await chai.request(app)
+            .post("/api/signup")
+            .send({ name: "Existing", email: "existing@example.com", password: "123456", confirm: "123456" });
+        expect(res).to.have.status(400);
+        expect(res.body).to.have.property("error", "User already exists.");
+    });
+
+    // Login Tests
+
+    it("POST /api/login should login successfully with correct credentials", async function () {
+        await chai.request(app)
+            .post("/api/signup")
+            .send({ name: "Login User", email: "login@example.com", password: "abcdef", confirm: "abcdef" });
+
+        const res = await chai.request(app)
+            .post("/api/login")
+            .send({ email: "login@example.com", password: "abcdef" });
+        expect(res).to.have.status(200);
+        expect(res.body).to.have.property("message", "Login successful.");
+        expect(res.body).to.have.property("userId");
+        expect(res.body).to.have.property("name", "Login User");
+    });
+
+    it("POST /api/login should fail with wrong password", async function () {
+        const res = await chai.request(app)
+            .post("/api/login")
+            .send({ email: "login@example.com", password: "wrongpass" });
+        expect(res).to.have.status(401);
+        expect(res.body).to.have.property("error", "Invalid credentials.");
+    });
+
+    it("POST /api/login should fail if email does not exist", async function () {
+        const res = await chai.request(app)
+            .post("/api/login")
+            .send({ email: "nobody@example.com", password: "123456" });
+        expect(res).to.have.status(401);
+        expect(res.body).to.have.property("error", "Invalid credentials.");
+    });
+
+    it("POST /api/login should fail if fields are missing", async function () {
+        const res = await chai.request(app)
+            .post("/api/login")
+            .send({ email: "", password: "" });
+        expect(res).to.have.status(400);
+        expect(res.body).to.have.property("error", "Email and password are required.");
+    });
+
+    it("POST /api/logout should logout successfully", async function () {
+        const res = await chai.request(app).post("/api/logout");
+        expect(res).to.have.status(200);
+        expect(res.body).to.have.property("message", "Logout successful");
+    });
+});
+
 // ===== Expense Tests =====
 
 describe("Expense API", function () {
@@ -175,16 +274,5 @@ describe("Budget API", function () {
         expect(getRes.body.incomeSources).to.deep.equal([]);
         expect(getRes.body.fixedExpenses).to.deep.equal([]);
         expect(getRes.body.period).to.equal("Monthly");
-    });
-});
-
-// ===== Auth Tests =====
-
-describe("Auth API", function () {
-    it("POST /api/logout should logout successfully", async function () {
-        const res = await chai.request(app).post("/api/logout");
-        expect(res).to.have.status(200);
-        expect(res.body).to.have.property("message");
-        expect(res.body.message).to.equal("Logout successful");
     });
 });
