@@ -8,6 +8,7 @@ app.use(express.json());
 
 // ===== In-memory data =====
 
+let users = [];
 let expenses = [];
 
 let budget = {
@@ -129,10 +130,49 @@ app.delete("/api/budget", (req, res) => {
     res.json({ message: "Budget reset." });
 });
 
-// ===== Auth stub =====
+// ===== Auth =====
 
 app.post("/api/logout", (req, res) => {
     res.status(200).json({ message: "Logout successful" });
+});
+
+app.post("/api/signup", (req, res) => {
+    const { name, email, password, confirm } = req.body;
+
+    if (!name || !email || !password || !confirm) {
+        return res.status(400).json({ error: "All fields are required." });
+    }
+    if (password !== confirm) {
+        return res.status(400).json({ error: "Passwords do not match." });
+    }
+    if (password.length < 6) {
+        return res.status(400).json({ error: "Password must be at least 6 characters." });
+    }
+
+    const existingUser = users.find(u => u.email === email);
+    if (existingUser) {
+        return res.status(400).json({ error: "User already exists." });
+    }
+
+    const newUser = { id: Date.now(), name, email, password };
+    users.push(newUser);
+
+    res.status(201).json({ message: "User created.", userId: newUser.id, name: newUser.name });
+});
+
+app.post("/api/login", (req, res) => {
+    const { email, password } = req.body;
+
+    if (!email || !password) {
+        return res.status(400).json({ error: "Email and password are required." });
+    }
+
+    const user = users.find(u => u.email === email && u.password === password);
+    if (!user) {
+        return res.status(401).json({ error: "Invalid credentials." });
+    }
+
+    res.status(200).json({ message: "Login successful.", userId: user.id, name: user.name });
 });
 
 export default app;

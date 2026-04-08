@@ -10,9 +10,10 @@ function Signup() {
     const [error, setError] = useState("")
     const navigate = useNavigate()
 
-    function handleSubmit(e) {
+    async function handleSubmit(e) {
         e.preventDefault()
         setError("")
+
         if (!name || !email || !password || !confirm) {
             setError("Please fill in all fields.")
             return
@@ -25,8 +26,26 @@ function Signup() {
             setError("Password must be at least 6 characters.")
             return
         }
-        // TODO: connect to backend auth
-        navigate("/home")
+
+        try {
+            const response = await fetch("http://localhost:3000/api/signup", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({ name, email, password, confirm })
+            })
+
+            const data = await response.json()
+
+            if (!response.ok) {
+                setError(data.error || "Signup failed.")
+            } else {
+                localStorage.setItem("userId", data.userId)
+                localStorage.setItem("userName", data.name)
+                navigate("/home")
+            }
+        } catch (err) {
+            setError("Server error. Try again later.")
+        }
     }
 
     return (
@@ -34,10 +53,11 @@ function Signup() {
             <div className="auth-card">
                 <div className="auth-top">
                     <div className="auth-logo">Track<span>r</span></div>
-                    
                     <h2>Sign up</h2>
                 </div>
+
                 {error && <div className="auth-error">{error}</div>}
+
                 <form onSubmit={handleSubmit}>
                     <div className="field">
                         <label htmlFor="name">Full name</label>

@@ -8,15 +8,34 @@ function Login() {
     const [error, setError] = useState("")
     const navigate = useNavigate()
 
-    function handleSubmit(e) {
+    async function handleSubmit(e) {
         e.preventDefault()
         setError("")
+
         if (!email || !password) {
             setError("Please fill in all fields.")
             return
         }
-        // TODO: connect to backend auth
-        navigate("/home")
+
+        try {
+            const response = await fetch("http://localhost:3000/api/login", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({ email, password })
+            })
+
+            const data = await response.json()
+
+            if (!response.ok) {
+                setError(data.error || "Login failed.")
+            } else {
+                localStorage.setItem("userId", data.userId)
+                localStorage.setItem("userName", data.name)
+                navigate("/home")
+            }
+        } catch (err) {
+            setError("Server error. Try again later.")
+        }
     }
 
     return (
@@ -55,7 +74,7 @@ function Login() {
                 </form>
 
                 <div className="auth-note">
-                    No account? <Link to="/signup" className="auth-link">Sign up </Link>
+                    No account? <Link to="/signup" className="auth-link">Sign up</Link>
                 </div>
                 <Link to="/" className="auth-back">← Back to home</Link>
             </div>
