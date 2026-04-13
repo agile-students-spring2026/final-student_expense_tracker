@@ -129,7 +129,7 @@ typings/
 **/_site/
 
 ## editor files
-.cursor/
+# .cursor/
 
 # Vite
 .vite/
