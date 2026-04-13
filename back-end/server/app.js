@@ -176,3 +176,49 @@ app.post("/api/login", (req, res) => {
 });
 
 export default app;
+
+
+
+// ===== Profile Routes =====
+
+app.get("/api/profile/:id", (req, res) => {
+    const id = Number(req.params.id);
+    const user = users.find(u => u.id === id);
+
+    if (!user) {
+        return res.status(404).json({ error: "User not found." });
+    }
+
+    res.status(200).json({
+        id: user.id,
+        name: user.name,
+        email: user.email
+    });
+});
+
+app.put("/api/profile/:id", (req, res) => {
+    const id = Number(req.params.id);
+    const user = users.find(u => u.id === id);
+
+    if (!user) {
+        return res.status(404).json({ error: "User not found." });
+    }
+
+    const { name, email } = req.body;
+
+    if (!name || !email) {
+        return res.status(400).json({ error: "Name and email are required." });
+    }
+
+    user.name = name;
+    user.email = email;
+
+    res.status(200).json({
+        message: "Profile updated.",
+        user: {
+            id: user.id,
+            name: user.name,
+            email: user.email
+        }
+    });
+});

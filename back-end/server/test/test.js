@@ -276,3 +276,83 @@ describe("Budget API", function () {
         expect(getRes.body.period).to.equal("Monthly");
     });
 });
+
+
+
+// ===== Profile Tests =====
+
+describe("Profile API", function () {
+    it("GET /api/profile/:id should return a user's profile", async function () {
+        const signupRes = await chai.request(app)
+            .post("/api/signup")
+            .send({
+                name: "Profile User",
+                email: "profile@example.com",
+                password: "123456",
+                confirm: "123456"
+            });
+
+        const userId = signupRes.body.userId;
+
+        const res = await chai.request(app).get(`/api/profile/${userId}`);
+        expect(res).to.have.status(200);
+        expect(res.body).to.have.property("id", userId);
+        expect(res.body).to.have.property("name", "Profile User");
+        expect(res.body).to.have.property("email", "profile@example.com");
+    });
+
+    it("GET /api/profile/:id should return 404 if user does not exist", async function () {
+        const res = await chai.request(app).get("/api/profile/999999999");
+        expect(res).to.have.status(404);
+        expect(res.body).to.have.property("error", "User not found.");
+    });
+
+    it("PUT /api/profile/:id should update a user's profile", async function () {
+        const signupRes = await chai.request(app)
+            .post("/api/signup")
+            .send({
+                name: "Old Name",
+                email: "oldprofile@example.com",
+                password: "123456",
+                confirm: "123456"
+            });
+
+        const userId = signupRes.body.userId;
+
+        const res = await chai.request(app)
+            .put(`/api/profile/${userId}`)
+            .send({
+                name: "New Name",
+                email: "newprofile@example.com"
+            });
+
+        expect(res).to.have.status(200);
+        expect(res.body).to.have.property("message", "Profile updated.");
+        expect(res.body.user).to.have.property("id", userId);
+        expect(res.body.user).to.have.property("name", "New Name");
+        expect(res.body.user).to.have.property("email", "newprofile@example.com");
+    });
+
+    it("PUT /api/profile/:id should return 400 if fields are missing", async function () {
+        const signupRes = await chai.request(app)
+            .post("/api/signup")
+            .send({
+                name: "Another User",
+                email: "anotherprofile@example.com",
+                password: "123456",
+                confirm: "123456"
+            });
+
+        const userId = signupRes.body.userId;
+
+        const res = await chai.request(app)
+            .put(`/api/profile/${userId}`)
+            .send({
+                name: "",
+                email: ""
+            });
+
+        expect(res).to.have.status(400);
+        expect(res.body).to.have.property("error", "Name and email are required.");
+    });
+});
