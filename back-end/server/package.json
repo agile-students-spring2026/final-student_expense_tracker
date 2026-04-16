@@ -14,7 +14,11 @@
   "type": "module",
   "dependencies": {
     "cors": "^2.8.6",
+    "dotenv": "^17.4.2",
     "express": "^5.2.1",
+    "express-validator": "^7.3.2",
+    "jsonwebtoken": "^9.0.3",
+    "mongoose": "^9.4.1",
     "superagent": "^6.1.0"
   },
   "devDependencies": {
