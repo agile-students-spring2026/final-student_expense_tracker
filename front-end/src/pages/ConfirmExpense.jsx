@@ -17,7 +17,7 @@ function ConfirmExpense({ pendingExpense, expenses, setExpenses, setPendingExpen
             });
             const savedExpense = await res.json();
 
-            setExpenses([...expenses, savedExpense]);
+            setExpenses(prev => [...prev, savedExpense]);
             setPendingExpense(null);
             navigate("/expenses/list");
         } catch (err) {

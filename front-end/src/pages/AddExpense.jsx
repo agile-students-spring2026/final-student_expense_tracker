@@ -16,7 +16,7 @@ function AddExpense({ setPendingExpense }) {
     function handleChange(e) {
         const { name, value } = e.target;
         if (name === "amount") {
-            setAmountError(value !== "" && isNaN(value));
+            setAmountError(value !== "" && isNaN(value) || Number(value) < 0);
         }
         setFormData((prev) => ({
             ...prev,
