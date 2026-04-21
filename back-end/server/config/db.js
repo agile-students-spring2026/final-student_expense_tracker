@@ -1,15 +1,23 @@
+import dotenv from "dotenv";
 import mongoose from "mongoose";
 
+dotenv.config();
+
 export async function connectDB() {
-    const uri = process.env.MONGODB_URI
-    
+    if (mongoose.connection.readyState === 1 || mongoose.connection.readyState === 2) {
+        return mongoose.connection;
+    }
+
+    const uri = process.env.MONGODB_URI;
+
     if (!uri) {
-        throw new Error("error!!!")
+        throw new Error("MONGODB_URI is not set.");
     }
 
     try {
         await mongoose.connect(uri);
-        console.log("MongoDB connected!")
+        console.log("MongoDB connected!");
+        return mongoose.connection;
     } catch (err) {
         console.error("MongoDB could not connect: ", err.message);
         process.exit(1);
