@@ -1,11 +1,5 @@
 import express from "express";
 import cors from "cors";
-import jwt from "jsonwebtoken";
-import { body, validationResult } from "express-validator";
-import User from "./models/User.js";
-import { requireAuth } from "./middleware/auth.js";
-import { connectDB } from "./config/db.js";
-import { hashPassword, verifyPassword } from "./utils/password.js";
 
 import {validationResult} from "express-validator"
 import { createExpenseValidator, updateExpenseValidator, 
@@ -13,7 +7,6 @@ import { createExpenseValidator, updateExpenseValidator,
 import Expense from "./models/Expense.js";
 
 const app = express();
-const DEFAULT_JWT_SECRET = "dev-jwt-secret";
 
 app.use(cors());
 app.use(express.json());
@@ -167,61 +160,6 @@ function validateBudget(body) {
     return null;
 }
 
-function formatValidationError(result) {
-    const [firstError] = result.array();
-    return firstError?.msg || "Invalid request.";
-}
-
-function normalizeEmail(email) {
-    return email.trim().toLowerCase();
-}
-
-function createAuthToken(user) {
-    return jwt.sign(
-        { id: user._id.toString() },
-        process.env.JWT_SECRET || DEFAULT_JWT_SECRET,
-        { expiresIn: "7d" }
-    );
-}
-
-function sanitizeUser(user) {
-    return {
-        id: user._id.toString(),
-        name: user.name,
-        email: user.email
-    };
-}
-
-async function ensureAuthDatabase() {
-    await connectDB();
-}
-
-const signupValidation = [
-    body("name").trim().notEmpty().withMessage("All fields are required."),
-    body("email").trim().notEmpty().withMessage("All fields are required."),
-    body("password").notEmpty().withMessage("All fields are required."),
-    body("confirm").notEmpty().withMessage("All fields are required."),
-    body("email").isEmail().withMessage("Please enter a valid email."),
-    body("password")
-        .isLength({ min: 6 })
-        .withMessage("Password must be at least 6 characters."),
-    body("confirm")
-        .custom((confirm, { req }) => confirm === req.body.password)
-        .withMessage("Passwords do not match.")
-];
-
-const loginValidation = [
-    body("email").trim().notEmpty().withMessage("Email and password are required."),
-    body("password").notEmpty().withMessage("Email and password are required."),
-    body("email").isEmail().withMessage("Please enter a valid email.")
-];
-
-const profileValidation = [
-    body("name").trim().notEmpty().withMessage("Name and email are required."),
-    body("email").trim().notEmpty().withMessage("Name and email are required."),
-    body("email").isEmail().withMessage("Please enter a valid email.")
-];
-
 // ===== Budget routes =====
 
 app.get("/api/budget", (req, res) => {
@@ -262,179 +200,89 @@ app.post("/api/logout", (req, res) => {
     res.status(200).json({ message: "Logout successful" });
 });
 
-app.post("/api/signup", signupValidation, async (req, res) => {
-    const validation = validationResult(req);
-    if (!validation.isEmpty()) {
-        return res.status(400).json({ error: formatValidationError(validation) });
+app.post("/api/signup", (req, res) => {
+    const { name, email, password, confirm } = req.body;
+
+    if (!name || !email || !password || !confirm) {
+        return res.status(400).json({ error: "All fields are required." });
+    }
+    if (password !== confirm) {
+        return res.status(400).json({ error: "Passwords do not match." });
+    }
+    if (password.length < 6) {
+        return res.status(400).json({ error: "Password must be at least 6 characters." });
     }
 
-    await ensureAuthDatabase();
-
-    const name = req.body.name.trim();
-    const email = normalizeEmail(req.body.email);
-
-    const existingUser = await User.findOne({ email });
+    const existingUser = users.find(u => u.email === email);
     if (existingUser) {
         return res.status(400).json({ error: "User already exists." });
     }
 
-    const newUser = await User.create({
-        name,
-        email,
-        password: hashPassword(req.body.password)
-    });
+    const newUser = { id: Date.now(), name, email, password };
+    users.push(newUser);
 
-    const token = createAuthToken(newUser);
-    const safeUser = sanitizeUser(newUser);
-
-    res.status(201).json({
-        message: "User created.",
-        userId: safeUser.id,
-        name: safeUser.name,
-        token,
-        user: safeUser
-    });
+    res.status(201).json({ message: "User created.", userId: newUser.id, name: newUser.name });
 });
 
-app.post("/api/login", loginValidation, async (req, res) => {
-    const validation = validationResult(req);
-    if (!validation.isEmpty()) {
-        return res.status(400).json({ error: formatValidationError(validation) });
+app.post("/api/login", (req, res) => {
+    const { email, password } = req.body;
+
+    if (!email || !password) {
+        return res.status(400).json({ error: "Email and password are required." });
     }
 
-    await ensureAuthDatabase();
-
-    const email = normalizeEmail(req.body.email);
-    const user = await User.findOne({ email });
-
-    if (!user || !verifyPassword(req.body.password, user.password)) {
+    const user = users.find(u => u.email === email && u.password === password);
+    if (!user) {
         return res.status(401).json({ error: "Invalid credentials." });
     }
 
-    const token = createAuthToken(user);
-    const safeUser = sanitizeUser(user);
-
-    res.status(200).json({
-        message: "Login successful.",
-        userId: safeUser.id,
-        name: safeUser.name,
-        token,
-        user: safeUser
-    });
+    res.status(200).json({ message: "Login successful.", userId: user.id, name: user.name });
 });
 
 
 
 // ===== Profile Routes =====
 
-app.get("/api/profile/me", requireAuth, async (req, res) => {
-    await ensureAuthDatabase();
-
-    const user = await User.findById(req.user.id);
-
-    if (!user) {
-        return res.status(404).json({ error: "User not found." });
-    }
-
-    res.status(200).json(sanitizeUser(user));
-});
-
-app.get("/api/profile/:id", requireAuth, async (req, res) => {
-    await ensureAuthDatabase();
-
-    if (req.params.id !== req.user.id) {
-        return res.status(403).json({ error: "Forbidden." });
-    }
-
-    const user = await User.findById(req.user.id);
-
-    if (!user) {
-        return res.status(404).json({ error: "User not found." });
-    }
-
-    res.status(200).json(sanitizeUser(user));
-});
-
-app.put("/api/profile/me", requireAuth, profileValidation, async (req, res) => {
-    const validation = validationResult(req);
-    if (!validation.isEmpty()) {
-        return res.status(400).json({ error: formatValidationError(validation) });
-    }
-
-    await ensureAuthDatabase();
-
-    const email = normalizeEmail(req.body.email);
-    const existingUser = await User.findOne({
-        email,
-        _id: { $ne: req.user.id }
-    });
-
-    if (existingUser) {
-        return res.status(400).json({ error: "User already exists." });
-    }
-
-    const user = await User.findByIdAndUpdate(
-        req.user.id,
-        {
-            name: req.body.name.trim(),
-            email
-        },
-        {
-            new: true,
-            runValidators: true
-        }
-    );
+app.get("/api/profile/:id", (req, res) => {
+    const id = Number(req.params.id);
+    const user = users.find(u => u.id === id);
 
     if (!user) {
         return res.status(404).json({ error: "User not found." });
     }
 
     res.status(200).json({
-        message: "Profile updated.",
-        user: sanitizeUser(user)
+        id: user.id,
+        name: user.name,
+        email: user.email
     });
 });
 
-app.put("/api/profile/:id", requireAuth, profileValidation, async (req, res) => {
-    if (req.params.id !== req.user.id) {
-        return res.status(403).json({ error: "Forbidden." });
-    }
-
-    const validation = validationResult(req);
-    if (!validation.isEmpty()) {
-        return res.status(400).json({ error: formatValidationError(validation) });
-    }
-
-    await ensureAuthDatabase();
-
-    const email = normalizeEmail(req.body.email);
-    const existingUser = await User.findOne({
-        email,
-        _id: { $ne: req.user.id }
-    });
-
-    if (existingUser) {
-        return res.status(400).json({ error: "User already exists." });
-    }
-
-    const user = await User.findByIdAndUpdate(
-        req.user.id,
-        {
-            name: req.body.name.trim(),
-            email
-        },
-        {
-            new: true,
-            runValidators: true
-        }
-    );
+app.put("/api/profile/:id", (req, res) => {
+    const id = Number(req.params.id);
+    const user = users.find(u => u.id === id);
 
     if (!user) {
         return res.status(404).json({ error: "User not found." });
     }
 
+    const { name, email } = req.body;
+
+    if (!name || !email) {
+        return res.status(400).json({ error: "Name and email are required." });
+    }
+
+    user.name = name;
+    user.email = email;
+
     res.status(200).json({
         message: "Profile updated.",
-        user: sanitizeUser(user)
+        user: {
+            id: user.id,
+            name: user.name,
+            email: user.email
+        }
     });
 });
+
+export default app;
