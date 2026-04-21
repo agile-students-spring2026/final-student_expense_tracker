@@ -41,6 +41,7 @@ function Signup() {
             } else {
                 localStorage.setItem("userId", data.userId)
                 localStorage.setItem("userName", data.name)
+                localStorage.setItem("authToken", data.token)
                 navigate("/home")
             }
         } catch (err) {
