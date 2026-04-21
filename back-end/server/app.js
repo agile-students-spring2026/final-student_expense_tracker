@@ -7,7 +7,6 @@ import { requireAuth } from "./middleware/auth.js";
 import { connectDB } from "./config/db.js";
 import { hashPassword, verifyPassword } from "./utils/password.js";
 
-import {validationResult} from "express-validator"
 import { createExpenseValidator, updateExpenseValidator, 
     expenseIdValidator, categoryNameValidator } from "./validators/expenseValidators.js";
 import Expense from "./models/Expense.js";
@@ -438,3 +437,5 @@ app.put("/api/profile/:id", requireAuth, profileValidation, async (req, res) => 
         user: sanitizeUser(user)
     });
 });
+
+export default app;
