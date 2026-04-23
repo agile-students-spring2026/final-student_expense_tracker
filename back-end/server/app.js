@@ -3,6 +3,7 @@ import cors from "cors";
 import jwt from "jsonwebtoken";
 import { body, validationResult } from "express-validator";
 import User from "./models/User.js";
+import Budget from "./models/Budget.js";
 import { requireAuth } from "./middleware/auth.js";
 import { connectDB } from "./config/db.js";
 import { hashPassword, verifyPassword } from "./utils/password.js";
@@ -18,14 +19,6 @@ app.use(cors());
 app.use(express.json());
 
 // ===== In-memory data =====
-
-let users = [];
-
-let budget = {
-    incomeSources: [],
-    fixedExpenses: [],
-    period: "Monthly"
-};
 
 function formatExpense(expense) {
     return {
@@ -222,37 +215,88 @@ const profileValidation = [
 ];
 
 // ===== Budget routes =====
-
-app.get("/api/budget", (req, res) => {
-    res.json(budget);
-});
-
-app.post("/api/budget", (req, res) => {
-    const error = validateBudget(req.body);
-    if (error) return res.status(400).json({ error });
-
-    budget = {
-        incomeSources: req.body.incomeSources || [],
-        fixedExpenses: req.body.fixedExpenses || [],
-        period: req.body.period || "Monthly"
+function formatBudget(budget) {
+    return {
+        userId: budget.userId.toString(),
+        incomeSources: budget.incomeSources,
+        fixedExpenses: budget.fixedExpenses,
+        period: budget.period
     };
-    res.status(201).json(budget);
+}
+ 
+app.get("/api/budget", requireAuth, async (req, res) => {
+    try {
+        await connectDB();
+        const budget = await Budget.findOne({ userId: req.user.id });
+        if (!budget) {
+            return res.json({ incomeSources: [], fixedExpenses: [], period: "Monthly" });
+        }
+        res.json(formatBudget(budget));
+    } catch (err) {
+        res.status(500).json({ error: "Could not load budget." });
+    }
 });
-
-app.put("/api/budget", (req, res) => {
+ 
+app.post("/api/budget", requireAuth, async (req, res) => {
     const error = validateBudget(req.body);
     if (error) return res.status(400).json({ error });
-
-    if (req.body.incomeSources !== undefined) budget.incomeSources = req.body.incomeSources;
-    if (req.body.fixedExpenses !== undefined) budget.fixedExpenses = req.body.fixedExpenses;
-    if (req.body.period !== undefined) budget.period = req.body.period;
-
-    res.json(budget);
+ 
+    try {
+        await connectDB();
+        const budget = await Budget.findOneAndUpdate(
+            { userId: req.user.id },
+            {
+                userId: req.user.id,
+                incomeSources: req.body.incomeSources || [],
+                fixedExpenses: req.body.fixedExpenses || [],
+                period: req.body.period || "Monthly"
+            },
+            { upsert: true, new: true, runValidators: true }
+        );
+        res.status(201).json(formatBudget(budget));
+    } catch (err) {
+        res.status(500).json({ error: "Could not save budget." });
+    }
 });
-
-app.delete("/api/budget", (req, res) => {
-    budget = { incomeSources: [], fixedExpenses: [], period: "Monthly" };
-    res.json({ message: "Budget reset." });
+ 
+app.put("/api/budget", requireAuth, async (req, res) => {
+    const error = validateBudget(req.body);
+    if (error) return res.status(400).json({ error });
+ 
+    try {
+        await connectDB();
+        const updates = {};
+        if (req.body.incomeSources !== undefined) updates.incomeSources = req.body.incomeSources;
+        if (req.body.fixedExpenses !== undefined) updates.fixedExpenses = req.body.fixedExpenses;
+        if (req.body.period !== undefined) updates.period = req.body.period;
+ 
+        const budget = await Budget.findOneAndUpdate(
+            { userId: req.user.id },
+            updates,
+            { new: true, runValidators: true }
+        );
+ 
+        if (!budget) {
+            return res.status(404).json({ error: "Budget not found." });
+        }
+        res.json(formatBudget(budget));
+    } catch (err) {
+        res.status(500).json({ error: "Could not update budget." });
+    }
+});
+ 
+app.delete("/api/budget", requireAuth, async (req, res) => {
+    try {
+        await connectDB();
+        await Budget.findOneAndUpdate(
+            { userId: req.user.id },
+            { incomeSources: [], fixedExpenses: [], period: "Monthly" },
+            { new: true }
+        );
+        res.json({ message: "Budget reset." });
+    } catch (err) {
+        res.status(500).json({ error: "Could not reset budget." });
+    }
 });
 
 // ===== Auth =====
