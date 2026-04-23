@@ -81,7 +81,10 @@ function App() {
   useEffect(() => {
     async function loadBudget() {
       try {
-        const res = await fetch("http://localhost:3000/api/budget");
+        const token = localStorage.getItem("authToken")
+        const res = await fetch("http://localhost:3000/api/budget", {
+          headers: {"Authorization":`Bearer ${token}`}
+          })
         const data = await res.json();
         setBudget(data);
       } catch (err) {

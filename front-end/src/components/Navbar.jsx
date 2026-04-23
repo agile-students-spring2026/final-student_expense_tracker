@@ -23,7 +23,6 @@ function Navbar() {
                     <span><Link to="/budget" className="navitem">Budget</Link></span>
                     <span><Link to="/profile" className="navitem">Profile</Link></span>
                     <span><Link to="/policies" className="navitem">Policies</Link></span>
-                    <span><button onClick={handleLogout} className="navitem">Logout</button></span>
                 </div>)}
         </nav>
     )

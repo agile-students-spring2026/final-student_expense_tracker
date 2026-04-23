@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react"
+import { useState } from "react"
 import { useNavigate } from "react-router-dom"
 
 function CreateBudget({ budget, setBudget }) {
@@ -40,7 +40,8 @@ function CreateBudget({ budget, setBudget }) {
             const res = await fetch("http://localhost:3000/api/budget", {
                 method: "POST",
                 headers: {
-                    "Content-Type":"application/json"
+                    "Content-Type": "application/json",
+                    "Authorization": `Bearer ${localStorage.getItem("authToken")}`
                 },
                 body: JSON.stringify(payload)
             });

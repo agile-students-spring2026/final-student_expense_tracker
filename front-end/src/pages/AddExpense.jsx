@@ -30,10 +30,10 @@ function AddExpense({ setPendingExpense }) {
         const newExpense = {
             id: Date.now(),
             name: formData.name,
-            amount: formData.amount,
+            amount: Number(formData.amount),
             category: formData.category.trim(),
             details: formData.details,
-            dateAdded: new Date().toLocaleDateString()
+            dateAdded: new Date().toISOString()
         };
 
         setPendingExpense(newExpense);
