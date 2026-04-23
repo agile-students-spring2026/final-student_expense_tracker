@@ -6,6 +6,13 @@ function ConfirmExpense({ pendingExpense, expenses, setExpenses, setPendingExpen
 
     async function handleConfirm() {
         if (!pendingExpense) return;
+        console.log("Sending:", {
+            name: pendingExpense.name,
+            amount: Number(pendingExpense.amount),
+            category: pendingExpense.category,
+            details: pendingExpense.details,
+            dateAdded: pendingExpense.dateAdded
+        })
 
         try {
             const res = await fetch("http://localhost:3000/api/expenses", {
@@ -13,17 +20,28 @@ function ConfirmExpense({ pendingExpense, expenses, setExpenses, setPendingExpen
                 headers: {
                     "Content-Type":"application/json"
                 },
-                body: JSON.stringify(pendingExpense)
-            });
+                body: JSON.stringify({
+                    name: pendingExpense.name,
+                    amount: Number(pendingExpense.amount),
+                    category: pendingExpense.category,
+                    details: pendingExpense.details,
+                    dateAdded: pendingExpense.dateAdded
+            })
+        });
+            console.log("Status:", res.status)
             const savedExpense = await res.json();
-
+            console.log("Response:", savedExpense)
             setExpenses(prev => [...prev, savedExpense]);
             setPendingExpense(null);
             navigate("/expenses/list");
-        } catch (err) {
+        }catch (err) {
             console.log("Failed to save expense:", err);
         }
     }
+
+
+
+
 
     function handleCancel() {
         setPendingExpense(null);

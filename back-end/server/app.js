@@ -1,4 +1,5 @@
 import express from "express";
+import mongoose from "mongoose";
 import cors from "cors";
 import jwt from "jsonwebtoken";
 import { body, validationResult } from "express-validator";
@@ -57,7 +58,7 @@ app.post("/api/expenses", createExpenseValidator, async (req, res) => {
 
     try {
         const newExpense = await Expense.create({
-            userId: "000000000000000000000000",
+            userId: new mongoose.Types.ObjectId("000000000000000000000000"),
             name: req.body.name.trim(),
             amount: req.body.amount,
             category: req.body.category || "",
@@ -67,7 +68,8 @@ app.post("/api/expenses", createExpenseValidator, async (req, res) => {
         //expenses.push(newExpense);
         res.status(201).json(formatExpense(newExpense));
     } catch (err) {
-        res.status(500).json({error: "Could not creare expense"})
+        console.log("Expense create error:", err.message)
+        res.status(500).json({error: "Could not create expense"})
     }
 });
 
