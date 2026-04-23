@@ -13,7 +13,11 @@ import { createExpenseValidator, updateExpenseValidator,
     expenseIdValidator, categoryNameValidator } from "./validators/expenseValidators.js";
 import Expense from "./models/Expense.js";
 
+import Profile from "./models/Profile.js";
+import { updateProfileValidator } from "./validators/profileValidators.js";
+
 const app = express();
+connectDB();
 const DEFAULT_JWT_SECRET = "dev-jwt-secret";
 
 app.use(cors());
@@ -381,23 +385,47 @@ app.get("/api/profile/me", requireAuth, async (req, res) => {
         return res.status(404).json({ error: "User not found." });
     }
 
-    res.status(200).json(sanitizeUser(user));
-});
+    let profile = await Profile.findOne({ userId: user._id });
 
-app.get("/api/profile/:id", requireAuth, async (req, res) => {
-    await ensureAuthDatabase();
-
-    if (req.params.id !== req.user.id) {
-        return res.status(403).json({ error: "Forbidden." });
+    if (!profile) {
+        profile = await Profile.create({
+            userId: user._id,
+            currencyPreference: "USD"
+        });
     }
 
-    const user = await User.findById(req.user.id);
+    res.status(200).json({
+        ...sanitizeUser(user),
+        currencyPreference: profile.currencyPreference
+    });
+});
+
+app.get("/api/profile/:id", async (req, res) => {
+    await ensureAuthDatabase();
+
+    if (!mongoose.Types.ObjectId.isValid(req.params.id)) {
+        return res.status(404).json({ error: "User not found." });
+    }
+
+    const user = await User.findById(req.params.id);
 
     if (!user) {
         return res.status(404).json({ error: "User not found." });
     }
 
-    res.status(200).json(sanitizeUser(user));
+    let profile = await Profile.findOne({ userId: user._id });
+
+    if (!profile) {
+        profile = await Profile.create({
+            userId: user._id,
+            currencyPreference: "USD"
+        });
+    }
+
+    res.status(200).json({
+        ...sanitizeUser(user),
+        currencyPreference: profile.currencyPreference
+    });
 });
 
 app.put("/api/profile/me", requireAuth, profileValidation, async (req, res) => {
@@ -434,17 +462,29 @@ app.put("/api/profile/me", requireAuth, profileValidation, async (req, res) => {
         return res.status(404).json({ error: "User not found." });
     }
 
+    let profile = await Profile.findOne({ userId: user._id });
+
+    if (!profile) {
+        profile = new Profile({
+            userId: user._id,
+            currencyPreference: req.body.currencyPreference || "USD"
+        });
+    } else if (req.body.currencyPreference) {
+        profile.currencyPreference = req.body.currencyPreference;
+    }
+
+    await profile.save();
+
     res.status(200).json({
         message: "Profile updated.",
-        user: sanitizeUser(user)
+        user: {
+            ...sanitizeUser(user),
+            currencyPreference: profile.currencyPreference
+        }
     });
 });
 
-app.put("/api/profile/:id", requireAuth, profileValidation, async (req, res) => {
-    if (req.params.id !== req.user.id) {
-        return res.status(403).json({ error: "Forbidden." });
-    }
-
+app.put("/api/profile/:id", updateProfileValidator, async (req, res) => {
     const validation = validationResult(req);
     if (!validation.isEmpty()) {
         return res.status(400).json({ error: formatValidationError(validation) });
@@ -452,10 +492,14 @@ app.put("/api/profile/:id", requireAuth, profileValidation, async (req, res) => 
 
     await ensureAuthDatabase();
 
+    if (!mongoose.Types.ObjectId.isValid(req.params.id)) {
+        return res.status(404).json({ error: "User not found." });
+    }
+
     const email = normalizeEmail(req.body.email);
     const existingUser = await User.findOne({
         email,
-        _id: { $ne: req.user.id }
+        _id: { $ne: req.params.id }
     });
 
     if (existingUser) {
@@ -463,7 +507,7 @@ app.put("/api/profile/:id", requireAuth, profileValidation, async (req, res) => 
     }
 
     const user = await User.findByIdAndUpdate(
-        req.user.id,
+        req.params.id,
         {
             name: req.body.name.trim(),
             email
@@ -478,9 +522,25 @@ app.put("/api/profile/:id", requireAuth, profileValidation, async (req, res) => 
         return res.status(404).json({ error: "User not found." });
     }
 
+    let profile = await Profile.findOne({ userId: user._id });
+
+    if (!profile) {
+        profile = new Profile({
+            userId: user._id,
+            currencyPreference: req.body.currencyPreference || "USD"
+        });
+    } else if (req.body.currencyPreference) {
+        profile.currencyPreference = req.body.currencyPreference;
+    }
+
+    await profile.save();
+
     res.status(200).json({
         message: "Profile updated.",
-        user: sanitizeUser(user)
+        user: {
+            ...sanitizeUser(user),
+            currencyPreference: profile.currencyPreference
+        }
     });
 });
 
