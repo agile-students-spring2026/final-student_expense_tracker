@@ -21,7 +21,7 @@ import './App.css'
 
 const NO_NAV_PAGES = ["/", "/login", "/signup"]
 
-function AppContent({ expenses, setExpenses, pendingExpense, setPendingExpense, deleteExpense, deleteCategory, budget, setBudget }) {
+function AppContent({ expenses, setExpenses, pendingExpense, setPendingExpense, deleteExpense, deleteCategory, renameCategory, budget, setBudget }) {
   const location = useLocation()
   const showNav = !NO_NAV_PAGES.includes(location.pathname)
 
@@ -39,6 +39,7 @@ function AppContent({ expenses, setExpenses, pendingExpense, setPendingExpense, 
           expenses={expenses}
           deleteExpense={deleteExpense}
           deleteCategory={deleteCategory}
+          renameCategory={renameCategory}
         />} />
         <Route path="/expenses/add" element={<AddExpense setPendingExpense={setPendingExpense} />} />
         <Route path="/expenses/confirm" element={
@@ -95,6 +96,8 @@ function App() {
   }, []);
 
   async function deleteExpense(id) {
+    const confirmed = window.confirm("Delete this expense?")
+    if (!confirmed) return;
     try {
       await fetch(`http://localhost:3000/api/expenses/${id}`, {
         method: "DELETE"
@@ -106,9 +109,39 @@ function App() {
     }
   }
 
+  async function renameCategory(oldCategoryName, newCategoryName) {
+    try { 
+      const res = await fetch(
+        `http://localhost:3000/api/expenses/category/${encodeURIComponent(oldCategoryName)}`,
+        {
+          method:"PUT",
+          headers: {
+            "Content-Type":"application/json"
+          },
+          body: JSON.stringify({newCategoryName})
+        }
+      );
+
+      if (!res.ok) {
+        throw new Error(`Rename faild: ${res.status}`);
+      }
+
+      setExpenses((prev) =>
+        prev.map((expense) =>
+          expense.category === oldCategoryName
+            ? {...expense, category: newCategoryName.trim()}
+            : expense
+        ));
+    } catch(err) {
+      console.error("Failed to rename category:", err);
+    }
+  }
+
   async function deleteCategory(categoryName) {
+    const confirmed = window.confirm(`Delete the ${categoryName} category, and its expenses?`)
+    if (!confirmed) return;
     try {
-      await fetch(`http://localhost:3000/api/categories/${encodeURIComponent(categoryName)}`, {
+      await fetch(`http://localhost:3000/api/expenses/category/${encodeURIComponent(categoryName)}`, {
         method: "DELETE"
       })
       setExpenses((prev) => prev.filter((expense) => expense.category !== categoryName));
@@ -126,6 +159,7 @@ function App() {
         setPendingExpense={setPendingExpense}
         deleteExpense={deleteExpense}
         deleteCategory={deleteCategory}
+        renameCategory={renameCategory}
         budget={budget}
         setBudget={setBudget}
       />

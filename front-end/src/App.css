@@ -427,6 +427,26 @@ a {
   margin-top: 0.8rem;
 }
 
+.expense-category-option-btn {
+  display: inline-block;
+  width: auto;
+  background-color: #11111100;
+  color: #000000;
+  font-family: Arial Black, sans-serif;
+  font-weight:700;
+  -webkit-text-stroke: 1px black;
+  letter-spacing: 4px;
+  border: none;
+  padding: 0.25rem 0.8rem;
+  text-shadow: 1px 0 0 black, -1px 0 0 black;
+  cursor: pointer;
+  text-align: center;
+  font-size: .5rem;
+  border-radius: 4px;
+  margin-left: 12px;
+  margin-top: 0.8rem;
+}
+
 .expense-category-name-row {
   background-color: #d3d3d3;
   padding: 0.6rem 0.9rem;
@@ -483,6 +503,42 @@ a {
   color: #000;
   margin: 0.6rem 1.5rem 0;
   font-size: 0.9rem;
+}
+
+.expense-sort {
+  color:black;
+  display:inline-block;
+  margin-right:.5rem;
+}
+
+.expense-sort-selector {
+  appearance:none;
+  -webkit-appearence:none;
+  background-color: #8dda7858;
+  font-size: 0.9rem;
+  text-align:center;
+  padding:.3rem .5rem;
+  border-radius: 4px;
+  border:solid 0px #8dda78;
+}
+
+.expense-sort-selector:hover {
+  background-color:#7ec56a86;
+}
+
+.expense-sort-selector:focus {
+  outline:none;
+}
+
+.expense-search {
+  color:black;
+  display:inline-block;
+  margin-right:.5rem;
+  margin-left:2rem;
+}
+
+.expense-search-bar {
+  border:solid 2px black;
 }
 
 /* ===== Budget Screens ===== */

@@ -56,9 +56,8 @@ app.get("/api/expenses", async (req, res) => {
 });
 
 app.post("/api/expenses", createExpenseValidator, async (req, res) => {
-    //const error = validateExpense(req.body);
     const errorResponse = validationErrors(req,res);
-    if (errorResponse) return //res.status(400).json({ error });
+    if (errorResponse) return 
 
     try {
         const newExpense = await Expense.create({
@@ -78,17 +77,6 @@ app.post("/api/expenses", createExpenseValidator, async (req, res) => {
 });
 
 app.put("/api/expenses/:id", updateExpenseValidator, async (req, res) => {
-    //const id = Number(req.params.id);
-    //const exists = expenses.find(e => e.id === id);
-    /*if (!exists) return res.status(404).json({ error: "Expense not found." });
-
-    if (req.body.amount !== undefined && isNaN(Number(req.body.amount))) {
-        return res.status(400).json({ error: "Expense amount must be a number." });
-    }
-
-    expenses = expenses.map(e => e.id === id ? { ...e, ...req.body } : e);
-    const updated = expenses.find(e => e.id === id);
-    res.json(updated);*/
 
     const errorResponse = validationErrors(req,res);
     if (errorResponse) return;
@@ -115,9 +103,6 @@ app.put("/api/expenses/:id", updateExpenseValidator, async (req, res) => {
 });
 
 app.delete("/api/expenses/:id", expenseIdValidator, async (req, res) => {
-   /* const id = Number(req.params.id);
-    expenses = expenses.filter(e => e.id !== id);
-    res.json({ message: "Expense deleted" });*/
     const errorResponse = validationErrors(req,res);
     if (errorResponse) return;
 
@@ -133,11 +118,27 @@ app.delete("/api/expenses/:id", expenseIdValidator, async (req, res) => {
     }
 });
 
-app.delete("/api/expenses/category/:categoryName", categoryNameValidator, async (req, res) => {
-    /*const { categoryName } = req.params;
-    expenses = expenses.filter(e => e.category !== categoryName);
-    res.json({ message: "Category deleted" });*/
+app.put("/api/expenses/category/:categoryName", categoryNameValidator, async (req, res) => {
+    const {categoryName} = req.params;
+    const {newCategoryName} = req.body;
 
+    if (!newCategoryName || !newCategoryName.trim()) {
+        return res.status(400).json({error: "New category name is required"});
+    }
+
+    try {
+        await Expense.updateMany(
+            {category:categoryName},
+            {category:newCategoryName.trim()}
+        );
+
+        res.json({message: "Category renamed", newCategoryName: newCategoryName.trim()})
+    } catch(err) {
+        res.status(500).json({error: "Could not rename category"})
+    }
+});
+
+app.delete("/api/expenses/category/:categoryName", categoryNameValidator, async (req, res) => {
     const errorResponse = validationErrors(req,res);
     if (errorResponse) return;
 
