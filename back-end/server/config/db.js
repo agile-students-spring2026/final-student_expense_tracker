@@ -19,7 +19,7 @@ export async function connectDB() {
         console.log("MongoDB connected!");
         return mongoose.connection;
     } catch (err) {
-        console.error("MongoDB could not connect: ", err.message);
-        process.exit(1);
+        console.error("MongoDB could not connect:", err.message);
+        throw new Error("Database connection failed.");
     }
 }

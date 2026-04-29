@@ -17,7 +17,6 @@ import Profile from "./models/Profile.js";
 import { updateProfileValidator } from "./validators/profileValidators.js";
 
 const app = express();
-connectDB();
 const DEFAULT_JWT_SECRET = "dev-jwt-secret";
 
 app.use(cors());
@@ -194,6 +193,12 @@ async function ensureAuthDatabase() {
     await connectDB();
 }
 
+function databaseUnavailable(res) {
+    return res.status(503).json({
+        error: "Database unavailable. Check MongoDB connection settings and try again."
+    });
+}
+
 const signupValidation = [
     body("name").trim().notEmpty().withMessage("All fields are required."),
     body("email").trim().notEmpty().withMessage("All fields are required."),
@@ -317,32 +322,37 @@ app.post("/api/signup", signupValidation, async (req, res) => {
         return res.status(400).json({ error: formatValidationError(validation) });
     }
 
-    await ensureAuthDatabase();
+    try {
+        await ensureAuthDatabase();
 
-    const name = req.body.name.trim();
-    const email = normalizeEmail(req.body.email);
+        const name = req.body.name.trim();
+        const email = normalizeEmail(req.body.email);
 
-    const existingUser = await User.findOne({ email });
-    if (existingUser) {
-        return res.status(400).json({ error: "User already exists." });
+        const existingUser = await User.findOne({ email });
+        if (existingUser) {
+            return res.status(400).json({ error: "User already exists." });
+        }
+
+        const newUser = await User.create({
+            name,
+            email,
+            password: hashPassword(req.body.password)
+        });
+
+        const token = createAuthToken(newUser);
+        const safeUser = sanitizeUser(newUser);
+
+        res.status(201).json({
+            message: "User created.",
+            userId: safeUser.id,
+            name: safeUser.name,
+            token,
+            user: safeUser
+        });
+    } catch (err) {
+        console.error("Signup error:", err.message);
+        return databaseUnavailable(res);
     }
-
-    const newUser = await User.create({
-        name,
-        email,
-        password: hashPassword(req.body.password)
-    });
-
-    const token = createAuthToken(newUser);
-    const safeUser = sanitizeUser(newUser);
-
-    res.status(201).json({
-        message: "User created.",
-        userId: safeUser.id,
-        name: safeUser.name,
-        token,
-        user: safeUser
-    });
 });
 
 app.post("/api/login", loginValidation, async (req, res) => {
@@ -351,25 +361,30 @@ app.post("/api/login", loginValidation, async (req, res) => {
         return res.status(400).json({ error: formatValidationError(validation) });
     }
 
-    await ensureAuthDatabase();
+    try {
+        await ensureAuthDatabase();
 
-    const email = normalizeEmail(req.body.email);
-    const user = await User.findOne({ email });
+        const email = normalizeEmail(req.body.email);
+        const user = await User.findOne({ email });
 
-    if (!user || !verifyPassword(req.body.password, user.password)) {
-        return res.status(401).json({ error: "Invalid credentials." });
+        if (!user || !verifyPassword(req.body.password, user.password)) {
+            return res.status(401).json({ error: "Invalid credentials." });
+        }
+
+        const token = createAuthToken(user);
+        const safeUser = sanitizeUser(user);
+
+        res.status(200).json({
+            message: "Login successful.",
+            userId: safeUser.id,
+            name: safeUser.name,
+            token,
+            user: safeUser
+        });
+    } catch (err) {
+        console.error("Login error:", err.message);
+        return databaseUnavailable(res);
     }
-
-    const token = createAuthToken(user);
-    const safeUser = sanitizeUser(user);
-
-    res.status(200).json({
-        message: "Login successful.",
-        userId: safeUser.id,
-        name: safeUser.name,
-        token,
-        user: safeUser
-    });
 });
 
 
