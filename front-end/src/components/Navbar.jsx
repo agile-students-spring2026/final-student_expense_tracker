@@ -1,31 +1,30 @@
-import { useState } from 'react'
-import { NavLink, useNavigate } from "react-router-dom"
+import { NavLink } from "react-router-dom"
 
-function Navbar() {
-    const [menuOpen, setMenuOpen] = useState(false);
-    const navigate = useNavigate();
+function Navbar({ sidebarOpen, setSidebarOpen }) {
     const navClass = ({ isActive }) => `navitem${isActive ? " active" : ""}`;
 
-    function handleLogout() {
-        localStorage.clear();
-        sessionStorage.clear();
-        setMenuOpen(false);
-        navigate('/');
-    }
-
     return (
-        <nav>
-            <button onClick={() => {setMenuOpen(!menuOpen)}}>☰</button>
+        <>
+            <button
+                className="sidebar-toggle"
+                type="button"
+                aria-label="Toggle sidebar navigation"
+                aria-expanded={sidebarOpen}
+                onClick={() => setSidebarOpen((open) => !open)}
+            >
+                ☰
+            </button>
 
-            { menuOpen &&(
+            <nav className={`app-sidebar ${sidebarOpen ? "open" : "closed"}`}>
                 <div>
                     <span><NavLink to="/home" className={navClass}>Home</NavLink></span>
                     <span><NavLink to="/expenses" className={navClass}>Expenses</NavLink></span>
                     <span><NavLink to="/budget" className={navClass}>Budget</NavLink></span>
                     <span><NavLink to="/profile" className={navClass}>Profile</NavLink></span>
                     <span><NavLink to="/policies" className={navClass}>Policies</NavLink></span>
-                </div>)}
-        </nav>
+                </div>
+            </nav>
+        </>
     )
 }
 

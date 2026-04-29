@@ -25,40 +25,43 @@ const NO_NAV_PAGES = ["/", "/login", "/signup"]
 function AppContent({ expenses, setExpenses, pendingExpense, setPendingExpense, deleteExpense, deleteCategory, renameCategory, budget, setBudget }) {
   const location = useLocation()
   const showNav = !NO_NAV_PAGES.includes(location.pathname)
+  const [sidebarOpen, setSidebarOpen] = useState(() => window.innerWidth >= 768)
 
   return (
     <>
-      {showNav && <Navbar />}
+      {showNav && <Navbar sidebarOpen={sidebarOpen} setSidebarOpen={setSidebarOpen} />}
       {showNav && <Logo />}
-      <Routes>
-        <Route path="/" element={<Landing />} />
-        <Route path="/signup" element={<Signup />} />
-        <Route path="/login" element={<Login />} />
-        <Route path="/home" element={<Home expenses={expenses} budget={budget} />} />
-        <Route path="/expenses" element={<ExpenseTracking expenses={expenses} />} />
-        <Route path="/budget/split" element={<CustomizeSplit budget={budget} setBudget={setBudget} />} />
-        <Route path="/expenses/list" element={<ExpenseList
-          expenses={expenses}
-          deleteExpense={deleteExpense}
-          deleteCategory={deleteCategory}
-          renameCategory={renameCategory}
-        />} />
-        <Route path="/expenses/add" element={<AddExpense setPendingExpense={setPendingExpense} />} />
-        <Route path="/expenses/confirm" element={
-          <ConfirmExpense
-            pendingExpense={pendingExpense}
+      <main className={showNav ? `app-content ${sidebarOpen ? "sidebar-open" : "sidebar-closed"}` : undefined}>
+        <Routes>
+          <Route path="/" element={<Landing />} />
+          <Route path="/signup" element={<Signup />} />
+          <Route path="/login" element={<Login />} />
+          <Route path="/home" element={<Home expenses={expenses} budget={budget} />} />
+          <Route path="/expenses" element={<ExpenseTracking expenses={expenses} />} />
+          <Route path="/budget/split" element={<CustomizeSplit budget={budget} setBudget={setBudget} />} />
+          <Route path="/expenses/list" element={<ExpenseList
             expenses={expenses}
-            setExpenses={setExpenses}
-            setPendingExpense={setPendingExpense}
+            deleteExpense={deleteExpense}
+            deleteCategory={deleteCategory}
+            renameCategory={renameCategory}
           />} />
-        <Route path="/expenses/info/:id" element={<ExpenseInfo expenses={expenses} setExpenses={setExpenses} />} />
-        <Route path="/budget" element={<Budget budget={budget} expenses={expenses} />} />
-        <Route path="/budget/create" element={<CreateBudget key={JSON.stringify(budget)} budget={budget} setBudget={setBudget} />} />
-        <Route path="/budget/report" element={<BudgetReport budget={budget} expenses={expenses} />} />
-        <Route path="/profile" element={<Profile />} />
-        <Route path="/profile/edit" element={<EditProfile />} />
-        <Route path="/policies" element={<Policies />} />
-      </Routes>
+          <Route path="/expenses/add" element={<AddExpense setPendingExpense={setPendingExpense} />} />
+          <Route path="/expenses/confirm" element={
+            <ConfirmExpense
+              pendingExpense={pendingExpense}
+              expenses={expenses}
+              setExpenses={setExpenses}
+              setPendingExpense={setPendingExpense}
+            />} />
+          <Route path="/expenses/info/:id" element={<ExpenseInfo expenses={expenses} setExpenses={setExpenses} />} />
+          <Route path="/budget" element={<Budget budget={budget} expenses={expenses} />} />
+          <Route path="/budget/create" element={<CreateBudget key={JSON.stringify(budget)} budget={budget} setBudget={setBudget} />} />
+          <Route path="/budget/report" element={<BudgetReport budget={budget} expenses={expenses} />} />
+          <Route path="/profile" element={<Profile />} />
+          <Route path="/profile/edit" element={<EditProfile />} />
+          <Route path="/policies" element={<Policies />} />
+        </Routes>
+      </main>
     </>
   )
 }
