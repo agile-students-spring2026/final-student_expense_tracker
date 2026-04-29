@@ -1,4 +1,36 @@
+import {useRef} from "react"
+import jsPDF from "jspdf";
+import html2canvas from "html2canvas"
+
+
 function BudgetReport({ budget, expenses }) {
+    const reportRef = useRef(null);
+
+    async function handleDownloadPDF() {
+        const element = reportRef.current;
+        if (!element) return;
+        const canvas = await html2canvas(element, {
+            scale:2
+        });
+        const imgData = canvas.toDataURL("image/png");
+        const pdf = new jsPDF("p","mm","a4");
+        const pdfWidth = pdf.internal.pageSize.getWidth();
+        const pdfHeight = pdf.internal.pageSize.getHeight();
+        const imgHeight = (canvas.height * pdfWidth) / canvas.width;
+        let heightLeft = imgHeight;
+        let pos = 0;
+        pdf.addImage(imgData, "PNG", 0, pos, pdfWidth, imgHeight);
+        heightLeft -= pdfHeight;
+
+        while (heightLeft > 0) {
+            pos -= pdfHeight;
+            pdf.addPage();
+            pdf.addImage(imgData, "PNG", 0, pos, pdfWidth, imgHeight);
+            heightLeft -= pdfHeight;
+        }
+        pdf.save("budget-report.pdf")
+    }
+
     const { incomeSources, fixedExpenses } = budget;
 
     const categoryTotals = Object.entries(
@@ -25,6 +57,8 @@ function BudgetReport({ budget, expenses }) {
 
     return (
         <div className="land-page">
+            <button className="budget-export" onClick={handleDownloadPDF}>Download PDF</button>
+            <div ref={reportRef}>
             <h2>Budget Report</h2>
 
             <div className="land-section-label">Income</div>
@@ -91,6 +125,7 @@ function BudgetReport({ budget, expenses }) {
                 <p className="land-budget-total">Net Balance: ${netBalance.toFixed(2)}</p>
                 <p className="land-budget-total">Highest Fixed Expense: {highestFixed ? highestFixed.name : ""}</p>
                 <p className="land-budget-total">Highest Category Expense: {highestCategory ? highestCategory[0] : ""}</p>
+            </div>
             </div>
         </div>
     )
