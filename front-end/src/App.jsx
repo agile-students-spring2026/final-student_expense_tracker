@@ -27,6 +27,18 @@ function AppContent({ expenses, setExpenses, pendingExpense, setPendingExpense, 
   const showNav = !NO_NAV_PAGES.includes(location.pathname)
   const [sidebarOpen, setSidebarOpen] = useState(() => window.innerWidth >= 768)
 
+  useEffect(() => {
+    function handleResize() {
+      if (window.innerWidth <= 768) {
+        setSidebarOpen(false)
+      }
+    }
+
+    handleResize()
+    window.addEventListener("resize", handleResize)
+    return () => window.removeEventListener("resize", handleResize)
+  }, [])
+
   return (
     <>
       {showNav && <Navbar sidebarOpen={sidebarOpen} setSidebarOpen={setSidebarOpen} />}
