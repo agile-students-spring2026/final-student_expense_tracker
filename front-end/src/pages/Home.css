@@ -2,7 +2,9 @@
     text-align: center;
     color: #aaa;
     font-size: 14px;
-    margin-bottom: 1.5rem;
+    margin: 0 auto 1.5rem;
+    padding: 0 1rem;
+    max-width: 520px;
 }
 
 /* Dashboard box */
@@ -11,7 +13,9 @@
     border: 1px solid #ede9e0;
     border-radius: 16px;
     padding: 1.5rem;
-    margin: 0 1rem 1rem;
+    width: min(100% - 2rem, 920px);
+    margin: 0 auto 1rem;
+    overflow: hidden;
 }
 
 .home-divider {
@@ -27,6 +31,7 @@
     border-radius: 12px;
     overflow: hidden;
     margin-bottom: 1.5rem;
+    min-width: 0;
 }
 
 .home-stat {
@@ -34,6 +39,7 @@
     padding: 1rem;
     text-align: center;
     border-right: 1px solid #ede9e0;
+    min-width: 0;
 }
 
 .home-stat:last-child {
@@ -70,7 +76,7 @@
 /* Two column layout */
 .home-two-col {
     display: grid;
-    grid-template-columns: 1fr 1fr;
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
     gap: 1.5rem;
     margin-bottom: 1.25rem;
 }
@@ -98,6 +104,7 @@
 
 .home-bar-track {
     flex: 1;
+    min-width: 0;
     background: #f5f2eb;
     border-radius: 6px;
     height: 20px;
@@ -129,6 +136,7 @@
     display: flex;
     justify-content: space-between;
     align-items: center;
+    gap: 1rem;
     padding: 7px 0;
     border-bottom: 1px solid #f5f2eb;
 }
@@ -141,6 +149,7 @@
     font-size: 13px;
     font-weight: 500;
     color: #111;
+    overflow-wrap: anywhere;
 }
 
 .home-recent-cat {
@@ -189,6 +198,7 @@
 
 .home-donut-info {
     flex: 1;
+    min-width: 0;
 }
 
 .home-donut-title {
@@ -227,15 +237,36 @@
 }
 
 /* 50/30/20 split */
+.home-split-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 1rem;
+    margin-bottom: 1rem;
+}
+
+.home-split-header .feat-label {
+    margin-bottom: 0;
+}
+
+.home-split-more {
+    color: #aaa;
+    flex: 0 0 auto;
+    font-size: 20px;
+    line-height: 1;
+    text-decoration: none;
+}
+
 .home-split-grid {
     display: grid;
-    grid-template-columns: repeat(3, 1fr);
+    grid-template-columns: repeat(3, minmax(0, 1fr));
     gap: 6px;
 }
 
 .home-split-block {
     border-radius: 10px;
     padding: 0.6rem;
+    min-width: 0;
 }
 
 .home-split-needs { background: #f0faf4; border: 1.5px solid #c3e8d4; }
@@ -288,4 +319,157 @@
 .home-add-btn {
     font-size: 15px;
     padding: 13px 32px;
+    max-width: calc(100vw - 2rem);
+    text-align: center;
+}
+
+@media (max-width: 900px) {
+    .home-dashboard {
+        width: min(100% - 1.5rem, 760px);
+        padding: 1.25rem;
+    }
+
+    .home-two-col {
+        gap: 1.1rem;
+    }
+
+    .home-bar-label {
+        width: 62px;
+    }
+
+    .home-donut-row {
+        gap: 1rem;
+    }
+
+    .home-split-grid {
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+        padding-bottom: 2px;
+    }
+}
+
+@media (max-width: 700px) {
+    .home-sub {
+        font-size: 13px;
+        margin-bottom: 1rem;
+    }
+
+    .home-dashboard {
+        width: min(100% - 1rem, 560px);
+        border-radius: 14px;
+        padding: 1rem;
+    }
+
+    .home-divider {
+        margin: 1rem 0;
+    }
+
+    .home-two-col {
+        grid-template-columns: 1fr;
+        gap: 1.25rem;
+    }
+
+    .home-split-grid {
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+        overflow-x: visible;
+    }
+}
+
+@media (max-width: 520px) {
+    .home-dashboard {
+        width: calc(100% - 0.75rem);
+        padding: 0.85rem;
+    }
+
+    .home-stats {
+        flex-direction: column;
+    }
+
+    .home-stat {
+        border-right: none;
+        border-bottom: 1px solid #ede9e0;
+        padding: 0.9rem;
+    }
+
+    .home-stat:last-child {
+        border-bottom: none;
+    }
+
+    .home-stat-num {
+        font-size: 1.45rem;
+    }
+
+    .home-bar-row {
+        display: grid;
+        grid-template-columns: minmax(64px, 0.42fr) minmax(0, 1fr) auto;
+        gap: 8px;
+    }
+
+    .home-bar-label {
+        width: auto;
+        text-align: left;
+        overflow-wrap: anywhere;
+    }
+
+    .home-bar-amt {
+        width: auto;
+        min-width: 38px;
+    }
+
+    .home-recent-item {
+        align-items: flex-start;
+    }
+
+    .home-donut-row {
+        flex-direction: column;
+        align-items: center;
+        text-align: center;
+    }
+
+    .home-legend {
+        align-items: center;
+    }
+
+    .home-split-header {
+        align-items: flex-start;
+    }
+
+    .home-split-grid {
+        grid-template-columns: 1fr;
+        gap: 8px;
+    }
+
+    .home-split-block {
+        display: grid;
+        grid-template-columns: auto 1fr auto;
+        align-items: center;
+        column-gap: 0.75rem;
+        padding: 0.75rem;
+        text-align: left;
+    }
+
+    .home-split-pill {
+        margin-bottom: 0;
+    }
+
+    .home-split-pct {
+        font-size: 1.1rem;
+    }
+
+    .home-split-name {
+        margin-top: 0;
+    }
+
+    .home-split-amt {
+        grid-column: 2 / 4;
+        margin-top: 2px;
+    }
+
+    .home-add-wrap {
+        padding: 0 1rem 2rem;
+    }
+
+    .home-add-btn {
+        width: 100%;
+        padding: 12px 18px;
+    }
 }

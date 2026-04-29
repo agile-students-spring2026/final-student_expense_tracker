@@ -3,6 +3,12 @@
   margin:0;
 }
 
+html,
+body {
+  max-width: 100%;
+  overflow-x: hidden;
+}
+
 h2 {
   margin-top:2rem;
   color:#111;
@@ -27,7 +33,7 @@ nav {
   top:0;
   left:0;
   background-color:#c8cdd2;
-  width:10%;
+  width:clamp(78px, 10vw, 116px);
   padding: 0.5rem;
   z-index:100;
   border-bottom-right-radius: 10px;
@@ -883,6 +889,8 @@ a {
   min-height: 100vh;
   font-family: system-ui, 'Segoe UI', Roboto, sans-serif;
   padding-bottom: 5rem;
+  width: 100%;
+  overflow-x: clip;
 }
 
 .land-page h2 {
@@ -892,6 +900,49 @@ a {
   color: #111;
   padding: 2rem 1rem 0.5rem;
   margin-top: 0;
+}
+
+@media (max-width: 700px) {
+  nav {
+    position: sticky;
+    top: 0;
+    width: 100%;
+    min-height: 48px;
+    padding-right: 5.5rem;
+    border-bottom-right-radius: 0;
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+  }
+
+  nav button {
+    flex: 0 0 auto;
+    font-size: 22px;
+    line-height: 1;
+  }
+
+  nav div {
+    flex: 1;
+    flex-direction: row;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 0.35rem 0.75rem;
+    margin-top: 0;
+  }
+
+  nav span {
+    line-height: 1;
+  }
+
+  .navitem {
+    border-bottom-width: 2px;
+    font-size: 0.9rem;
+  }
+
+  .land-page h2 {
+    padding-top: 1.25rem;
+    font-size: 1.55rem;
+  }
 }
 
 .land-section-label {

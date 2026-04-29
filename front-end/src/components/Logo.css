@@ -20,3 +20,14 @@
 .logo-wordmark:hover {
     opacity: 0.8;
 }
+
+@media (max-width: 700px) {
+    .logo-corner {
+        top: 0.75rem;
+        right: 1rem;
+    }
+
+    .logo-wordmark {
+        font-size: 1.1rem;
+    }
+}
