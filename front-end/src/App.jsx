@@ -9,6 +9,7 @@ import EditProfile from "./pages/EditProfile.jsx"
 import ExpenseInfo from "./pages/ExpenseInfo.jsx"
 import ExpenseList from "./pages/ExpenseList.jsx"
 import ExpenseTracking from "./pages/ExpenseTracking.jsx"
+import CustomizeSplit from "./pages/CustomizeSplit.jsx"
 import Home from "./pages/Home.jsx"
 import Landing from "./pages/Landing.jsx"
 import Login from "./pages/Login.jsx"
@@ -35,6 +36,7 @@ function AppContent({ expenses, setExpenses, pendingExpense, setPendingExpense, 
         <Route path="/login" element={<Login />} />
         <Route path="/home" element={<Home expenses={expenses} budget={budget} />} />
         <Route path="/expenses" element={<ExpenseTracking expenses={expenses} />} />
+        <Route path="/budget/split" element={<CustomizeSplit budget={budget} setBudget={setBudget} />} />
         <Route path="/expenses/list" element={<ExpenseList
           expenses={expenses}
           deleteExpense={deleteExpense}

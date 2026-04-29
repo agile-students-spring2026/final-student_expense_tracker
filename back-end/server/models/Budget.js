@@ -24,6 +24,12 @@ const fixedExpenseSchema = new mongoose.Schema({
     }
 }, { _id: false });
 
+const splitSchema = new mongoose.Schema({
+    needs: { type: Number, default: 50, min: 0, max: 100 },
+    wants: { type: Number, default: 30, min: 0, max: 100 },
+    savings: { type: Number, default: 20, min: 0, max: 100 }
+}, { _id: false });
+
 const budgetSchema = new mongoose.Schema(
     {
         userId: {
@@ -44,6 +50,10 @@ const budgetSchema = new mongoose.Schema(
             type: String,
             enum: ["Monthly", "Weekly", "Yearly"],
             default: "Monthly"
+        },
+        split: {
+            type: splitSchema,
+            default: () => ({ needs: 50, wants: 30, savings: 20 })
         }
     },
     {
