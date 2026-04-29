@@ -22,6 +22,11 @@ function Home({ expenses = [], budget = { incomeSources: [], fixedExpenses: [] }
     // ===== Recent expenses =====
     const recentExpenses = [...expenses].reverse().slice(0, 3)
 
+    // ===== Split (user customizable) — must come before budget calculations =====
+    const needsPct = budget?.split?.needs ?? 50
+    const wantsPct = budget?.split?.wants ?? 30
+    const savingsPct = budget?.split?.savings ?? 20
+
     // ===== Budget calculations =====
     const periodMultiplier =
         budget?.period === "Weekly" ? 4.33 :
@@ -29,16 +34,16 @@ function Home({ expenses = [], budget = { incomeSources: [], fixedExpenses: [] }
 
     const totalIncome = (budget?.incomeSources || []).reduce((sum, b) => sum + Number(b.amount || 0), 0) * periodMultiplier
     const totalFixed = (budget?.fixedExpenses || []).reduce((sum, b) => sum + Number(b.amount || 0), 0) * periodMultiplier
-    const spendableBudget = totalIncome - totalFixed
+    const savingsAmount = totalIncome * (savingsPct / 100)
+    const spendableBudget = totalIncome - totalFixed - savingsAmount
     const percentSpent = spendableBudget > 0 ? Math.min((totalSpent / spendableBudget) * 100, 100) : 0
     const circumference = 339.3
     const offset = circumference - (percentSpent / 100) * circumference
     const donutColor = percentSpent >= 90 ? "#e05454" : "#3db87a"
 
-    // ===== 50/30/20 split =====
-    const needs = totalIncome * 0.5
-    const wants = totalIncome * 0.3
-    const savings = totalIncome * 0.2
+    const needs = totalIncome * (needsPct / 100)
+    const wants = totalIncome * (wantsPct / 100)
+    const savings = totalIncome * (savingsPct / 100)
 
     return (
         <div className="land-page">
@@ -125,6 +130,9 @@ function Home({ expenses = [], budget = { incomeSources: [], fixedExpenses: [] }
                                     <div className="home-donut-info">
                                         <div className="home-donut-title">${totalSpent.toFixed(0)} spent</div>
                                         <div className="home-donut-sub">of ${spendableBudget.toFixed(0)} spendable this month</div>
+                                        <div className="home-donut-sub" style={{ fontSize: "10px", color: "#bbb", marginTop: "2px" }}>
+                                            savings (${savingsAmount.toFixed(0)}) already set aside
+                                        </div>
                                         <div className="home-legend">
                                             <span><span className="home-dot" style={{ background: donutColor }}></span>Spent ${totalSpent.toFixed(0)}</span>
                                             <span><span className="home-dot home-dot-empty"></span>Left ${Math.max(spendableBudget - totalSpent, 0).toFixed(0)}</span>
@@ -134,23 +142,26 @@ function Home({ expenses = [], budget = { incomeSources: [], fixedExpenses: [] }
                             </div>
 
                             <div>
-                                <p className="feat-label">RECOMMENDED SPLIT — 50 / 30 / 20</p>
+                                <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: "1rem" }}>
+                                    <p className="feat-label" style={{ marginBottom: 0 }}>YOUR SPLIT — {needsPct} / {wantsPct} / {savingsPct}</p>
+                                    <Link to="/budget/split" style={{ fontSize: "20px", color: "#aaa", textDecoration: "none", lineHeight: 1 }}>⋯</Link>
+                                </div>
                                 <div className="home-split-grid">
                                     <div className="home-split-block home-split-needs">
                                         <div className="home-split-pill home-split-pill-needs">NEEDS</div>
-                                        <div className="home-split-pct home-split-pct-needs">50%</div>
+                                        <div className="home-split-pct home-split-pct-needs">{needsPct}%</div>
                                         <div className="home-split-name">Fixed costs</div>
                                         <div className="home-split-amt">${needs.toFixed(0)}</div>
                                     </div>
                                     <div className="home-split-block home-split-wants">
                                         <div className="home-split-pill home-split-pill-wants">WANTS</div>
-                                        <div className="home-split-pct home-split-pct-wants">30%</div>
+                                        <div className="home-split-pct home-split-pct-wants">{wantsPct}%</div>
                                         <div className="home-split-name">Spending</div>
                                         <div className="home-split-amt">${wants.toFixed(0)}</div>
                                     </div>
                                     <div className="home-split-block home-split-savings">
                                         <div className="home-split-pill home-split-pill-savings">SAVINGS</div>
-                                        <div className="home-split-pct home-split-pct-savings">20%</div>
+                                        <div className="home-split-pct home-split-pct-savings">{savingsPct}%</div>
                                         <div className="home-split-name">Save it</div>
                                         <div className="home-split-amt">${savings.toFixed(0)}</div>
                                     </div>
