@@ -5,8 +5,11 @@
 
 html,
 body {
+  background: var(--cream, #faf7f0);
+  min-height: 100vh;
   max-width: 100%;
   overflow-x: hidden;
+  width: 100%;
 }
 
 h2 {
@@ -32,42 +35,105 @@ nav {
   position:fixed;
   top:0;
   left:0;
-  background-color:#c8cdd2;
-  width:clamp(78px, 10vw, 116px);
-  padding: 0.5rem;
+  background: #f2eee5;
+  width:clamp(96px, 11vw, 144px);
+  min-height: 100vh;
+  padding: 0.9rem 0.75rem;
   z-index:100;
-  border-bottom-right-radius: 10px;
+  border-right: 1px solid rgba(15,20,16,0.08);
+  border-bottom-right-radius: 0;
+  font-family: var(--sans);
 }
 
 nav button {
-  font-size: 24px;
+  color: var(--ink-soft);
+  font-size: 20px;
   background: none;
   border: none;
   cursor: pointer;
+  line-height: 1;
+  padding: 0.35rem;
 }
 
 nav div {
   display: flex;
   flex-direction: column;
-  gap: 0.5rem;
-  margin-top: 8px;
+  gap: 0.35rem;
+  margin-top: 1rem;
 }
 
 .navitem {
   text-decoration:none;
-  color:#2C3E50;
-  font-weight:bold;
-  border-bottom:solid 4px rgba(0, 0, 0, 0.491);
+  color: var(--ink-soft);
+  font-size: 14px;
+  font-weight:500;
+  border-bottom:none;
+  border-radius: 999px;
+  display: block;
+  padding: 0.45rem 0.65rem;
+  text-align: left;
 }
 
 .navitem:hover {
-  color:#364f69;
-  background-color: #b3b0b099;
-  border-bottom:solid 4px rgb(0, 0, 0);
+  color: var(--ink);
+  background: rgba(15, 20, 16, 0.04);
+  border-bottom:none;
+}
+
+.navitem.active {
+  color: var(--green-deep);
+  background: var(--green-soft);
 }
 
 a {
   text-decoration:none;
+}
+
+a {
+  color: var(--green-deep);
+}
+
+.btn-green,
+.land-page .btn-green {
+  background: var(--green-deep);
+  color: #fff;
+  border: 1px solid var(--green-deep);
+  border-radius: 9px;
+  padding: 12px 26px;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  font-family: var(--sans);
+  text-decoration: none;
+  display: inline-block;
+}
+
+.btn-green:hover,
+.land-page .btn-green:hover {
+  background: #117b3a;
+  border-color: #117b3a;
+  color: #fff;
+}
+
+.btn-plain,
+.land-page .btn-plain {
+  background: transparent;
+  color: var(--green-deep);
+  border: 1px solid rgba(22, 146, 70, 0.24);
+  border-radius: 9px;
+  padding: 11px 26px;
+  font-size: 14px;
+  font-weight: 500;
+  cursor: pointer;
+  font-family: var(--sans);
+  text-decoration: none;
+  display: inline-block;
+}
+
+.btn-plain:hover,
+.land-page .btn-plain:hover {
+  background: var(--green-soft);
+  color: var(--green-deep);
 }
 
 
@@ -725,7 +791,7 @@ a {
   max-width: 800px;
   margin: 0 auto;
   color: #000;
-  background: #fffef9;
+  background: var(--cream, #faf7f0);
 }
 
 .policies-title {
@@ -773,7 +839,7 @@ a {
     max-width: 400px;
     margin: 0 auto;
     color: #000;
-    background: #fffef9;
+    background: var(--cream, #faf7f0);
     font-size:1.4rem;
 }
 
@@ -885,9 +951,9 @@ a {
 /* ===== Landing-style shared UI ===== */
 
 .land-page {
-  background: #fffef9;
+  background: var(--cream, #faf7f0);
   min-height: 100vh;
-  font-family: system-ui, 'Segoe UI', Roboto, sans-serif;
+  font-family: var(--sans);
   padding-bottom: 5rem;
   width: 100%;
   overflow-x: clip;
@@ -935,8 +1001,8 @@ a {
   }
 
   .navitem {
-    border-bottom-width: 2px;
     font-size: 0.9rem;
+    text-align: center;
   }
 
   .land-page h2 {

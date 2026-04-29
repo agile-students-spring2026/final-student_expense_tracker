@@ -1,11 +1,11 @@
 .auth-page {
-    background: #fffef9;
+    background: var(--cream, #faf7f0);
     min-height: 100vh;
     display: flex;
     align-items: center;
     justify-content: center;
     padding: 3rem 2rem;
-    font-family: system-ui, 'Segoe UI', Roboto, sans-serif;
+    font-family: var(--sans);
 }
 .auth-card {
     background: #fff;

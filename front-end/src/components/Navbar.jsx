@@ -1,9 +1,10 @@
 import { useState } from 'react'
-import { Link, useNavigate } from "react-router-dom"
+import { NavLink, useNavigate } from "react-router-dom"
 
 function Navbar() {
     const [menuOpen, setMenuOpen] = useState(false);
     const navigate = useNavigate();
+    const navClass = ({ isActive }) => `navitem${isActive ? " active" : ""}`;
 
     function handleLogout() {
         localStorage.clear();
@@ -18,11 +19,11 @@ function Navbar() {
 
             { menuOpen &&(
                 <div>
-                    <span><Link to="/home" className="navitem">Home</Link></span>
-                    <span><Link to="/expenses" className="navitem">Expenses</Link></span>
-                    <span><Link to="/budget" className="navitem">Budget</Link></span>
-                    <span><Link to="/profile" className="navitem">Profile</Link></span>
-                    <span><Link to="/policies" className="navitem">Policies</Link></span>
+                    <span><NavLink to="/home" className={navClass}>Home</NavLink></span>
+                    <span><NavLink to="/expenses" className={navClass}>Expenses</NavLink></span>
+                    <span><NavLink to="/budget" className={navClass}>Budget</NavLink></span>
+                    <span><NavLink to="/profile" className={navClass}>Profile</NavLink></span>
+                    <span><NavLink to="/policies" className={navClass}>Policies</NavLink></span>
                 </div>)}
         </nav>
     )

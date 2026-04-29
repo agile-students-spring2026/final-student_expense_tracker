@@ -10,7 +10,7 @@
 /* Dashboard box */
 .home-dashboard {
     background: #fff;
-    border: 1px solid #ede9e0;
+    border: 1px solid rgba(15,20,16,0.08);
     border-radius: 16px;
     padding: 1.5rem;
     width: min(100% - 2rem, 920px);
@@ -27,8 +27,8 @@
 /* Stats */
 .home-stats {
     display: flex;
-    border: 1px solid #ede9e0;
-    border-radius: 12px;
+    border: 1px solid rgba(15,20,16,0.08);
+    border-radius: 16px;
     overflow: hidden;
     margin-bottom: 1.5rem;
     min-width: 0;
@@ -38,7 +38,7 @@
     flex: 1;
     padding: 1rem;
     text-align: center;
-    border-right: 1px solid #ede9e0;
+    border-right: 1px solid rgba(15,20,16,0.08);
     min-width: 0;
 }
 
@@ -160,7 +160,7 @@
 .home-recent-amt {
     font-size: 13px;
     font-weight: 600;
-    color: #e05454;
+    color: #c4423a;
 }
 
 /* Donut */
@@ -355,7 +355,7 @@
 
     .home-dashboard {
         width: min(100% - 1rem, 560px);
-        border-radius: 14px;
+        border-radius: 16px;
         padding: 1rem;
     }
 
@@ -386,7 +386,7 @@
 
     .home-stat {
         border-right: none;
-        border-bottom: 1px solid #ede9e0;
+        border-bottom: 1px solid rgba(15,20,16,0.08);
         padding: 0.9rem;
     }
 
