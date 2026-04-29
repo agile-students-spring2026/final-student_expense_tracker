@@ -2,7 +2,7 @@ import { useState } from 'react'
 import { Link } from "react-router-dom"
 import Category from "./Category"
 
-function CategoryExpenseTable({expenses, deleteExpense, deleteCategory}) {
+function CategoryExpenseTable({expenses, deleteExpense, deleteCategory, renameCategory}) {
     const groupedExpenses = expenses.reduce((groups, expense) => {
         const category = expense.category || "none";
 
@@ -23,6 +23,7 @@ function CategoryExpenseTable({expenses, deleteExpense, deleteCategory}) {
                     expenses={categoryExpenses}
                     deleteExpense={deleteExpense}
                     deleteCategory={deleteCategory}
+                    renameCategory={renameCategory}
                 />
             ))}
         </div>

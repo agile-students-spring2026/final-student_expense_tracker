@@ -9,7 +9,7 @@ import { requireAuth } from "./middleware/auth.js";
 import { connectDB } from "./config/db.js";
 import { hashPassword, verifyPassword } from "./utils/password.js";
 
-import { createExpenseValidator, updateExpenseValidator, 
+import { createExpenseValidator, updateExpenseValidator,
     expenseIdValidator, categoryNameValidator } from "./validators/expenseValidators.js";
 import Expense from "./models/Expense.js";
 
@@ -21,8 +21,6 @@ const DEFAULT_JWT_SECRET = "dev-jwt-secret";
 
 app.use(cors());
 app.use(express.json());
-
-// ===== In-memory data =====
 
 function formatExpense(expense) {
     return {
@@ -55,9 +53,8 @@ app.get("/api/expenses", async (req, res) => {
 });
 
 app.post("/api/expenses", createExpenseValidator, async (req, res) => {
-    //const error = validateExpense(req.body);
     const errorResponse = validationErrors(req,res);
-    if (errorResponse) return //res.status(400).json({ error });
+    if (errorResponse) return;
 
     try {
         const newExpense = await Expense.create({
@@ -68,7 +65,6 @@ app.post("/api/expenses", createExpenseValidator, async (req, res) => {
             details: req.body.details || "",
             dateAdded: req.body.dateAdded || new Date()
         });
-        //expenses.push(newExpense);
         res.status(201).json(formatExpense(newExpense));
     } catch (err) {
         console.log("Expense create error:", err.message)
@@ -77,18 +73,6 @@ app.post("/api/expenses", createExpenseValidator, async (req, res) => {
 });
 
 app.put("/api/expenses/:id", updateExpenseValidator, async (req, res) => {
-    //const id = Number(req.params.id);
-    //const exists = expenses.find(e => e.id === id);
-    /*if (!exists) return res.status(404).json({ error: "Expense not found." });
-
-    if (req.body.amount !== undefined && isNaN(Number(req.body.amount))) {
-        return res.status(400).json({ error: "Expense amount must be a number." });
-    }
-
-    expenses = expenses.map(e => e.id === id ? { ...e, ...req.body } : e);
-    const updated = expenses.find(e => e.id === id);
-    res.json(updated);*/
-
     const errorResponse = validationErrors(req,res);
     if (errorResponse) return;
 
@@ -96,27 +80,24 @@ app.put("/api/expenses/:id", updateExpenseValidator, async (req, res) => {
         const updatedExpense = await Expense.findByIdAndUpdate(
             req.params.id,
             {
-                name:req.body.name,
-                amount:req.body.amount,
+                name: req.body.name,
+                amount: req.body.amount,
                 category: req.body.category || "",
                 details: req.body.details || ""
             },
-            {returnDocument: 'after', runValidators:true}
+            {returnDocument: 'after', runValidators: true}
         )
 
         if (!updatedExpense) {
-            return res.status(404).json({error:"Expense not found"});
+            return res.status(404).json({error: "Expense not found"});
         }
         res.json(formatExpense(updatedExpense));
     } catch (err) {
-        res.status(500).json({error:"Could not update expense"});
+        res.status(500).json({error: "Could not update expense"});
     }
 });
 
 app.delete("/api/expenses/:id", expenseIdValidator, async (req, res) => {
-   /* const id = Number(req.params.id);
-    expenses = expenses.filter(e => e.id !== id);
-    res.json({ message: "Expense deleted" });*/
     const errorResponse = validationErrors(req,res);
     if (errorResponse) return;
 
@@ -124,27 +105,42 @@ app.delete("/api/expenses/:id", expenseIdValidator, async (req, res) => {
         const deletedExpense = await Expense.findByIdAndDelete(req.params.id);
 
         if (!deletedExpense) {
-            return res.status(404).json({error:"Expense not found"});
+            return res.status(404).json({error: "Expense not found"});
         }
-        res.json({message:"Expense deleted"});
+        res.json({message: "Expense deleted"});
     } catch (err) {
-        res.status(500).json({error:"Could not delete expense"});
+        res.status(500).json({error: "Could not delete expense"});
+    }
+});
+
+app.put("/api/expenses/category/:categoryName", categoryNameValidator, async (req, res) => {
+    const {categoryName} = req.params;
+    const {newCategoryName} = req.body;
+
+    if (!newCategoryName || !newCategoryName.trim()) {
+        return res.status(400).json({error: "New category name is required"});
+    }
+
+    try {
+        await Expense.updateMany(
+            {category: categoryName},
+            {category: newCategoryName.trim()}
+        );
+        res.json({message: "Category renamed", newCategoryName: newCategoryName.trim()})
+    } catch(err) {
+        res.status(500).json({error: "Could not rename category"})
     }
 });
 
 app.delete("/api/expenses/category/:categoryName", categoryNameValidator, async (req, res) => {
-    /*const { categoryName } = req.params;
-    expenses = expenses.filter(e => e.category !== categoryName);
-    res.json({ message: "Category deleted" });*/
-
     const errorResponse = validationErrors(req,res);
     if (errorResponse) return;
 
     try {
-        await Expense.deleteMany({category:req.params.categoryName});
-        res.json({message:"Category deleted"});
+        await Expense.deleteMany({category: req.params.categoryName});
+        res.json({message: "Category deleted"});
     } catch (err) {
-        res.status(500).json({error:"Could not delete expense"});
+        res.status(500).json({error: "Could not delete expense"});
     }
 });
 
@@ -160,6 +156,12 @@ function validateBudget(body) {
     const validPeriods = ["Monthly", "Weekly", "Yearly"];
     if (body.period !== undefined && !validPeriods.includes(body.period)) {
         return `period must be one of: ${validPeriods.join(", ")}.`;
+    }
+    if (body.split !== undefined) {
+        const { needs, wants, savings } = body.split
+        if (Number(needs) + Number(wants) + Number(savings) !== 100) {
+            return "Split percentages must add up to 100."
+        }
     }
     return null;
 }
@@ -226,32 +228,34 @@ const profileValidation = [
 ];
 
 // ===== Budget routes =====
+
 function formatBudget(budget) {
     return {
         userId: budget.userId.toString(),
         incomeSources: budget.incomeSources,
         fixedExpenses: budget.fixedExpenses,
-        period: budget.period
+        period: budget.period,
+        split: budget.split || { needs: 50, wants: 30, savings: 20 }
     };
 }
- 
+
 app.get("/api/budget", requireAuth, async (req, res) => {
     try {
         await connectDB();
         const budget = await Budget.findOne({ userId: req.user.id });
         if (!budget) {
-            return res.json({ incomeSources: [], fixedExpenses: [], period: "Monthly" });
+            return res.json({ incomeSources: [], fixedExpenses: [], period: "Monthly", split: { needs: 50, wants: 30, savings: 20 } });
         }
         res.json(formatBudget(budget));
     } catch (err) {
         res.status(500).json({ error: "Could not load budget." });
     }
 });
- 
+
 app.post("/api/budget", requireAuth, async (req, res) => {
     const error = validateBudget(req.body);
     if (error) return res.status(400).json({ error });
- 
+
     try {
         await connectDB();
         const budget = await Budget.findOneAndUpdate(
@@ -260,7 +264,8 @@ app.post("/api/budget", requireAuth, async (req, res) => {
                 userId: req.user.id,
                 incomeSources: req.body.incomeSources || [],
                 fixedExpenses: req.body.fixedExpenses || [],
-                period: req.body.period || "Monthly"
+                period: req.body.period || "Monthly",
+                split: req.body.split || { needs: 50, wants: 30, savings: 20 }
             },
             { upsert: true, new: true, runValidators: true }
         );
@@ -269,24 +274,25 @@ app.post("/api/budget", requireAuth, async (req, res) => {
         res.status(500).json({ error: "Could not save budget." });
     }
 });
- 
+
 app.put("/api/budget", requireAuth, async (req, res) => {
     const error = validateBudget(req.body);
     if (error) return res.status(400).json({ error });
- 
+
     try {
         await connectDB();
         const updates = {};
         if (req.body.incomeSources !== undefined) updates.incomeSources = req.body.incomeSources;
         if (req.body.fixedExpenses !== undefined) updates.fixedExpenses = req.body.fixedExpenses;
         if (req.body.period !== undefined) updates.period = req.body.period;
- 
+        if (req.body.split !== undefined) updates.split = req.body.split;
+
         const budget = await Budget.findOneAndUpdate(
             { userId: req.user.id },
             updates,
             { new: true, runValidators: true }
         );
- 
+
         if (!budget) {
             return res.status(404).json({ error: "Budget not found." });
         }
@@ -295,13 +301,13 @@ app.put("/api/budget", requireAuth, async (req, res) => {
         res.status(500).json({ error: "Could not update budget." });
     }
 });
- 
+
 app.delete("/api/budget", requireAuth, async (req, res) => {
     try {
         await connectDB();
         await Budget.findOneAndUpdate(
             { userId: req.user.id },
-            { incomeSources: [], fixedExpenses: [], period: "Monthly" },
+            { incomeSources: [], fixedExpenses: [], period: "Monthly", split: { needs: 50, wants: 30, savings: 20 } },
             { new: true }
         );
         res.json({ message: "Budget reset." });
@@ -387,8 +393,6 @@ app.post("/api/login", loginValidation, async (req, res) => {
     }
 });
 
-
-
 // ===== Profile Routes =====
 
 app.get("/api/profile/me", requireAuth, async (req, res) => {
@@ -463,14 +467,8 @@ app.put("/api/profile/me", requireAuth, profileValidation, async (req, res) => {
 
     const user = await User.findByIdAndUpdate(
         req.user.id,
-        {
-            name: req.body.name.trim(),
-            email
-        },
-        {
-            new: true,
-            runValidators: true
-        }
+        { name: req.body.name.trim(), email },
+        { new: true, runValidators: true }
     );
 
     if (!user) {
@@ -492,10 +490,7 @@ app.put("/api/profile/me", requireAuth, profileValidation, async (req, res) => {
 
     res.status(200).json({
         message: "Profile updated.",
-        user: {
-            ...sanitizeUser(user),
-            currencyPreference: profile.currencyPreference
-        }
+        user: { ...sanitizeUser(user), currencyPreference: profile.currencyPreference }
     });
 });
 
@@ -523,14 +518,8 @@ app.put("/api/profile/:id", updateProfileValidator, async (req, res) => {
 
     const user = await User.findByIdAndUpdate(
         req.params.id,
-        {
-            name: req.body.name.trim(),
-            email
-        },
-        {
-            new: true,
-            runValidators: true
-        }
+        { name: req.body.name.trim(), email },
+        { new: true, runValidators: true }
     );
 
     if (!user) {
@@ -552,10 +541,7 @@ app.put("/api/profile/:id", updateProfileValidator, async (req, res) => {
 
     res.status(200).json({
         message: "Profile updated.",
-        user: {
-            ...sanitizeUser(user),
-            currencyPreference: profile.currencyPreference
-        }
+        user: { ...sanitizeUser(user), currencyPreference: profile.currencyPreference }
     });
 });
 
