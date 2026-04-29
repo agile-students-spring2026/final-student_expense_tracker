@@ -38,7 +38,35 @@ function ExpenseList({expenses, deleteExpense, deleteCategory, renameCategory}) 
         }
         
         return copy.sort((a,b) => new Date(b.dateAdded) - new Date(a.dateAdded));
-        }
+    }
+
+    function exportExpensesCSV() {
+        const headers = ["Name", "Amount", "Category", "Details", "Date Added"];
+        const rows = expenses.map((expense) => [
+            expense.name ?? "",
+            expense.amount ?? "",
+            expense.category ?? "",
+            expense.details ?? "",
+            expense.dateAdded ?? ""
+        ]);
+        
+        const csvRows = [
+            headers,
+            ...rows].map((row) =>
+            row.map((value) => `"${String(value).replace(/"/g, '""')}"`).join(",")
+        );
+
+        const csvContent = csvRows.join("\n");
+        const blob = new Blob([csvContent], {type: "text/csv; charset=utf-8;"});
+        const url = URL.createObjectURL(blob);
+        const link = document.createElement("a");
+        link.href = url;
+        link.download = "expenses.csv";
+        document.body.appendChild(link);
+        link.click();
+        document.body.removeChild(link);
+        URL.revokeObjectURL(url);
+    }
 
     const regularExpenses = searchedExpenses.filter(
         (expense) => !expense.category || expense.category.trim() === ""
@@ -65,6 +93,7 @@ function ExpenseList({expenses, deleteExpense, deleteCategory, renameCategory}) 
             </select>
             <p className="expense-search">Search: </p>
             <input className="expense-search-bar" type="text" value={searchItem} onChange={(e) => setSearchItem(e.target.value)}></input>
+            <button className="expense-export" onClick={exportExpensesCSV}>Export CSV</button>
             <div className="land-section-label">Expenses</div>
             <ExpenseTable expenses={sortedRegularExpenses} deleteExpense={deleteExpense}/>
             <div className="land-section-label" style={{ marginTop: "1rem" }}>Category Expenses</div>
