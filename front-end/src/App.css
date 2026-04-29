@@ -3,6 +3,15 @@
   margin:0;
 }
 
+html,
+body {
+  background: var(--cream, #faf7f0);
+  min-height: 100vh;
+  max-width: 100%;
+  overflow-x: hidden;
+  width: 100%;
+}
+
 h2 {
   margin-top:2rem;
   color:#111;
@@ -22,46 +31,133 @@ h2 {
   padding-top:1.5rem;
 }
 
-nav {
+.app-sidebar {
   position:fixed;
   top:0;
   left:0;
-  background-color:#c8cdd2;
-  width:10%;
-  padding: 0.5rem;
+  background: #f2eee5;
+  width:220px;
+  min-height: 100vh;
+  padding: 1.25rem 1rem;
   z-index:100;
-  border-bottom-right-radius: 10px;
+  border-right: 1px solid rgba(15,20,16,0.08);
+  border-bottom-right-radius: 0;
+  font-family: var(--sans);
+  overflow: hidden;
+  transition: width 0.25s ease, padding 0.25s ease, border-color 0.25s ease;
 }
 
-nav button {
-  font-size: 24px;
-  background: none;
-  border: none;
+.app-sidebar.closed {
+  border-right-color: transparent;
+  padding-left: 0;
+  padding-right: 0;
+  width: 0;
+}
+
+.sidebar-toggle {
+  position: fixed;
+  top: 24px;
+  left: 24px;
+  z-index: 120;
+  color: var(--ink-soft);
+  font-size: 20px;
+  background: var(--cream, #faf7f0);
+  border: 1px solid rgba(15,20,16,0.08);
+  border-radius: 999px;
   cursor: pointer;
+  line-height: 1;
+  padding: 0.45rem 0.55rem;
 }
 
-nav div {
+.sidebar-toggle:hover {
+  color: var(--ink);
+}
+
+.mobile-app-nav,
+.mobile-nav-backdrop {
+  display: none;
+}
+
+.app-sidebar div {
   display: flex;
   flex-direction: column;
-  gap: 0.5rem;
-  margin-top: 8px;
+  gap: 0.35rem;
+  margin-top: 3.25rem;
+  min-width: 188px;
 }
 
 .navitem {
   text-decoration:none;
-  color:#2C3E50;
-  font-weight:bold;
-  border-bottom:solid 4px rgba(0, 0, 0, 0.491);
+  color: var(--ink-soft);
+  font-size: 14px;
+  font-weight:500;
+  border-bottom:none;
+  border-radius: 999px;
+  display: block;
+  padding: 0.55rem 0.8rem;
+  text-align: left;
 }
 
 .navitem:hover {
-  color:#364f69;
-  background-color: #b3b0b099;
-  border-bottom:solid 4px rgb(0, 0, 0);
+  color: var(--ink);
+  background: rgba(15, 20, 16, 0.04);
+  border-bottom:none;
+}
+
+.navitem.active {
+  color: var(--green-deep);
+  background: var(--green-soft);
 }
 
 a {
   text-decoration:none;
+}
+
+a {
+  color: var(--green-deep);
+}
+
+.btn-green,
+.land-page .btn-green {
+  background: var(--green-deep);
+  color: #fff;
+  border: 1px solid var(--green-deep);
+  border-radius: 9px;
+  padding: 12px 26px;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  font-family: var(--sans);
+  text-decoration: none;
+  display: inline-block;
+}
+
+.btn-green:hover,
+.land-page .btn-green:hover {
+  background: #117b3a;
+  border-color: #117b3a;
+  color: #fff;
+}
+
+.btn-plain,
+.land-page .btn-plain {
+  background: transparent;
+  color: var(--green-deep);
+  border: 1px solid rgba(22, 146, 70, 0.24);
+  border-radius: 9px;
+  padding: 11px 26px;
+  font-size: 14px;
+  font-weight: 500;
+  cursor: pointer;
+  font-family: var(--sans);
+  text-decoration: none;
+  display: inline-block;
+}
+
+.btn-plain:hover,
+.land-page .btn-plain:hover {
+  background: var(--green-soft);
+  color: var(--green-deep);
 }
 
 
@@ -715,11 +811,11 @@ a {
 /* ===== Policies Page ===== */
 
 .policies-page {
-  padding: 2rem 2rem 5rem 2rem;
+  padding: 32px 48px 5rem;
   max-width: 800px;
   margin: 0 auto;
   color: #000;
-  background: #fffef9;
+  background: var(--cream, #faf7f0);
 }
 
 .policies-title {
@@ -763,11 +859,11 @@ a {
 /* ===== Edit Profile Page ===== */
 
 .edit-profile-page {
-    padding: 2rem 2rem 5rem 2rem;
+    padding: 32px 48px 5rem;
     max-width: 400px;
     margin: 0 auto;
     color: #000;
-    background: #fffef9;
+    background: var(--cream, #faf7f0);
     font-size:1.4rem;
 }
 
@@ -879,10 +975,30 @@ a {
 /* ===== Landing-style shared UI ===== */
 
 .land-page {
-  background: #fffef9;
+  background: var(--cream, #faf7f0);
   min-height: 100vh;
-  font-family: system-ui, 'Segoe UI', Roboto, sans-serif;
-  padding-bottom: 5rem;
+  font-family: var(--sans);
+  padding: 32px 48px 5rem;
+  width: 100%;
+  overflow-x: clip;
+}
+
+.app-content {
+  background: var(--cream, #faf7f0);
+  min-height: 100vh;
+  margin-left: 0;
+  transition: margin-left 0.25s ease;
+  width: 100%;
+}
+
+.app-content.sidebar-open {
+  margin-left: 220px;
+  width: calc(100% - 220px);
+}
+
+.app-content.sidebar-closed {
+  margin-left: 0;
+  width: 100%;
 }
 
 .land-page h2 {
@@ -890,8 +1006,141 @@ a {
   font-size: 1.8rem;
   font-weight: 700;
   color: #111;
-  padding: 2rem 1rem 0.5rem;
+  padding: 0 1rem 0.5rem;
   margin-top: 0;
+}
+
+@media (max-width: 768px) {
+  .desktop-sidebar-toggle {
+    display: none;
+  }
+
+  .mobile-app-nav {
+    align-items: center;
+    background: var(--cream, #faf7f0);
+    border-bottom: 1px solid rgba(15,20,16,0.08);
+    display: flex;
+    height: 56px;
+    justify-content: space-between;
+    left: 0;
+    padding: 14px 20px;
+    position: fixed;
+    right: 0;
+    top: 0;
+    z-index: 140;
+  }
+
+  .mobile-nav-toggle {
+    background: transparent;
+    border: none;
+    color: var(--ink);
+    cursor: pointer;
+    font-size: 22px;
+    line-height: 1;
+    padding: 0;
+  }
+
+  .mobile-nav-logo {
+    color: var(--ink);
+    font-size: 22px;
+    font-weight: 700;
+    letter-spacing: -0.02em;
+    text-decoration: none;
+  }
+
+  .mobile-nav-logo span {
+    color: var(--green);
+  }
+
+  .mobile-nav-backdrop {
+    background: transparent;
+    border: none;
+    bottom: 0;
+    cursor: default;
+    display: block;
+    left: 0;
+    position: fixed;
+    right: 0;
+    top: 56px;
+    z-index: 125;
+  }
+
+  .app-sidebar {
+    position: fixed;
+    top: 56px;
+    left: 0;
+    right: 0;
+    bottom: auto;
+    min-height: 0;
+    width: 100%;
+    z-index: 130;
+    border-right: none;
+    border-bottom: 1px solid rgba(15,20,16,0.08);
+    padding: 0;
+    transform: translateY(0);
+    transition: transform 0.2s ease, opacity 0.2s ease;
+  }
+
+  .app-sidebar.closed {
+    opacity: 0;
+    pointer-events: none;
+    transform: translateY(-8px);
+    width: 100%;
+  }
+
+  .app-sidebar div {
+    background: var(--cream, #faf7f0);
+    box-shadow: 0 12px 24px rgba(15,20,16,0.08);
+    gap: 0;
+    margin-top: 0;
+    min-width: 0;
+    padding: 8px 0;
+    width: 100%;
+  }
+
+  .app-sidebar div span {
+    display: block;
+    width: 100%;
+  }
+
+  .navitem {
+    border-left: 3px solid transparent;
+    border-radius: 0;
+    font-size: 15px;
+    padding: 14px 20px;
+    text-align: left;
+    width: 100%;
+  }
+
+  .navitem.active {
+    border-left-color: var(--green);
+  }
+
+  .land-page h2 {
+    padding-top: 0;
+    font-size: 24px;
+  }
+
+  .land-page {
+    padding: 20px 16px;
+    width: 100%;
+  }
+
+  .app-content {
+    padding-top: 56px;
+  }
+
+  .app-content.sidebar-open,
+  .app-content.sidebar-closed {
+    margin-left: 0;
+    width: 100%;
+  }
+
+  .policies-page,
+  .edit-profile-page {
+    margin: 0 auto;
+    padding: 24px;
+  }
 }
 
 .land-section-label {

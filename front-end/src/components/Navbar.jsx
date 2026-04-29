@@ -1,30 +1,57 @@
-import { useState } from 'react'
-import { Link, useNavigate } from "react-router-dom"
+import { NavLink } from "react-router-dom"
 
-function Navbar() {
-    const [menuOpen, setMenuOpen] = useState(false);
-    const navigate = useNavigate();
-
-    function handleLogout() {
-        localStorage.clear();
-        sessionStorage.clear();
-        setMenuOpen(false);
-        navigate('/');
-    }
+function Navbar({ sidebarOpen, setSidebarOpen }) {
+    const navClass = ({ isActive }) => `navitem${isActive ? " active" : ""}`;
+    const closeMobileDrawer = () => {
+        if (window.innerWidth <= 768) {
+            setSidebarOpen(false);
+        }
+    };
+    const navLinks = (
+        <>
+            <span><NavLink to="/home" className={navClass} onClick={closeMobileDrawer}>Home</NavLink></span>
+            <span><NavLink to="/expenses" className={navClass} onClick={closeMobileDrawer}>Expenses</NavLink></span>
+            <span><NavLink to="/budget" className={navClass} onClick={closeMobileDrawer}>Budget</NavLink></span>
+            <span><NavLink to="/profile" className={navClass} onClick={closeMobileDrawer}>Profile</NavLink></span>
+            <span><NavLink to="/policies" className={navClass} onClick={closeMobileDrawer}>Policies</NavLink></span>
+        </>
+    );
 
     return (
-        <nav>
-            <button onClick={() => {setMenuOpen(!menuOpen)}}>☰</button>
+        <>
+            <button
+                className="sidebar-toggle desktop-sidebar-toggle"
+                type="button"
+                aria-label="Toggle sidebar navigation"
+                aria-expanded={sidebarOpen}
+                onClick={() => setSidebarOpen((open) => !open)}
+            >
+                ☰
+            </button>
 
-            { menuOpen &&(
+            <div className="mobile-app-nav">
+                <button
+                    className="mobile-nav-toggle"
+                    type="button"
+                    aria-label="Toggle navigation menu"
+                    aria-expanded={sidebarOpen}
+                    onClick={() => setSidebarOpen((open) => !open)}
+                >
+                    ☰
+                </button>
+                <NavLink to="/home" className="mobile-nav-logo" onClick={closeMobileDrawer}>
+                    Track<span>r</span>
+                </NavLink>
+            </div>
+
+            {sidebarOpen && <button className="mobile-nav-backdrop" type="button" aria-label="Close navigation menu" onClick={() => setSidebarOpen(false)}></button>}
+
+            <nav className={`app-sidebar ${sidebarOpen ? "open" : "closed"}`}>
                 <div>
-                    <span><Link to="/home" className="navitem">Home</Link></span>
-                    <span><Link to="/expenses" className="navitem">Expenses</Link></span>
-                    <span><Link to="/budget" className="navitem">Budget</Link></span>
-                    <span><Link to="/profile" className="navitem">Profile</Link></span>
-                    <span><Link to="/policies" className="navitem">Policies</Link></span>
-                </div>)}
-        </nav>
+                    {navLinks}
+                </div>
+            </nav>
+        </>
     )
 }
 

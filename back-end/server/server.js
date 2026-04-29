@@ -6,11 +6,17 @@ dotenv.config();
 const PORT = process.env.PORT || 3000;
 
 async function startServer() {
-    await connectDB();
+    try {
+        await connectDB();
+    } catch (err) {
+        console.error("Initial database connection failed:", err.message);
+    }
 
     app.listen(PORT, () => {
         console.log(`Server running on http://localhost:${PORT}`);
     });
 }
 
-startServer();
+startServer().catch((err) => {
+    console.error("Server startup failed:", err.message);
+});

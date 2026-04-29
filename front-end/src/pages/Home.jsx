@@ -142,9 +142,9 @@ function Home({ expenses = [], budget = { incomeSources: [], fixedExpenses: [] }
                             </div>
 
                             <div>
-                                <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: "1rem" }}>
-                                    <p className="feat-label" style={{ marginBottom: 0 }}>YOUR SPLIT — {needsPct} / {wantsPct} / {savingsPct}</p>
-                                    <Link to="/budget/split" style={{ fontSize: "20px", color: "#aaa", textDecoration: "none", lineHeight: 1 }}>⋯</Link>
+                                <div className="home-split-header">
+                                    <p className="feat-label">YOUR SPLIT — {needsPct} / {wantsPct} / {savingsPct}</p>
+                                    <Link to="/budget/split" className="home-split-more">⋯</Link>
                                 </div>
                                 <div className="home-split-grid">
                                     <div className="home-split-block home-split-needs">
