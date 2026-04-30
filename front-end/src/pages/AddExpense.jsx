@@ -11,21 +11,33 @@ function AddExpense({ setPendingExpense }) {
         details: ""
     });
 
-    const [amountError, setAmountError] = useState(false);
+    const [errors, setErrors] = useState({});
 
     function handleChange(e) {
         const { name, value } = e.target;
-        if (name === "amount") {
-            setAmountError(value !== "" && isNaN(value) || Number(value) < 0);
+        setFormData((prev) => ({ ...prev, [name]: value }));
+
+        // Clear error as user types
+        if (errors[name]) {
+            setErrors((prev) => ({ ...prev, [name]: "" }));
         }
-        setFormData((prev) => ({
-            ...prev,
-            [name]: value
-        }));
     }
 
     function handleSubmit(e) {
         e.preventDefault();
+
+        const newErrors = {};
+        if (!formData.name.trim()) newErrors.name = "Expense name is required.";
+        if (!formData.amount) {
+            newErrors.amount = "Expense amount is required.";
+        } else if (isNaN(formData.amount) || Number(formData.amount) < 0) {
+            newErrors.amount = "Expense amount must be a valid positive number.";
+        }
+
+        if (Object.keys(newErrors).length > 0) {
+            setErrors(newErrors);
+            return;
+        }
 
         const newExpense = {
             id: Date.now(),
@@ -46,10 +58,26 @@ function AddExpense({ setPendingExpense }) {
             <form onSubmit={handleSubmit}>
                 <div className="land-form-card">
                     <label className="land-form-label">Expense Name</label>
-                    <input className="land-form-input" name="name" value={formData.name} placeholder="Expense Name" onChange={handleChange} />
+                    <input
+                        className="land-form-input"
+                        name="name"
+                        value={formData.name}
+                        placeholder="Expense Name"
+                        onChange={handleChange}
+                        style={errors.name ? { borderColor: "#e05454" } : {}}
+                    />
+                    {errors.name && <p style={{ color: "#e05454", fontSize: "0.78rem", marginTop: "0.2rem" }}>{errors.name}</p>}
 
                     <label className="land-form-label">Expense Amount</label>
-                    <input className="land-form-input" name="amount" value={formData.amount} placeholder="$$$" onChange={handleChange} />
+                    <input
+                        className="land-form-input"
+                        name="amount"
+                        value={formData.amount}
+                        placeholder="$$$"
+                        onChange={handleChange}
+                        style={errors.amount ? { borderColor: "#e05454" } : {}}
+                    />
+                    {errors.amount && <p style={{ color: "#e05454", fontSize: "0.78rem", marginTop: "0.2rem" }}>{errors.amount}</p>}
 
                     <label className="land-form-label">Category Name / Expense Category</label>
                     <input className="land-form-input" name="category" value={formData.category} placeholder="Category Name" onChange={handleChange} />
@@ -67,13 +95,8 @@ function AddExpense({ setPendingExpense }) {
                     </div>
                 </div>
 
-                {amountError && (
-                    <p style={{ color: "red", fontSize: "0.8rem", textAlign: "center", marginTop: "0.5rem" }}>
-                        Expense Amount must be a number.
-                    </p>
-                )}
                 <div className="land-btn-row" style={{ marginTop: "1.5rem" }}>
-                    <button className="btn-green" type="submit" disabled={amountError}>Add</button>
+                    <button className="btn-green" type="submit">Add</button>
                 </div>
             </form>
         </div>

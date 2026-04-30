@@ -39,10 +39,6 @@ function ConfirmExpense({ pendingExpense, expenses, setExpenses, setPendingExpen
         }
     }
 
-
-
-
-
     function handleCancel() {
         setPendingExpense(null);
         navigate("/expenses/list");
