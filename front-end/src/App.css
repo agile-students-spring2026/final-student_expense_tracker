@@ -637,6 +637,19 @@ a {
   border:solid 2px black;
 }
 
+.expense-export {
+  background-color: #1c8e4c;
+  color:#ffffff;
+  border:0px solid;
+  border-radius:4px;
+  margin-left:2rem;
+  padding:.3rem .8rem;
+}
+
+.expense-export:hover {
+  background: #117b3a;
+}
+
 /* ===== Budget Screens ===== */
 
 .budget-section-header {
@@ -707,6 +720,19 @@ a {
   margin-inline: 1.5rem;
   margin-top: 0.25rem;
   appearance: auto;
+}
+
+.budget-export {
+  background-color: #1c8e4c;
+  color:#ffffff;
+  border:0px solid;
+  border-radius:4px;
+  margin-bottom:1rem;
+  padding:.3rem .8rem;
+}
+
+.budget-export:hover {
+  background: #117b3a;
 }
 
 
