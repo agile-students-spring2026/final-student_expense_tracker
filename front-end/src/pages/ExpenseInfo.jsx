@@ -29,9 +29,9 @@ function ExpenseInfo({ expenses, setExpenses }) {
 
         try {
             const res = await fetch(`http://localhost:3000/api/expenses/${expense.id}`, {
-                method:"PUT",
-                headers:{
-                    "Content-Type":"application/json"
+                method: "PUT",
+                headers: {
+                    "Content-Type": "application/json"
                 },
                 body: JSON.stringify({
                     name: formData.name,
@@ -44,9 +44,10 @@ function ExpenseInfo({ expenses, setExpenses }) {
             setExpenses((prev) =>
                 prev.map((item) =>
                     item.id === updatedExpenses.id ? updatedExpenses : item
-            )
-        );
-        setIsEditing(false);
+                )
+            );
+            setIsEditing(false);
+            navigate("/expenses/list"); // ← goes back to list after saving
         } catch (err) {
             console.log("Failed to update expense:", err);
         }
@@ -59,6 +60,11 @@ function ExpenseInfo({ expenses, setExpenses }) {
 
     return (
         <div>
+            {/* Back button */}
+            <div style={{ padding: "1rem 1.5rem 0" }}>
+                <button className="btn-green" onClick={() => navigate("/expenses/list")}>← Back</button>
+            </div>
+
             <h2 style={{ textAlign: "center" }}>Expense Info</h2>
 
             {!isEditing ? (
@@ -72,7 +78,7 @@ function ExpenseInfo({ expenses, setExpenses }) {
                         <p style={{ fontSize: "0.85rem" }}>{expense.details}</p>
                     </div>
                     <div className="expense-btn-center">
-                        <button className="expense-black-btn" onClick={() => setIsEditing(true)}>Edit</button>
+                        <button className="btn-green" onClick={() => setIsEditing(true)}>Edit</button>
                     </div>
                 </>
             ) : (
@@ -102,8 +108,8 @@ function ExpenseInfo({ expenses, setExpenses }) {
                         </div>
                     </div>
                     <div className="expense-btn-row">
-                        <button className="expense-cancel-btn" type="button" onClick={handleCancelEdit}>Cancel</button>
-                        <button className="expense-black-btn" type="submit">Save</button>
+                        <button className="btn-plain" type="button" onClick={handleCancelEdit}>Cancel</button>
+                        <button className="btn-green" type="submit">Save</button>
                     </div>
                 </form>
             )}

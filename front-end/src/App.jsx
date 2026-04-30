@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useMemo } from 'react'
 import { BrowserRouter, Routes, Route, useLocation } from "react-router-dom"
 import AddExpense from "./pages/AddExpense.jsx"
 import Budget from "./pages/Budget.jsx"
@@ -21,8 +21,12 @@ import Logo from "./components/Logo.jsx"
 import './App.css'
 
 const NO_NAV_PAGES = ["/", "/login", "/signup"]
+const PRESET_CATEGORIES = [
+    "Food & Dining", "Transport", "Groceries", "Entertainment",
+    "School / Education", "Bills", "Clothing", "Health"
+]
 
-function AppContent({ expenses, setExpenses, pendingExpense, setPendingExpense, deleteExpense, deleteCategory, renameCategory, budget, setBudget }) {
+function AppContent({ expenses, setExpenses, pendingExpense, setPendingExpense, deleteExpense, deleteCategory, renameCategory, budget, setBudget, pastCategories }) {
   const location = useLocation()
   const showNav = !NO_NAV_PAGES.includes(location.pathname)
   const [sidebarOpen, setSidebarOpen] = useState(() => window.innerWidth >= 768)
@@ -57,7 +61,7 @@ function AppContent({ expenses, setExpenses, pendingExpense, setPendingExpense, 
             deleteCategory={deleteCategory}
             renameCategory={renameCategory}
           />} />
-          <Route path="/expenses/add" element={<AddExpense setPendingExpense={setPendingExpense} />} />
+          <Route path="/expenses/add" element={<AddExpense setPendingExpense={setPendingExpense} pastCategories={pastCategories} />} />
           <Route path="/expenses/confirm" element={
             <ConfirmExpense
               pendingExpense={pendingExpense}
@@ -83,6 +87,14 @@ function App() {
   const [pendingExpense, setPendingExpense] = useState(null)
   const [budget, setBudget] = useState({ incomeSources: [], fixedExpenses: [], period: "Monthly" })
 
+  // Derive custom categories from existing expenses (ones not in presets)
+  const pastCategories = useMemo(() => {
+    const seen = new Set()
+    return expenses
+      .map(e => e.category?.trim())
+      .filter(c => c && !PRESET_CATEGORIES.includes(c) && !seen.has(c) && seen.add(c))
+  }, [expenses])
+
   useEffect(() => {
     async function loadExpenses() {
       try {
@@ -90,7 +102,7 @@ function App() {
         const data = await res.json();
         setExpenses(data);
       } catch (err) {
-        console.log("Failed to load expenses:",err);
+        console.log("Failed to load expenses:", err);
       }
     }
     loadExpenses();
@@ -101,12 +113,12 @@ function App() {
       try {
         const token = localStorage.getItem("authToken")
         const res = await fetch("http://localhost:3000/api/budget", {
-          headers: {"Authorization":`Bearer ${token}`}
-          })
+          headers: { "Authorization": `Bearer ${token}` }
+        })
         const data = await res.json();
         setBudget(data);
       } catch (err) {
-        console.log("Failed to load budget:",err);
+        console.log("Failed to load budget:", err);
       }
     }
     loadBudget();
@@ -116,10 +128,7 @@ function App() {
     const confirmed = window.confirm("Delete this expense?")
     if (!confirmed) return;
     try {
-      await fetch(`http://localhost:3000/api/expenses/${id}`, {
-        method: "DELETE"
-      })
-
+      await fetch(`http://localhost:3000/api/expenses/${id}`, { method: "DELETE" })
       setExpenses((prev) => prev.filter((expense) => expense.id !== id));
     } catch (err) {
       console.error("Failed to delete expense:", err);
@@ -127,29 +136,23 @@ function App() {
   }
 
   async function renameCategory(oldCategoryName, newCategoryName) {
-    try { 
+    try {
       const res = await fetch(
         `http://localhost:3000/api/expenses/category/${encodeURIComponent(oldCategoryName)}`,
         {
-          method:"PUT",
-          headers: {
-            "Content-Type":"application/json"
-          },
-          body: JSON.stringify({newCategoryName})
+          method: "PUT",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ newCategoryName })
         }
       );
-
-      if (!res.ok) {
-        throw new Error(`Rename faild: ${res.status}`);
-      }
-
+      if (!res.ok) throw new Error(`Rename failed: ${res.status}`);
       setExpenses((prev) =>
         prev.map((expense) =>
           expense.category === oldCategoryName
-            ? {...expense, category: newCategoryName.trim()}
+            ? { ...expense, category: newCategoryName.trim() }
             : expense
         ));
-    } catch(err) {
+    } catch (err) {
       console.error("Failed to rename category:", err);
     }
   }
@@ -158,9 +161,7 @@ function App() {
     const confirmed = window.confirm(`Delete the ${categoryName} category, and its expenses?`)
     if (!confirmed) return;
     try {
-      await fetch(`http://localhost:3000/api/expenses/category/${encodeURIComponent(categoryName)}`, {
-        method: "DELETE"
-      })
+      await fetch(`http://localhost:3000/api/expenses/category/${encodeURIComponent(categoryName)}`, { method: "DELETE" })
       setExpenses((prev) => prev.filter((expense) => expense.category !== categoryName));
     } catch (err) {
       console.error("Failed to delete category:", err);
@@ -179,6 +180,7 @@ function App() {
         renameCategory={renameCategory}
         budget={budget}
         setBudget={setBudget}
+        pastCategories={pastCategories}
       />
     </BrowserRouter>
   )

@@ -508,19 +508,49 @@ a {
   background-color: #c5c5c5;
 }
 
+/* ===== Green pill action buttons (Info, Rename, X) ===== */
 .expense-category-x-btn {
   display: inline-block;
-  width: auto;
-  background-color: #111;
-  color: #fff;
-  border: none;
-  padding: 0.25rem 0.8rem;
+  background: var(--green-soft, #e6f5ec);
+  color: var(--green-deep, #169246);
+  border: 1px solid #c3e8d4;
+  border-radius: 999px;
+  padding: 0.2rem 0.75rem;
+  font-size: 0.8rem;
+  font-weight: 600;
+  font-family: var(--sans);
   cursor: pointer;
-  text-align: center;
-  font-size: 0.85rem;
-  border-radius: 4px;
-  margin-left: 12px;
-  margin-top: 0.8rem;
+  text-decoration: none;
+  line-height: 1.6;
+  transition: background 0.15s ease, border-color 0.15s ease;
+}
+
+.expense-category-x-btn:hover {
+  background: #c3e8d4;
+  border-color: #a0d9b8;
+  color: var(--green-deep, #169246);
+}
+
+.expense-category-delete-btn {
+  display: inline-block;
+  background: #fff0f0;
+  color: #c0392b;
+  border: 1px solid #f5c6c6;
+  border-radius: 999px;
+  padding: 0.2rem 0.75rem;
+  font-size: 0.8rem;
+  font-weight: 600;
+  font-family: var(--sans);
+  cursor: pointer;
+  text-decoration: none;
+  line-height: 1.6;
+  transition: background 0.15s ease, border-color 0.15s ease;
+}
+
+.expense-category-delete-btn:hover {
+  background: #fddcdc;
+  border-color: #e8a0a0;
+  color: #a93226;
 }
 
 .expense-category-option-btn {
