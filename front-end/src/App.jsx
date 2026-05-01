@@ -26,7 +26,7 @@ const PRESET_CATEGORIES = [
     "School / Education", "Bills", "Clothing", "Health"
 ]
 
-function AppContent({ expenses, setExpenses, pendingExpense, setPendingExpense, deleteExpense, deleteCategory, renameCategory, budget, setBudget, pastCategories }) {
+function AppContent({ expenses, setExpenses, pendingExpense, setPendingExpense, deleteExpense, deleteCategory, renameCategory, budget, setBudget, pastCategories, currencySymbol, setCurrencySymbol }) {
   const location = useLocation()
   const showNav = !NO_NAV_PAGES.includes(location.pathname)
   const [sidebarOpen, setSidebarOpen] = useState(() => window.innerWidth >= 768)
@@ -52,14 +52,15 @@ function AppContent({ expenses, setExpenses, pendingExpense, setPendingExpense, 
           <Route path="/" element={<Landing />} />
           <Route path="/signup" element={<Signup />} />
           <Route path="/login" element={<Login />} />
-          <Route path="/home" element={<Home expenses={expenses} budget={budget} />} />
-          <Route path="/expenses" element={<ExpenseTracking expenses={expenses} />} />
+          <Route path="/home" element={<Home expenses={expenses} budget={budget} currencySymbol={currencySymbol} />} />
+          <Route path="/expenses" element={<ExpenseTracking expenses={expenses} currencySymbol={currencySymbol} />} />
           <Route path="/budget/split" element={<CustomizeSplit budget={budget} setBudget={setBudget} />} />
           <Route path="/expenses/list" element={<ExpenseList
             expenses={expenses}
             deleteExpense={deleteExpense}
             deleteCategory={deleteCategory}
             renameCategory={renameCategory}
+            currencySymbol={currencySymbol}
           />} />
           <Route path="/expenses/add" element={<AddExpense setPendingExpense={setPendingExpense} pastCategories={pastCategories} />} />
           <Route path="/expenses/confirm" element={
@@ -68,12 +69,13 @@ function AppContent({ expenses, setExpenses, pendingExpense, setPendingExpense, 
               expenses={expenses}
               setExpenses={setExpenses}
               setPendingExpense={setPendingExpense}
+              currencySymbol={currencySymbol}
             />} />
-          <Route path="/expenses/info/:id" element={<ExpenseInfo expenses={expenses} setExpenses={setExpenses} />} />
-          <Route path="/budget" element={<Budget budget={budget} expenses={expenses} />} />
+          <Route path="/expenses/info/:id" element={<ExpenseInfo expenses={expenses} setExpenses={setExpenses} currencySymbol={currencySymbol} />} />
+          <Route path="/budget" element={<Budget budget={budget} expenses={expenses} currencySymbol={currencySymbol} />} />
           <Route path="/budget/create" element={<CreateBudget key={JSON.stringify(budget)} budget={budget} setBudget={setBudget} />} />
-          <Route path="/budget/report" element={<BudgetReport budget={budget} expenses={expenses} />} />
-          <Route path="/profile" element={<Profile />} />
+          <Route path="/budget/report" element={<BudgetReport budget={budget} expenses={expenses} currencySymbol={currencySymbol} />} />
+          <Route path="/profile" element={<Profile setCurrencySymbol={setCurrencySymbol} />} />
           <Route path="/profile/edit" element={<EditProfile />} />
           <Route path="/policies" element={<Policies />} />
         </Routes>
@@ -86,6 +88,7 @@ function App() {
   const [expenses, setExpenses] = useState([])
   const [pendingExpense, setPendingExpense] = useState(null)
   const [budget, setBudget] = useState({ incomeSources: [], fixedExpenses: [], period: "Monthly" })
+  const [currencySymbol, setCurrencySymbol] = useState("$")
 
   // Derive custom categories from existing expenses (ones not in presets)
   const pastCategories = useMemo(() => {
@@ -122,6 +125,36 @@ function App() {
       }
     }
     loadBudget();
+  }, []);
+
+  useEffect(() => {
+    async function loadCurrency() {
+      try {
+        const token = localStorage.getItem("authToken")
+        if (!token) return;
+        const res = await fetch("http://localhost:3000/api/profile/me", {
+          headers: { "Authorization": `Bearer ${token}` }
+        })
+        const data = await res.json();
+        if (data.currencyPreference) {
+          const CURRENCY_SYMBOLS = {
+            USD: "$", EUR: "€", GBP: "£", JPY: "¥", CAD: "CA$", AUD: "A$",
+            CHF: "CHF", CNY: "¥", INR: "₹", NGN: "₦", BRL: "R$", MXN: "MX$",
+            ZAR: "R", KRW: "₩", SGD: "S$", HKD: "HK$", NOK: "kr", SEK: "kr",
+            DKK: "kr", NZD: "NZ$", AED: "د.إ", SAR: "﷼", QAR: "﷼", EGP: "£",
+            GHS: "₵", KES: "KSh", TZS: "TSh", PKR: "₨", BDT: "৳", PHP: "₱",
+            THB: "฿", IDR: "Rp", MYR: "RM", VND: "₫", TWD: "NT$", PLN: "zł",
+            CZK: "Kč", HUF: "Ft", RON: "lei", TRY: "₺", RUB: "₽", UAH: "₴",
+            ILS: "₪", CLP: "CLP$", COP: "COL$", PEN: "S/.", ARS: "$",
+            DZD: "دج", MAD: "MAD", ETB: "Br"
+          };
+          setCurrencySymbol(CURRENCY_SYMBOLS[data.currencyPreference] || "$");
+        }
+      } catch (err) {
+        console.log("Failed to load currency:", err);
+      }
+    }
+    loadCurrency();
   }, []);
 
   async function deleteExpense(id) {
@@ -181,6 +214,8 @@ function App() {
         budget={budget}
         setBudget={setBudget}
         pastCategories={pastCategories}
+        currencySymbol={currencySymbol}
+        setCurrencySymbol={setCurrencySymbol}
       />
     </BrowserRouter>
   )

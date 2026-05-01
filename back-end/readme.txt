@@ -1,6 +1,6 @@
 # Trackr — Backend
 
-The backend for **Trackr**, a student expense tracking app built with Node.js and Express.
+The backend for **Trackr**, an expense tracking app built with Node.js and Express.
 
 ---
 
@@ -11,6 +11,11 @@ The backend for **Trackr**, a student expense tracking app built with Node.js an
 - [MongoDB Atlas](https://www.mongodb.com/cloud/atlas) — database
 - [Mongoose](https://mongoosejs.com/) — MongoDB object modeling
 - [JWT](https://jwt.io/) — authentication
+- [Multer](https://github.com/expressjs/multer) — file/image upload handling (receipt scanning)
+- [express-validator](https://express-validator.github.io/) — request validation
+- [bcryptjs](https://github.com/dcodeIO/bcrypt.js) — password hashing
+- [dotenv](https://github.com/motdotla/dotenv) — environment variables
+- [cors](https://github.com/expressjs/cors) — cross-origin resource sharing
 - [Mocha](https://mochajs.org/) + [Chai](https://www.chaijs.com/) — testing
 
 ---
@@ -21,24 +26,35 @@ The backend for **Trackr**, a student expense tracking app built with Node.js an
 - [Node.js](https://nodejs.org/) v18 or higher
 - npm
 - A MongoDB Atlas account with a cluster set up
+- An [OpenRouter](https://openrouter.ai) account (free) for receipt scanning
 
 ### Environment setup
-Create a `.env` file in `back-end/server/` using the provided `.env.example`:
+Create a `.env` file in `back-end/server/`:
 
-```bash
-cp back-end/server/.env.example back-end/server/.env
 ```
-
-Fill in your credentials:
-
 MONGODB_URI=your_mongodb_connection_string
 JWT_SECRET=your_secret_key
 PORT=3000
+OPENROUTER_API_KEY=your_openrouter_api_key
+```
+
 ### Install dependencies
 ```bash
 cd back-end/server
 npm install
 ```
+
+This installs all required packages including:
+- `express`
+- `mongoose`
+- `jsonwebtoken`
+- `bcryptjs`
+- `multer`
+- `express-validator`
+- `cors`
+- `dotenv`
+- `nodemon` (dev)
+- `mocha` + `chai` (testing)
 
 ### Run the development server
 ```bash
@@ -54,9 +70,9 @@ npm test
 
 ---
 
-## Available API routes
+## Available API Routes
 
-| Method | Route | Auth required | Description |
+| Method | Route | Auth Required | Description |
 |---|---|---|---|
 | POST | `/api/signup` | No | Create a new user |
 | POST | `/api/login` | No | Log in |
@@ -65,10 +81,14 @@ npm test
 | POST | `/api/expenses` | No | Add an expense |
 | PUT | `/api/expenses/:id` | No | Update an expense |
 | DELETE | `/api/expenses/:id` | No | Delete an expense |
-| DELETE | `/api/expenses/category/:name` | No | Delete a category |
+| PUT | `/api/expenses/category/:name` | No | Rename a category |
+| DELETE | `/api/expenses/category/:name` | No | Delete a category and its expenses |
+| POST | `/api/scan-receipt` | No | Scan a receipt image using AI (OpenRouter) |
 | GET | `/api/budget` | Yes | Get user's budget |
 | POST | `/api/budget` | Yes | Create/update budget |
 | PUT | `/api/budget` | Yes | Update budget fields |
 | DELETE | `/api/budget` | Yes | Reset budget |
 | GET | `/api/profile/me` | Yes | Get current user profile |
 | PUT | `/api/profile/me` | Yes | Update current user profile |
+| GET | `/api/profile/:id` | No | Get profile by user ID |
+| PUT | `/api/profile/:id` | No | Update profile by user ID |

@@ -2,6 +2,7 @@ import express from "express";
 import mongoose from "mongoose";
 import cors from "cors";
 import jwt from "jsonwebtoken";
+import multer from "multer";
 import { body, validationResult } from "express-validator";
 import User from "./models/User.js";
 import Budget from "./models/Budget.js";
@@ -18,6 +19,7 @@ import { updateProfileValidator } from "./validators/profileValidators.js";
 
 const app = express();
 const DEFAULT_JWT_SECRET = "dev-jwt-secret";
+const upload = multer({ storage: multer.memoryStorage() });
 
 app.use(cors());
 app.use(express.json());
@@ -29,7 +31,8 @@ function formatExpense(expense) {
         amount: expense.amount,
         category: expense.category,
         details: expense.details,
-        dateAdded: new Date(expense.dateAdded).toLocaleDateString()
+        dateAdded: new Date(expense.dateAdded).toLocaleDateString(),
+        createdAt: expense.createdAt ? new Date(expense.createdAt).toISOString() : new Date(expense.dateAdded).toISOString()
     };
 }
 
@@ -142,6 +145,74 @@ app.delete("/api/expenses/category/:categoryName", categoryNameValidator, async 
     } catch (err) {
         res.status(500).json({error: "Could not delete expense"});
     }
+});
+
+// ===== Receipt Scanning (OpenRouter) =====
+
+app.post("/api/scan-receipt", upload.single("receipt"), async (req, res) => {
+    if (!req.file) {
+        return res.status(400).json({ error: "No image provided" });
+    }
+
+    const base64Image = req.file.buffer.toString("base64");
+    const mimeType = req.file.mimetype;
+
+    const prompt = `You are a receipt scanner. Analyze this receipt image and extract the following. Return ONLY a valid JSON object, no markdown, no backticks, no explanation:
+
+{
+  "name": "merchant/store name only (e.g. Target, McDonald's, Walmart)",
+  "amount": "the final TOTAL amount as a number only, no $ sign — this should be the highest/largest total on the receipt, NOT the subtotal",
+  "category": "one of: Food & Dining, Transport, Groceries, Entertainment, School / Education, Bills, Clothing, Health — pick the most relevant, or empty string if unsure",
+  "details": "list each individual item and its price one per line, or empty string if items are not clearly readable"
+}`;
+
+    const models = ["openrouter/free", "google/gemma-3-27b-it:free", "mistralai/mistral-small-3.1-24b-instruct:free"];
+
+    for (const model of models) {
+        try {
+            const response = await fetch("https://openrouter.ai/api/v1/chat/completions", {
+                method: "POST",
+                headers: {
+                    "Authorization": `Bearer ${process.env.OPENROUTER_API_KEY}`,
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify({
+                    model,
+                    messages: [{
+                        role: "user",
+                        content: [
+                            { type: "text", text: prompt },
+                            { type: "image_url", image_url: { url: `data:${mimeType};base64,${base64Image}` } }
+                        ]
+                    }]
+                })
+            });
+
+            const data = await response.json();
+
+            if (!response.ok || data.error) {
+                console.error(`Model ${model} failed:`, data.error?.message || "unknown error");
+                continue; // try next model
+            }
+
+            const rawText = data.choices?.[0]?.message?.content || "";
+            const cleaned = rawText.replace(/```json|```/g, "").trim();
+            const parsed = JSON.parse(cleaned);
+
+            return res.json({
+                name: parsed.name || "",
+                amount: parsed.amount || "",
+                category: parsed.category || "",
+                details: parsed.details || ""
+            });
+
+        } catch (err) {
+            console.error(`Model ${model} error:`, err.message);
+            continue; // try next model
+        }
+    }
+
+    return res.status(500).json({ error: "All models failed. Please fill in manually." });
 });
 
 // ===== Budget validation =====
@@ -543,6 +614,41 @@ app.put("/api/profile/:id", updateProfileValidator, async (req, res) => {
         message: "Profile updated.",
         user: { ...sanitizeUser(user), currencyPreference: profile.currencyPreference }
     });
+});
+
+// ===== Password Change =====
+
+app.put("/api/profile/me/password", requireAuth, async (req, res) => {
+    const { currentPassword, newPassword, confirmPassword } = req.body;
+
+    if (!currentPassword || !newPassword || !confirmPassword) {
+        return res.status(400).json({ error: "All password fields are required." });
+    }
+    if (newPassword.length < 6) {
+        return res.status(400).json({ error: "New password must be at least 6 characters." });
+    }
+    if (newPassword !== confirmPassword) {
+        return res.status(400).json({ error: "New passwords do not match." });
+    }
+
+    try {
+        await ensureAuthDatabase();
+        const user = await User.findById(req.user.id);
+
+        if (!user) return res.status(404).json({ error: "User not found." });
+
+        if (!verifyPassword(currentPassword, user.password)) {
+            return res.status(401).json({ error: "Current password is incorrect." });
+        }
+
+        user.password = hashPassword(newPassword);
+        await user.save();
+
+        res.status(200).json({ message: "Password updated successfully." });
+    } catch (err) {
+        console.error("Password change error:", err.message);
+        res.status(500).json({ error: "Could not update password." });
+    }
 });
 
 export default app;

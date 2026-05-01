@@ -1,9 +1,14 @@
-import { Link } from "react-router-dom"
-import PolicyFooter from "../components/PolicyFooter"
+import { useNavigate } from "react-router-dom"
 
 function Policies() {
+    const navigate = useNavigate()
+
     return (
         <div className="policies-page">
+            <div style={{ display: "flex", justifyContent: "flex-start", marginBottom: "1rem", marginLeft: "-1rem" }}>
+                <button className="btn-green" onClick={() => navigate("/profile")}>← Back to Profile</button>
+            </div>
+
             <h2 className="policies-title">Policies</h2>
             <hr className="policies-divider" />
 
@@ -63,8 +68,6 @@ function Policies() {
                     please contact the development team for support.
                 </div>
             </div>
-
-            <PolicyFooter />
         </div>
     )
 }
