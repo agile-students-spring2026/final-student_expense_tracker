@@ -1,7 +1,7 @@
 import ExpenseItem from "./ExpenseItem"
 import { useState } from "react";
 
-function Category({ categoryName, expenses, deleteExpense, deleteCategory, renameCategory }) {
+function Category({ categoryName, expenses, deleteExpense, deleteCategory, renameCategory, currencySymbol = "$" }) {
     const [showMenu, setShowMenu] = useState(false);
 
     function toggleMenu() {
@@ -39,6 +39,7 @@ function Category({ categoryName, expenses, deleteExpense, deleteCategory, renam
                     key={expense.id}
                     expense={expense}
                     deleteExpense={deleteExpense}
+                    currencySymbol={currencySymbol}
                 />
             ))}
         </div>

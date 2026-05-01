@@ -1,6 +1,6 @@
 import { Link } from "react-router-dom"
 
-function Budget({ budget, expenses }) {
+function Budget({ budget, expenses, currencySymbol = "$" }) {
     const { incomeSources, fixedExpenses } = budget;
 
     const totalIncome = incomeSources.reduce((sum, s) => sum + parseFloat(s.amount || 0), 0);
@@ -33,7 +33,7 @@ function Budget({ budget, expenses }) {
                     <div className="budget-cell">{src.amount}</div>
                 </div>
             ))}
-            <p className="land-budget-total">Total Income: {totalIncome > 0 ? `$${totalIncome.toFixed(2)}` : ""}</p>
+            <p className="land-budget-total">Total Income: {totalIncome > 0 ? `${currencySymbol}${totalIncome.toFixed(2)}` : ""}</p>
 
             <div className="land-section-label">Fixed Expenses</div>
             {fixedExpenses.map((exp, i) => (
@@ -42,22 +42,22 @@ function Budget({ budget, expenses }) {
                     <div className="budget-cell">{exp.amount}</div>
                 </div>
             ))}
-            <p className="land-budget-total">Total Expenses: {totalFixed > 0 ? `$${totalFixed.toFixed(2)}` : ""}</p>
+            <p className="land-budget-total">Total Expenses: {totalFixed > 0 ? `${currencySymbol}${totalFixed.toFixed(2)}` : ""}</p>
 
             <div className="land-section-label">Category Expenses</div>
             {categoryTotals.map(([name, amt], i) => (
                 <div key={i} className="land-budget-row">
                     <div className="budget-cell">{name}</div>
-                    <div className="budget-cell">${amt.toFixed(2)}</div>
+                    <div className="budget-cell">{amt.toFixed(2)}</div>
                 </div>
             ))}
-            <p className="land-budget-total">Total Category Expenses: {totalCategory > 0 ? `$${totalCategory.toFixed(2)}` : ""}</p>
+            <p className="land-budget-total">Total Category Expenses: {totalCategory > 0 ? `${currencySymbol}${totalCategory.toFixed(2)}` : ""}</p>
 
             <div className="land-section-label">Summary</div>
             <div className="land-summary-box">
-                <p className="land-budget-total">Total Income: {totalIncome > 0 ? `$${totalIncome.toFixed(2)}` : ""}</p>
-                <p className="land-budget-total">Total Expenses: {totalFixed > 0 ? `$${totalFixed.toFixed(2)}` : ""}</p>
-                <p className="land-budget-total">Total Category Expenses: {totalCategory > 0 ? `$${totalCategory.toFixed(2)}` : ""}</p>
+                <p className="land-budget-total">Total Income: {totalIncome > 0 ? `${currencySymbol}${totalIncome.toFixed(2)}` : ""}</p>
+                <p className="land-budget-total">Total Expenses: {totalFixed > 0 ? `${currencySymbol}${totalFixed.toFixed(2)}` : ""}</p>
+                <p className="land-budget-total">Total Category Expenses: {totalCategory > 0 ? `${currencySymbol}${totalCategory.toFixed(2)}` : ""}</p>
             </div>
         </div>
     )

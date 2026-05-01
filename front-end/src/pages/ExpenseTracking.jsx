@@ -1,6 +1,6 @@
 import { Link } from "react-router-dom"
 
-function ExpenseTracking({ expenses }) {
+function ExpenseTracking({ expenses, currencySymbol = "$" }) {
     const totalExpenses = expenses.length;
     const categories = [...new Set(expenses.filter(e => e.category && e.category.trim()).map(e => e.category.trim()))];
     const totalAmount = expenses.reduce((sum, e) => sum + parseFloat(e.amount || 0), 0);
@@ -29,7 +29,7 @@ function ExpenseTracking({ expenses }) {
                     <span className="land-stat-label">Categories</span>
                 </div>
                 <div className="land-stat-box">
-                    <span className="land-stat-value">${totalAmount.toFixed(0)}</span>
+                    <span className="land-stat-value">{currencySymbol}{totalAmount.toFixed(0)}</span>
                     <span className="land-stat-label">Total Amount</span>
                 </div>
             </div>

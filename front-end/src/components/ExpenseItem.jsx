@@ -1,7 +1,7 @@
 import { Link } from "react-router-dom"
 import { useState } from "react"
 
-function ExpenseItem({ expense, deleteExpense }) {
+function ExpenseItem({ expense, deleteExpense, currencySymbol = "$" }) {
     const [showMenu, setShowMenu] = useState(false);
 
     function toggleMenu() {
@@ -11,7 +11,7 @@ function ExpenseItem({ expense, deleteExpense }) {
     return (
         <div className="land-card-row">
             <div className="expense-item-cell">{expense.name}</div>
-            <div className="expense-item-cell">{expense.amount}</div>
+            <div className="expense-item-cell">{currencySymbol}{expense.amount}</div>
             <div className="expense-item-cell">{expense.dateAdded}</div>
             <div style={{ marginLeft: "auto", display: "flex", alignItems: "center", gap: "0.5rem" }}>
                 {showMenu && (

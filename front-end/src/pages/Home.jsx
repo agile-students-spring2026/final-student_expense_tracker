@@ -1,7 +1,7 @@
 import { Link } from "react-router-dom"
 import "./Home.css"
 
-function Home({ expenses = [], budget = { incomeSources: [], fixedExpenses: [] } }) {
+function Home({ expenses = [], budget = { incomeSources: [], fixedExpenses: [] }, currencySymbol = "$" }) {
 
     // ===== Stats =====
     const totalSpent = expenses.reduce((sum, e) => sum + Number(e.amount || 0), 0)
@@ -22,7 +22,7 @@ function Home({ expenses = [], budget = { incomeSources: [], fixedExpenses: [] }
     // ===== Recent expenses =====
     const recentExpenses = [...expenses].reverse().slice(0, 3)
 
-    // ===== Split (user customizable) — must come before budget calculations =====
+    // ===== Split =====
     const needsPct = budget?.split?.needs ?? 50
     const wantsPct = budget?.split?.wants ?? 30
     const savingsPct = budget?.split?.savings ?? 20
@@ -57,7 +57,7 @@ function Home({ expenses = [], budget = { incomeSources: [], fixedExpenses: [] }
                 {/* Stats */}
                 <div className="home-stats">
                     <div className="home-stat home-stat-dark">
-                        <div className="home-stat-num">${totalSpent.toFixed(0)}</div>
+                        <div className="home-stat-num">{currencySymbol}{totalSpent.toFixed(0)}</div>
                         <div className="home-stat-lbl">TOTAL SPENT</div>
                     </div>
                     <div className="home-stat">
@@ -82,7 +82,7 @@ function Home({ expenses = [], budget = { incomeSources: [], fixedExpenses: [] }
                                         <div className="home-bar-track">
                                             <div className="home-bar-fill" style={{ width: `${(cat.total / maxTotal) * 100}%`, background: barColors[i % barColors.length] }} />
                                         </div>
-                                        <div className="home-bar-amt">${cat.total.toFixed(0)}</div>
+                                        <div className="home-bar-amt">{currencySymbol}{cat.total.toFixed(0)}</div>
                                     </div>
                                 ))}
                             </div>
@@ -100,7 +100,7 @@ function Home({ expenses = [], budget = { incomeSources: [], fixedExpenses: [] }
                                         <div className="home-recent-name">{e.name}</div>
                                         <div className="home-recent-cat">{e.category || "Uncategorized"}</div>
                                     </div>
-                                    <div className="home-recent-amt">-${Number(e.amount).toFixed(0)}</div>
+                                    <div className="home-recent-amt">-{currencySymbol}{Number(e.amount).toFixed(0)}</div>
                                 </div>
                             ))
                         )}
@@ -128,14 +128,14 @@ function Home({ expenses = [], budget = { incomeSources: [], fixedExpenses: [] }
                                         </div>
                                     </div>
                                     <div className="home-donut-info">
-                                        <div className="home-donut-title">${totalSpent.toFixed(0)} spent</div>
-                                        <div className="home-donut-sub">of ${spendableBudget.toFixed(0)} spendable this month</div>
+                                        <div className="home-donut-title">{currencySymbol}{totalSpent.toFixed(0)} spent</div>
+                                        <div className="home-donut-sub">of {currencySymbol}{spendableBudget.toFixed(0)} spendable this month</div>
                                         <div className="home-donut-sub" style={{ fontSize: "10px", color: "#bbb", marginTop: "2px" }}>
-                                            savings (${savingsAmount.toFixed(0)}) already set aside
+                                            savings ({currencySymbol}{savingsAmount.toFixed(0)}) already set aside
                                         </div>
                                         <div className="home-legend">
-                                            <span><span className="home-dot" style={{ background: donutColor }}></span>Spent ${totalSpent.toFixed(0)}</span>
-                                            <span><span className="home-dot home-dot-empty"></span>Left ${Math.max(spendableBudget - totalSpent, 0).toFixed(0)}</span>
+                                            <span><span className="home-dot" style={{ background: donutColor }}></span>Spent {currencySymbol}{totalSpent.toFixed(0)}</span>
+                                            <span><span className="home-dot home-dot-empty"></span>Left {currencySymbol}{Math.max(spendableBudget - totalSpent, 0).toFixed(0)}</span>
                                         </div>
                                     </div>
                                 </div>
@@ -151,19 +151,19 @@ function Home({ expenses = [], budget = { incomeSources: [], fixedExpenses: [] }
                                         <div className="home-split-pill home-split-pill-needs">NEEDS</div>
                                         <div className="home-split-pct home-split-pct-needs">{needsPct}%</div>
                                         <div className="home-split-name">Fixed costs</div>
-                                        <div className="home-split-amt">${needs.toFixed(0)}</div>
+                                        <div className="home-split-amt">{currencySymbol}{needs.toFixed(0)}</div>
                                     </div>
                                     <div className="home-split-block home-split-wants">
                                         <div className="home-split-pill home-split-pill-wants">WANTS</div>
                                         <div className="home-split-pct home-split-pct-wants">{wantsPct}%</div>
                                         <div className="home-split-name">Spending</div>
-                                        <div className="home-split-amt">${wants.toFixed(0)}</div>
+                                        <div className="home-split-amt">{currencySymbol}{wants.toFixed(0)}</div>
                                     </div>
                                     <div className="home-split-block home-split-savings">
                                         <div className="home-split-pill home-split-pill-savings">SAVINGS</div>
                                         <div className="home-split-pct home-split-pct-savings">{savingsPct}%</div>
                                         <div className="home-split-name">Save it</div>
-                                        <div className="home-split-amt">${savings.toFixed(0)}</div>
+                                        <div className="home-split-amt">{currencySymbol}{savings.toFixed(0)}</div>
                                     </div>
                                 </div>
                             </div>
