@@ -5,7 +5,6 @@ import Budget from "./pages/Budget.jsx"
 import BudgetReport from "./pages/BudgetReport.jsx"
 import ConfirmExpense from "./pages/ConfirmExpense.jsx"
 import CreateBudget from "./pages/CreateBudget.jsx"
-import EditProfile from "./pages/EditProfile.jsx"
 import ExpenseInfo from "./pages/ExpenseInfo.jsx"
 import ExpenseList from "./pages/ExpenseList.jsx"
 import ExpenseTracking from "./pages/ExpenseTracking.jsx"
@@ -76,7 +75,6 @@ function AppContent({ expenses, setExpenses, pendingExpense, setPendingExpense, 
           <Route path="/budget/create" element={<CreateBudget key={JSON.stringify(budget)} budget={budget} setBudget={setBudget} />} />
           <Route path="/budget/report" element={<BudgetReport budget={budget} expenses={expenses} currencySymbol={currencySymbol} />} />
           <Route path="/profile" element={<Profile setCurrencySymbol={setCurrencySymbol} />} />
-          <Route path="/profile/edit" element={<EditProfile />} />
           <Route path="/policies" element={<Policies />} />
         </Routes>
       </main>

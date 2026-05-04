@@ -179,7 +179,7 @@ function AddExpense({ setPendingExpense, pastCategories = [] }) {
 
             {scanning && (
                 <p style={{ color: "#3db87a", fontSize: "0.8rem", textAlign: "center", marginBottom: "0.75rem" }}>
-                    Compressing and reading receipt...
+                    Reading receipt...
                 </p>
             )}
 
