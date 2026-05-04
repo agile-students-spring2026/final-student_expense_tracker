@@ -4,7 +4,7 @@ The frontend for **Trackr**, a student expense tracking app built with React and
 
 ---
 
-## Features
+## Our Features 
 
 - **Expense Tracking** — Add, edit, and delete expenses with categories, amounts, and details
 - **Receipt Scanning** — Scan a receipt photo and auto-fill expense fields using AI (OpenRouter vision model)
