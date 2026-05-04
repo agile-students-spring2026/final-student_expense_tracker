@@ -175,6 +175,12 @@ function Profile({ setCurrencySymbol }) {
                 <p className="edit-profile-email">{profile.email || "No email available"}</p>
             </div>
 
+            <div style={{ display: "flex", justifyContent: "center", marginBottom: "1rem" }}>
+                <button className="btn-green" onClick={() => navigate("/profile/edit")}>
+                    Edit Profile
+                </button>
+            </div>
+
             <hr className="edit-profile-divider" />
 
             {error && <p style={{ color: "#e05454", textAlign: "center", fontSize: "0.85rem" }}>{error}</p>}
