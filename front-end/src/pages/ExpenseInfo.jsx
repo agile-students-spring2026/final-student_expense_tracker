@@ -63,9 +63,13 @@ function ExpenseInfo({ expenses, setExpenses, currencySymbol = "$" }) {
     async function handleSave(e) {
         e.preventDefault();
         try {
+            const token = localStorage.getItem("authToken")
             const res = await fetch(`https://trackr-jxdi.onrender.com/api/expenses/${expense.id}`, {
                 method: "PUT",
-                headers: { "Content-Type": "application/json" },
+                headers: {
+                    "Content-Type": "application/json",
+                    "Authorization": `Bearer ${token}`
+                },
                 body: JSON.stringify({
                     name: formData.name,
                     amount: formData.amount,
