@@ -10,6 +10,7 @@ import ExpenseList from "./pages/ExpenseList.jsx"
 import ExpenseTracking from "./pages/ExpenseTracking.jsx"
 import CustomizeSplit from "./pages/CustomizeSplit.jsx"
 import Home from "./pages/Home.jsx"
+import EditProfile from "./pages/Editprofile.jsx"
 import Landing from "./pages/Landing.jsx"
 import Login from "./pages/Login.jsx"
 import Policies from "./pages/Policies.jsx"
@@ -74,6 +75,7 @@ function AppContent({ expenses, setExpenses, pendingExpense, setPendingExpense, 
           <Route path="/budget" element={<Budget budget={budget} expenses={expenses} currencySymbol={currencySymbol} />} />
           <Route path="/budget/create" element={<CreateBudget key={JSON.stringify(budget)} budget={budget} setBudget={setBudget} />} />
           <Route path="/budget/report" element={<BudgetReport budget={budget} expenses={expenses} currencySymbol={currencySymbol} />} />
+          <Route path="/profile/edit" element={<EditProfile setCurrencySymbol={setCurrencySymbol} />} />
           <Route path="/profile" element={<Profile setCurrencySymbol={setCurrencySymbol} />} />
           <Route path="/policies" element={<Policies />} />
         </Routes>
