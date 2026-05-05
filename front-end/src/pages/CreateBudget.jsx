@@ -37,7 +37,7 @@ function CreateBudget({ budget, setBudget }) {
         };
 
         try {
-            const res = await fetch("http://localhost:3000/api/budget", {
+            const res = await fetch("https://trackr-jxdi.onrender.com/api/budget", {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json",

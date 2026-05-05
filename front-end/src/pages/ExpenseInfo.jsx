@@ -63,7 +63,7 @@ function ExpenseInfo({ expenses, setExpenses, currencySymbol = "$" }) {
     async function handleSave(e) {
         e.preventDefault();
         try {
-            const res = await fetch(`http://localhost:3000/api/expenses/${expense.id}`, {
+            const res = await fetch(`https://trackr-jxdi.onrender.com/api/expenses/${expense.id}`, {
                 method: "PUT",
                 headers: { "Content-Type": "application/json" },
                 body: JSON.stringify({

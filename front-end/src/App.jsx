@@ -99,7 +99,7 @@ function App() {
   useEffect(() => {
     async function loadExpenses() {
       try {
-        const res = await fetch("http://localhost:3000/api/expenses");
+        const res = await fetch("https://trackr-jxdi.onrender.com/api/expenses");
         const data = await res.json();
         setExpenses(data);
       } catch (err) {
@@ -113,7 +113,7 @@ function App() {
     async function loadBudget() {
       try {
         const token = localStorage.getItem("authToken")
-        const res = await fetch("http://localhost:3000/api/budget", {
+        const res = await fetch("https://trackr-jxdi.onrender.com/api/budget", {
           headers: { "Authorization": `Bearer ${token}` }
         })
         const data = await res.json();
@@ -130,7 +130,7 @@ function App() {
       try {
         const token = localStorage.getItem("authToken")
         if (!token) return;
-        const res = await fetch("http://localhost:3000/api/profile/me", {
+        const res = await fetch("https://trackr-jxdi.onrender.com/api/profile/me", {
           headers: { "Authorization": `Bearer ${token}` }
         })
         const data = await res.json();
@@ -159,7 +159,7 @@ function App() {
     const confirmed = window.confirm("Delete this expense?")
     if (!confirmed) return;
     try {
-      await fetch(`http://localhost:3000/api/expenses/${id}`, { method: "DELETE" })
+      await fetch(`https://trackr-jxdi.onrender.com/api/expenses/${id}`, { method: "DELETE" })
       setExpenses((prev) => prev.filter((expense) => expense.id !== id));
     } catch (err) {
       console.error("Failed to delete expense:", err);
@@ -169,7 +169,7 @@ function App() {
   async function renameCategory(oldCategoryName, newCategoryName) {
     try {
       const res = await fetch(
-        `http://localhost:3000/api/expenses/category/${encodeURIComponent(oldCategoryName)}`,
+        `https://trackr-jxdi.onrender.com/api/expenses/category/${encodeURIComponent(oldCategoryName)}`,
         {
           method: "PUT",
           headers: { "Content-Type": "application/json" },
@@ -192,7 +192,7 @@ function App() {
     const confirmed = window.confirm(`Delete the ${categoryName} category, and its expenses?`)
     if (!confirmed) return;
     try {
-      await fetch(`http://localhost:3000/api/expenses/category/${encodeURIComponent(categoryName)}`, { method: "DELETE" })
+      await fetch(`https://trackr-jxdi.onrender.com/api/expenses/category/${encodeURIComponent(categoryName)}`, { method: "DELETE" })
       setExpenses((prev) => prev.filter((expense) => expense.category !== categoryName));
     } catch (err) {
       console.error("Failed to delete category:", err);

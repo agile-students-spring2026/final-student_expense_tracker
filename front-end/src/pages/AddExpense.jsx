@@ -86,7 +86,7 @@ function AddExpense({ setPendingExpense, pastCategories = [] }) {
             const data = new FormData();
             data.append("receipt", compressed, "receipt.jpg");
 
-            const res = await fetch("http://localhost:3000/api/scan-receipt", {
+            const res = await fetch("https://trackr-jxdi.onrender.com/api/scan-receipt", {
                 method: "POST",
                 body: data
             });
