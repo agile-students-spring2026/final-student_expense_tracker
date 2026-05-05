@@ -26,3 +26,8 @@
         display: none;
     }
 }
+
+
+[data-theme="dark"] .logo-wordmark {
+    color: #f5f5f5 !important;
+}
