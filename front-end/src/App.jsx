@@ -36,7 +36,6 @@ function AppContent({ expenses, setExpenses, pendingExpense, setPendingExpense, 
         setSidebarOpen(false)
       }
     }
-
     handleResize()
     window.addEventListener("resize", handleResize)
     return () => window.removeEventListener("resize", handleResize)
@@ -88,7 +87,6 @@ function App() {
   const [budget, setBudget] = useState({ incomeSources: [], fixedExpenses: [], period: "Monthly" })
   const [currencySymbol, setCurrencySymbol] = useState("$")
 
-  // Derive custom categories from existing expenses (ones not in presets)
   const pastCategories = useMemo(() => {
     const seen = new Set()
     return expenses
@@ -101,64 +99,45 @@ function App() {
       try {
         const token = localStorage.getItem("authToken")
         const res = await fetch("https://trackr-jxdi.onrender.com/api/expenses", {
-          headers: {
-            Authorization: `Bearer ${token}`
-          }
-        });
-
-        if (!res.ok) {
-          console.log("Failed auth", res.status);
-          setExpenses([]);
-          return;
-        }
-
-        const data = await res.json();
-        setExpenses(data);
+          headers: { Authorization: `Bearer ${token}` }
+        })
+        if (!res.ok) { setExpenses([]); return }
+        const data = await res.json()
+        setExpenses(data)
       } catch (err) {
-        console.log("Failed to load expenses:", err);
+        console.log("Failed to load expenses:", err)
       }
     }
-    loadExpenses();
-  }, []);
+    loadExpenses()
+  }, [])
 
   useEffect(() => {
     async function loadBudget() {
       try {
         const token = localStorage.getItem("authToken")
         const res = await fetch("https://trackr-jxdi.onrender.com/api/budget", {
-          headers: { "Authorization": `Bearer ${token}` }
+          headers: { Authorization: `Bearer ${token}` }
         })
-
-        if (!res.ok) {
-          console.log("Failed budget auth", res.status);
-          setBudget({incomeSources:[], fixedExpenses:[], period:"monthly"});
-          return;
-        }
-        
-        const data = await res.json();
-        setBudget(data);
+        if (!res.ok) { setBudget({ incomeSources: [], fixedExpenses: [], period: "Monthly" }); return }
+        const data = await res.json()
+        setBudget(data)
       } catch (err) {
-        console.log("Failed to load budget:", err);
+        console.log("Failed to load budget:", err)
       }
     }
-    loadBudget();
-  }, []);
+    loadBudget()
+  }, [])
 
   useEffect(() => {
     async function loadCurrency() {
       try {
         const token = localStorage.getItem("authToken")
-        if (!token) return;
+        if (!token) return
         const res = await fetch("https://trackr-jxdi.onrender.com/api/profile/me", {
-          headers: { "Authorization": `Bearer ${token}` }
+          headers: { Authorization: `Bearer ${token}` }
         })
-
-        if (!res.ok) {
-          console.log("Failed profile auth", res.status);
-          return;
-        }
-
-        const data = await res.json();
+        if (!res.ok) return
+        const data = await res.json()
         if (data.currencyPreference) {
           const CURRENCY_SYMBOLS = {
             USD: "$", EUR: "€", GBP: "£", JPY: "¥", CAD: "CA$", AUD: "A$",
@@ -170,81 +149,71 @@ function App() {
             CZK: "Kč", HUF: "Ft", RON: "lei", TRY: "₺", RUB: "₽", UAH: "₴",
             ILS: "₪", CLP: "CLP$", COP: "COL$", PEN: "S/.", ARS: "$",
             DZD: "دج", MAD: "MAD", ETB: "Br"
-          };
-          setCurrencySymbol(CURRENCY_SYMBOLS[data.currencyPreference] || "$");
+          }
+          setCurrencySymbol(CURRENCY_SYMBOLS[data.currencyPreference] || "$")
         }
       } catch (err) {
-        console.log("Failed to load currency:", err);
+        console.log("Failed to load currency:", err)
       }
     }
-    loadCurrency();
-  }, []);
+    loadCurrency()
+  }, [])
 
   async function deleteExpense(id) {
     const confirmed = window.confirm("Delete this expense?")
-    if (!confirmed) return;
+    if (!confirmed) return
     try {
       const token = localStorage.getItem("authToken")
-      const res = await fetch(`https://trackr-jxdi.onrender.com/api/expenses/${id}`, { method: "DELETE",
-        headers: {
-          Authorization: `Bearer ${token}`
-        }
+      const res = await fetch(`https://trackr-jxdi.onrender.com/api/expenses/${id}`, {
+        method: "DELETE",
+        headers: { Authorization: `Bearer ${token}` }
       })
-
-      if (!res.ok) {
-          console.log("Failed to delete", res.status);
-          return;
-      }
-
-      setExpenses((prev) => prev.filter((expense) => expense.id !== id));
+      if (!res.ok) { console.log("Failed to delete", res.status); return }
+      setExpenses((prev) => prev.filter((expense) => expense.id !== id))
     } catch (err) {
-      console.error("Failed to delete expense:", err);
+      console.error("Failed to delete expense:", err)
     }
   }
 
   async function renameCategory(oldCategoryName, newCategoryName) {
     try {
-      const token = localStorage.getItem("authToken");
+      const token = localStorage.getItem("authToken")
       const res = await fetch(
         `https://trackr-jxdi.onrender.com/api/expenses/category/${encodeURIComponent(oldCategoryName)}`,
         {
           method: "PUT",
-          headers: { "Content-Type": "application/json",
-            Authorization: `Bearer ${token}`
-           },
+          headers: { "Content-Type": "application/json", Authorization: `Bearer ${token}` },
           body: JSON.stringify({ newCategoryName })
         }
-      );
-      if (!res.ok) throw new Error(`Rename failed: ${res.status}`);
+      )
+      if (!res.ok) throw new Error(`Rename failed: ${res.status}`)
       setExpenses((prev) =>
         prev.map((expense) =>
           expense.category === oldCategoryName
             ? { ...expense, category: newCategoryName.trim() }
             : expense
-        ));
+        ))
     } catch (err) {
-      console.error("Failed to rename category:", err);
+      console.error("Failed to rename category:", err)
     }
   }
 
   async function deleteCategory(categoryName) {
     const confirmed = window.confirm(`Delete the ${categoryName} category, and its expenses?`)
-    if (!confirmed) return;
+    if (!confirmed) return
     try {
       const token = localStorage.getItem("authToken")
-      await fetch(`https://trackr-jxdi.onrender.com/api/expenses/category/${encodeURIComponent(categoryName)}`, { method: "DELETE",
-        headers: {
-          Authorization: `Bearer ${token}`
+      const res = await fetch(
+        `https://trackr-jxdi.onrender.com/api/expenses/category/${encodeURIComponent(categoryName)}`,
+        {
+          method: "DELETE",
+          headers: { Authorization: `Bearer ${token}` }
         }
-       })
-
-      if (!res.ok) {
-        console.log("failed to delete category:", res.status);
-        return;
-      }
-      setExpenses((prev) => prev.filter((expense) => expense.category !== categoryName));
+      )
+      if (!res.ok) { console.log("Failed to delete category:", res.status); return }
+      setExpenses((prev) => prev.filter((expense) => expense.category !== categoryName))
     } catch (err) {
-      console.error("Failed to delete category:", err);
+      console.error("Failed to delete category:", err)
     }
   }
 

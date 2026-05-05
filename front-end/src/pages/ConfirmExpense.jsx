@@ -6,19 +6,14 @@ function ConfirmExpense({ pendingExpense, expenses, setExpenses, setPendingExpen
 
     async function handleConfirm() {
         if (!pendingExpense) return;
-        console.log("Sending:", {
-            name: pendingExpense.name,
-            amount: Number(pendingExpense.amount),
-            category: pendingExpense.category,
-            details: pendingExpense.details,
-            dateAdded: pendingExpense.dateAdded
-        })
 
         try {
+            const token = localStorage.getItem("authToken")
             const res = await fetch("https://trackr-jxdi.onrender.com/api/expenses", {
-                method:"POST",
+                method: "POST",
                 headers: {
-                    "Content-Type":"application/json"
+                    "Content-Type": "application/json",
+                    "Authorization": `Bearer ${token}`
                 },
                 body: JSON.stringify({
                     name: pendingExpense.name,
@@ -26,15 +21,13 @@ function ConfirmExpense({ pendingExpense, expenses, setExpenses, setPendingExpen
                     category: pendingExpense.category,
                     details: pendingExpense.details,
                     dateAdded: pendingExpense.dateAdded
-            })
-        });
-            console.log("Status:", res.status)
+                })
+            });
             const savedExpense = await res.json();
-            console.log("Response:", savedExpense)
             setExpenses(prev => [...prev, savedExpense]);
             setPendingExpense(null);
             navigate("/expenses/list");
-        }catch (err) {
+        } catch (err) {
             console.log("Failed to save expense:", err);
         }
     }
