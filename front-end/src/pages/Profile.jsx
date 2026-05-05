@@ -65,6 +65,8 @@ function Profile({ setCurrencySymbol }) {
     const [error, setError] = useState("")
     const [currencySuccess, setCurrencySuccess] = useState("")
     const [selectedCurrency, setSelectedCurrency] = useState("USD")
+    const [theme, setTheme] = useState(localStorage.getItem("theme") || "light")
+    const [color, setColor] = useState(localStorage.getItem("color") || "#169246")
 
     // Password change state
     const [showPasswordForm, setShowPasswordForm] = useState(false)
@@ -102,6 +104,15 @@ function Profile({ setCurrencySymbol }) {
         }
         loadProfile()
     }, [navigate])
+
+    useEffect(() => {
+    document.documentElement.setAttribute("data-theme", theme)
+    document.documentElement.style.setProperty("--accent", color)
+
+    localStorage.setItem("theme", theme)
+    localStorage.setItem("color", color)
+}, [theme, color])
+
 
     async function handleSaveCurrency() {
         const token = localStorage.getItem("authToken")
@@ -206,6 +217,36 @@ function Profile({ setCurrencySymbol }) {
                 </div>
                 {currencySuccess && <p style={{ color: "#3db87a", fontSize: "0.85rem", padding: "0.5rem 1.5rem" }}>{currencySuccess}</p>}
             </div>
+
+
+            {/* Appearance Settings */}
+            <div className="profile-settings-section">
+                <h3 className="profile-settings-title">Appearance</h3>
+
+                <div style={{ padding: "0 1.5rem", marginBottom: "1rem" }}>
+                    <label>Theme:</label>
+                    <select
+                        className="land-form-input"
+                        value={theme}
+                        onChange={(e) => setTheme(e.target.value)}
+                        style={{ appearance: "auto", marginTop: "0.4rem", maxWidth: "300px" }}
+                    >
+                        <option value="light">Light</option>
+                        <option value="dark">Dark</option>
+                    </select>
+                </div>
+
+                <div style={{ padding: "0 1.5rem" }}>
+                    <label>Accent Color:</label>
+                    <input
+                        type="color"
+                        value={color}
+                        onChange={(e) => setColor(e.target.value)}
+                        style={{ marginLeft: "10px" }}
+                    />
+                </div>
+            </div>
+
 
             {/* Password Change */}
             <div className="profile-settings-section">

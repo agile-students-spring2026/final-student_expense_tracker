@@ -7,9 +7,14 @@
     max-width: 520px;
 }
 
+.feat-label {
+    color: var(--accent) !important;
+    opacity: 1 !important;
+}
+
 /* Dashboard box */
 .home-dashboard {
-    background: #fff;
+    background: var(--card);
     border: 1px solid rgba(15,20,16,0.08);
     border-radius: 16px;
     padding: 1.5rem;
@@ -20,7 +25,7 @@
 
 .home-divider {
     border: none;
-    border-top: 1px solid #ede9e0;
+    border-top: 1px solid rgba(255, 255, 255, 0.12);
     margin: 1.25rem 0;
 }
 
@@ -53,7 +58,7 @@
 .home-stat-num {
     font-size: 1.6rem;
     font-weight: 800;
-    color: #111;
+    color: var(--text);
     line-height: 1;
     margin-bottom: 4px;
 }
@@ -96,7 +101,7 @@
 
 .home-bar-label {
     font-size: 12px;
-    color: #555;
+    color: var(--text);
     width: 70px;
     flex-shrink: 0;
     text-align: right;
@@ -105,7 +110,7 @@
 .home-bar-track {
     flex: 1;
     min-width: 0;
-    background: #f5f2eb;
+    background: rgba(255, 255, 255, 0.12);
     border-radius: 6px;
     height: 20px;
     overflow: hidden;
@@ -118,7 +123,7 @@
 
 .home-bar-amt {
     font-size: 12px;
-    color: #555;
+    color: var(--text);
     width: 45px;
     text-align: right;
     flex-shrink: 0;
@@ -138,7 +143,7 @@
     align-items: center;
     gap: 1rem;
     padding: 7px 0;
-    border-bottom: 1px solid #f5f2eb;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.12);
 }
 
 .home-recent-item:last-child {
@@ -148,7 +153,7 @@
 .home-recent-name {
     font-size: 13px;
     font-weight: 500;
-    color: #111;
+    color: var(--text);
     overflow-wrap: anywhere;
 }
 
@@ -472,4 +477,21 @@
         width: 100%;
         padding: 12px 18px;
     }
+}
+
+
+[data-theme="dark"] .home-donut-pct,
+[data-theme="dark"] .home-donut-title,
+[data-theme="dark"] .home-split-name,
+[data-theme="dark"] .home-split-amt,
+[data-theme="dark"] .home-legend {
+    color: #f5f5f5;
+}
+
+[data-theme="dark"] .home-donut-sub,
+[data-theme="dark"] .home-donut-lbl,
+[data-theme="dark"] .home-recent-cat,
+[data-theme="dark"] .home-stat-lbl,
+[data-theme="dark"] .home-sub {
+    color: #cfcfcf;
 }
