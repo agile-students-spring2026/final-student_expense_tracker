@@ -45,23 +45,30 @@ function validationErrors(req, res) {
 }
 
 // ===== Expense routes =====
+app.get("/api/expenses", requireAuth, async (req, res) => {
+    console.log("REQ USER ID:", req.user.id);
 
-app.get("/api/expenses", async (req, res) => {
+    const expenses = await Expense.find({ userId: req.user.id });
+    console.log("FOUND EXPENSES:", expenses.length);
+
+    res.json(expenses.map(formatExpense));
+});
+app.get("/api/expenses", requireAuth, async (req, res) => {
     try {
-        const expenses = await Expense.find().sort({createdAt: -1});
+        const expenses = await Expense.find({userId: req.user.id}).sort({createdAt: -1});
         res.json(expenses.map(formatExpense));
     } catch(err) {
         res.status(500).json({error: "Could not load expenses"});
     }
 });
 
-app.post("/api/expenses", createExpenseValidator, async (req, res) => {
+app.post("/api/expenses", requireAuth, createExpenseValidator, async (req, res) => {
     const errorResponse = validationErrors(req,res);
     if (errorResponse) return;
 
     try {
         const newExpense = await Expense.create({
-            userId: new mongoose.Types.ObjectId("000000000000000000000000"),
+            userId: req.user.id,
             name: req.body.name.trim(),
             amount: req.body.amount,
             category: req.body.category || "",
@@ -75,13 +82,13 @@ app.post("/api/expenses", createExpenseValidator, async (req, res) => {
     }
 });
 
-app.put("/api/expenses/:id", updateExpenseValidator, async (req, res) => {
+app.put("/api/expenses/:id", requireAuth, updateExpenseValidator, async (req, res) => {
     const errorResponse = validationErrors(req,res);
     if (errorResponse) return;
 
     try {
-        const updatedExpense = await Expense.findByIdAndUpdate(
-            req.params.id,
+        const updatedExpense = await Expense.findOneAndUpdate(
+            {_id:req.params.id, userId:req.user.id},
             {
                 name: req.body.name,
                 amount: req.body.amount,
@@ -100,12 +107,12 @@ app.put("/api/expenses/:id", updateExpenseValidator, async (req, res) => {
     }
 });
 
-app.delete("/api/expenses/:id", expenseIdValidator, async (req, res) => {
+app.delete("/api/expenses/:id", requireAuth, expenseIdValidator, async (req, res) => {
     const errorResponse = validationErrors(req,res);
     if (errorResponse) return;
 
     try {
-        const deletedExpense = await Expense.findByIdAndDelete(req.params.id);
+        const deletedExpense = await Expense.findOneAndDelete({_id:req.params.id,userId:req.user.id});
 
         if (!deletedExpense) {
             return res.status(404).json({error: "Expense not found"});
@@ -116,7 +123,7 @@ app.delete("/api/expenses/:id", expenseIdValidator, async (req, res) => {
     }
 });
 
-app.put("/api/expenses/category/:categoryName", categoryNameValidator, async (req, res) => {
+app.put("/api/expenses/category/:categoryName", requireAuth, categoryNameValidator, async (req, res) => {
     const {categoryName} = req.params;
     const {newCategoryName} = req.body;
 
@@ -126,7 +133,7 @@ app.put("/api/expenses/category/:categoryName", categoryNameValidator, async (re
 
     try {
         await Expense.updateMany(
-            {category: categoryName},
+            {userId:req.user.id, category: categoryName},
             {category: newCategoryName.trim()}
         );
         res.json({message: "Category renamed", newCategoryName: newCategoryName.trim()})
@@ -135,12 +142,12 @@ app.put("/api/expenses/category/:categoryName", categoryNameValidator, async (re
     }
 });
 
-app.delete("/api/expenses/category/:categoryName", categoryNameValidator, async (req, res) => {
+app.delete("/api/expenses/category/:categoryName", requireAuth, categoryNameValidator, async (req, res) => {
     const errorResponse = validationErrors(req,res);
     if (errorResponse) return;
 
     try {
-        await Expense.deleteMany({category: req.params.categoryName});
+        await Expense.deleteMany({userId:req.user.id, category: req.params.categoryName});
         res.json({message: "Category deleted"});
     } catch (err) {
         res.status(500).json({error: "Could not delete expense"});

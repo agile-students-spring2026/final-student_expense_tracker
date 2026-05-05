@@ -99,7 +99,19 @@ function App() {
   useEffect(() => {
     async function loadExpenses() {
       try {
-        const res = await fetch("https://trackr-jxdi.onrender.com/api/expenses");
+        const token = localStorage.getItem("authToken")
+        const res = await fetch("https://trackr-jxdi.onrender.com/api/expenses", {
+          headers: {
+            Authorization: `Bearer ${token}`
+          }
+        });
+
+        if (!res.ok) {
+          console.log("Failed auth", res.status);
+          setExpenses([]);
+          return;
+        }
+
         const data = await res.json();
         setExpenses(data);
       } catch (err) {
@@ -116,6 +128,13 @@ function App() {
         const res = await fetch("https://trackr-jxdi.onrender.com/api/budget", {
           headers: { "Authorization": `Bearer ${token}` }
         })
+
+        if (!res.ok) {
+          console.log("Failed budget auth", res.status);
+          setBudget({incomeSources:[], fixedExpenses:[], period:"monthly"});
+          return;
+        }
+        
         const data = await res.json();
         setBudget(data);
       } catch (err) {
@@ -133,6 +152,12 @@ function App() {
         const res = await fetch("https://trackr-jxdi.onrender.com/api/profile/me", {
           headers: { "Authorization": `Bearer ${token}` }
         })
+
+        if (!res.ok) {
+          console.log("Failed profile auth", res.status);
+          return;
+        }
+
         const data = await res.json();
         if (data.currencyPreference) {
           const CURRENCY_SYMBOLS = {
@@ -159,7 +184,18 @@ function App() {
     const confirmed = window.confirm("Delete this expense?")
     if (!confirmed) return;
     try {
-      await fetch(`https://trackr-jxdi.onrender.com/api/expenses/${id}`, { method: "DELETE" })
+      const token = localStorage.getItem("authToken")
+      const res = await fetch(`https://trackr-jxdi.onrender.com/api/expenses/${id}`, { method: "DELETE",
+        headers: {
+          Authorization: `Bearer ${token}`
+        }
+      })
+
+      if (!res.ok) {
+          console.log("Failed to delete", res.status);
+          return;
+      }
+
       setExpenses((prev) => prev.filter((expense) => expense.id !== id));
     } catch (err) {
       console.error("Failed to delete expense:", err);
@@ -168,11 +204,14 @@ function App() {
 
   async function renameCategory(oldCategoryName, newCategoryName) {
     try {
+      const token = localStorage.getItem("authToken");
       const res = await fetch(
         `https://trackr-jxdi.onrender.com/api/expenses/category/${encodeURIComponent(oldCategoryName)}`,
         {
           method: "PUT",
-          headers: { "Content-Type": "application/json" },
+          headers: { "Content-Type": "application/json",
+            Authorization: `Bearer ${token}`
+           },
           body: JSON.stringify({ newCategoryName })
         }
       );
@@ -192,7 +231,17 @@ function App() {
     const confirmed = window.confirm(`Delete the ${categoryName} category, and its expenses?`)
     if (!confirmed) return;
     try {
-      await fetch(`https://trackr-jxdi.onrender.com/api/expenses/category/${encodeURIComponent(categoryName)}`, { method: "DELETE" })
+      const token = localStorage.getItem("authToken")
+      await fetch(`https://trackr-jxdi.onrender.com/api/expenses/category/${encodeURIComponent(categoryName)}`, { method: "DELETE",
+        headers: {
+          Authorization: `Bearer ${token}`
+        }
+       })
+
+      if (!res.ok) {
+        console.log("failed to delete category:", res.status);
+        return;
+      }
       setExpenses((prev) => prev.filter((expense) => expense.category !== categoryName));
     } catch (err) {
       console.error("Failed to delete category:", err);
