@@ -25,7 +25,7 @@ const PRESET_CATEGORIES = [
     "School / Education", "Bills", "Clothing", "Health"
 ]
 
-function AppContent({ expenses, setExpenses, pendingExpense, setPendingExpense, deleteExpense, deleteCategory, renameCategory, budget, setBudget, pastCategories, currencySymbol, setCurrencySymbol }) {
+function AppContent({ expenses, setExpenses, pendingExpense, setPendingExpense, deleteExpense, deleteCategory, renameCategory, budget, setBudget, pastCategories, currencySymbol, setCurrencySymbol, setAccentColor, resetAccentColor }) {
   const location = useLocation()
   const showNav = !NO_NAV_PAGES.includes(location.pathname)
   const [sidebarOpen, setSidebarOpen] = useState(() => window.innerWidth >= 768)
@@ -73,7 +73,7 @@ function AppContent({ expenses, setExpenses, pendingExpense, setPendingExpense, 
           <Route path="/budget" element={<Budget budget={budget} expenses={expenses} currencySymbol={currencySymbol} />} />
           <Route path="/budget/create" element={<CreateBudget key={JSON.stringify(budget)} budget={budget} setBudget={setBudget} />} />
           <Route path="/budget/report" element={<BudgetReport budget={budget} expenses={expenses} currencySymbol={currencySymbol} />} />
-          <Route path="/profile" element={<Profile setCurrencySymbol={setCurrencySymbol} />} />
+          <Route path="/profile" element={<Profile setCurrencySymbol={setCurrencySymbol} setAccentColor={setAccentColor} resetAccentColor={resetAccentColor} />} />
           <Route path="/policies" element={<Policies />} />
         </Routes>
       </main>
@@ -86,6 +86,10 @@ function App() {
   const [pendingExpense, setPendingExpense] = useState(null)
   const [budget, setBudget] = useState({ incomeSources: [], fixedExpenses: [], period: "Monthly" })
   const [currencySymbol, setCurrencySymbol] = useState("$")
+  const DEFAULT_ACCENT = "#169246"
+  const [accentColor, setAccentColor] = useState(() => {
+  return localStorage.getItem("accentColor") || DEFAULT_ACCENT
+  })
 
   const pastCategories = useMemo(() => {
     const seen = new Set()
@@ -158,6 +162,14 @@ function App() {
     }
     loadCurrency()
   }, [])
+
+  useEffect(() => {
+  document.documentElement.style.setProperty("--accent", accentColor)
+  localStorage.setItem("accentColor", accentColor)}, [accentColor])
+
+  const resetAccentColor = () => {
+  setAccentColor(DEFAULT_ACCENT)
+  }
 
   async function deleteExpense(id) {
     const confirmed = window.confirm("Delete this expense?")
@@ -232,6 +244,8 @@ function App() {
         pastCategories={pastCategories}
         currencySymbol={currencySymbol}
         setCurrencySymbol={setCurrencySymbol}
+        setAccentColor={setAccentColor}
+        resetAccentColor={resetAccentColor}
       />
     </BrowserRouter>
   )
