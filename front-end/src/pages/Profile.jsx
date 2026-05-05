@@ -83,7 +83,7 @@ function Profile({ setCurrencySymbol }) {
 
         async function loadProfile() {
             try {
-                const response = await fetch("http://localhost:3000/api/profile/me", {
+                const response = await fetch("https://trackr-jxdi.onrender.com/api/profile/me", {
                     headers: { Authorization: `Bearer ${token}` }
                 })
                 const data = await response.json()
@@ -106,7 +106,7 @@ function Profile({ setCurrencySymbol }) {
     async function handleSaveCurrency() {
         const token = localStorage.getItem("authToken")
         try {
-            const res = await fetch("http://localhost:3000/api/profile/me", {
+            const res = await fetch("https://trackr-jxdi.onrender.com/api/profile/me", {
                 method: "PUT",
                 headers: { "Content-Type": "application/json", Authorization: `Bearer ${token}` },
                 body: JSON.stringify({
@@ -135,7 +135,7 @@ function Profile({ setCurrencySymbol }) {
         setSavingPassword(true)
         const token = localStorage.getItem("authToken")
         try {
-            const res = await fetch("http://localhost:3000/api/profile/me/password", {
+            const res = await fetch("https://trackr-jxdi.onrender.com/api/profile/me/password", {
                 method: "PUT",
                 headers: { "Content-Type": "application/json", Authorization: `Bearer ${token}` },
                 body: JSON.stringify(passwordData)

@@ -46,7 +46,7 @@ function CustomizeSplit({ budget, setBudget }) {
         setSaving(true)
         try {
             const token = localStorage.getItem("authToken")
-            const res = await fetch("http://localhost:3000/api/budget", {
+            const res = await fetch("https://trackr-jxdi.onrender.com/api/budget", {
                 method: "PUT",
                 headers: {
                     "Content-Type": "application/json",

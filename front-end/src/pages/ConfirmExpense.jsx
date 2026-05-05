@@ -15,7 +15,7 @@ function ConfirmExpense({ pendingExpense, expenses, setExpenses, setPendingExpen
         })
 
         try {
-            const res = await fetch("http://localhost:3000/api/expenses", {
+            const res = await fetch("https://trackr-jxdi.onrender.com/api/expenses", {
                 method:"POST",
                 headers: {
                     "Content-Type":"application/json"
