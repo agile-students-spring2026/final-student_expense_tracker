@@ -1,21 +1,21 @@
 # Trackr — Frontend
 
-The frontend for **Trackr**, a student expense tracking app built with React and Vite.
+The frontend for **Trackr**, an expense tracking app built with React and Vite.
 
 ---
 
-## Our Features 
+## Features
 
 - **Expense Tracking** — Add, edit, and delete expenses with categories, amounts, and details
 - **Receipt Scanning** — Scan a receipt photo and auto-fill expense fields using AI (OpenRouter vision model)
 - **Category Management** — Group expenses into preset or custom categories, rename or delete categories
 - **Budget Management** — Set income sources, fixed expenses, and track your spending split (Needs / Wants / Savings)
-- **Customize Split** — Set your own budget split percentages with preset options and a minimum 10% savings rule
-- **Budget Report** — View a full breakdown of income, fixed expenses, and category spending with % of income, downloadable as PDF
+- **Customize Split** — Set your own budget split percentages
+- **Budget Report** — Full breakdown of income and spending, downloadable as PDF
 - **Expense Export** — Export all expenses to CSV
 - **Expense Sorting & Search** — Sort by newest, oldest, A-Z, Z-A, highest, or lowest cost
 - **User Auth** — Sign up and log in with JWT-based authentication
-- **Profile Page** — View and manage your account settings
+- **Profile Page** — View and manage your account, currency preference, and password
 
 ---
 
@@ -29,43 +29,42 @@ The frontend for **Trackr**, a student expense tracking app built with React and
 
 ---
 
-## Prerequisites
+## Building and Testing
 
+### Prerequisites
 - [Node.js](https://nodejs.org/) v18 or higher
 - npm
-- Backend server running at `http://localhost:3000` (see backend README)
+- Backend server running (see [backend README](../back-end/server/README.md))
 
----
-
-## Install & Run
-
-### 1. Navigate to the frontend folder
+### Install dependencies
 ```bash
 cd front-end
-```
-
-### 2. Install all dependencies
-```bash
 npm install
 ```
 
-This installs all required packages including:
-- `react` + `react-dom`
-- `react-router-dom`
-- `vite`
-- `jspdf`
-- `html2canvas`
-- `@vitejs/plugin-react`
-- `eslint` + related plugins
-
-### 3. Start the development server
+### Run the development server
 ```bash
 npm run dev
 ```
 
 Open `http://localhost:5173` in your browser.
 
-> **Note:** The backend must be running at `http://localhost:3000` for expenses, auth, budget, and receipt scanning to work. See the [backend README](../back-end/server/README.md) for setup instructions.
+> **Note:** The backend must be running for expenses, auth, budget, and receipt scanning to work.
+
+### Build for production
+```bash
+npm run build
+```
+
+### Preview production build
+```bash
+npm run preview
+```
+
+### Lint
+```bash
+npm run lint
+```
 
 ---
 
@@ -82,7 +81,6 @@ front-end/
     │   ├── ConfirmExpense.jsx
     │   ├── CreateBudget.jsx
     │   ├── CustomizeSplit.jsx
-    │   ├── EditProfile.jsx
     │   ├── ExpenseInfo.jsx
     │   ├── ExpenseList.jsx
     │   ├── ExpenseTracking.jsx
@@ -92,7 +90,7 @@ front-end/
     │   ├── Policies.jsx
     │   ├── Profile.jsx
     │   └── Signup.jsx
-    ├── components/        # Shared/reusable components
+    ├── components/        # Shared components
     │   ├── Category.jsx
     │   ├── CategoryExpenseTable.jsx
     │   ├── ExpenseItem.jsx
@@ -102,16 +100,5 @@ front-end/
     │   └── PolicyFooter.jsx
     ├── App.jsx            # Root component, routes and global state
     ├── App.css            # Global styles
-    └── index.css          # Base styles and CSS variables
-```
-
----
-
-## Scripts
-
-```bash
-npm run dev       # Start dev server at http://localhost:5173
-npm run build     # Build for production
-npm run preview   # Preview production build locally
-npm run lint      # Lint code with ESLint
+    └── index.css          # Base styles
 ```
