@@ -10,19 +10,19 @@ For anyone who wants to take control of their finances, Trackr is a simple and i
 
 ## Core Team
 
-| Name | GitHub | 
+| Name | GitHub |
 |------|--------|
-| Sean Alliman  |[@seana12](https://github.com/seana12)|
-| Chinwe Otti |[@chinweot](https://github.com/chinweot) |
-| Nebiyu Ayele |[@nebiyu01](https://github.com/nebiyu01) |
-| Shreya Dharayan|[@sd4994](https://github.com/sd4994)|
-| Shuhan Ge|[@gshm446](https://github.com/gshm446) |
+| Sean Alliman | [@seana12](https://github.com/seana12) |
+| Chinwe Otti | [@chinweot](https://github.com/chinweot) |
+| Nebiyu Ayele | [@nebiyu01](https://github.com/nebiyu01) |
+| Shreya Dharayan | [@sd4994](https://github.com/sd4994) |
+| Shuhan Ge | [@gshm446](https://github.com/gshm446) |
 
 ---
 
 ## About Trackr
 
-Trackr started as a class project for an Agile Software Development and DevOps course at NYU. We wanted to build something that solved a real problem — keeping track of where your money goes. Most budgeting apps feel overwhelming or overly complex. Trackr is different: it's clean, intuitive, and designed to work for anyone.
+Trackr started as a class project for an Agile Software Development and DevOps course at NYU. We wanted to build something that solved the problem of not being able to keep track of spending easily. Most budgeting apps can be overly complex. Trackr is different: it's clean, intuitive, and designed to work for anyone.
 
 ---
 
@@ -32,22 +32,29 @@ Trackr started as a class project for an Agile Software Development and DevOps c
 - **Receipt Scanning** — Scan a receipt photo and auto-fill expense fields using AI
 - **Category Management** — Group expenses into preset or custom categories, rename or delete categories
 - **Budget Management** — Set income sources, fixed expenses, and track your spending split (Needs / Wants / Savings)
-- **Customize Split** — Set your own budget split percentages with preset options and a minimum 10% savings rule
+- **Customize Split** — Set your own budget split percentages
 - **Budget Report** — Full breakdown of income and spending with % of income, downloadable as PDF
 - **Expense Export** — Export all expenses to CSV
 - **Expense Sorting & Search** — Sort by newest, oldest, A-Z, Z-A, highest, or lowest cost
 - **User Auth** — Sign up and log in with JWT-based authentication
-- **Profile Page** — View and manage your account settings
+- **Profile Page** — View and manage your account settings, currency preference, and password
 
 ---
 
 ## Tech Stack
 
-**Frontend:** React, Vite, React Router, jsPDF, html2canvas  
-**Backend:** Node.js, Express, Multer, express-validator  
-**Database:** MongoDB Atlas (via Mongoose)  
-**Auth:** JWT + bcryptjs  
-**AI Receipt Scanning:** OpenRouter API (free vision model)  
+**Frontend:** React, Vite, React Router, jsPDF, html2canvas
+**Backend:** Node.js, Express, Multer, express-validator
+**Database:** MongoDB Atlas (via Mongoose)
+**Auth:** JWT + bcryptjs
+**AI Receipt Scanning:** OpenRouter API (free vision model)
+
+---
+
+## Live Demo
+
+- **Frontend:** https://trackr-frontend.onrender.com
+- **Backend API:** https://trackr-jxdi.onrender.com
 
 ---
 

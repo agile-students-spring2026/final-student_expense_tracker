@@ -11,11 +11,9 @@ The backend for **Trackr**, an expense tracking app built with Node.js and Expre
 - [MongoDB Atlas](https://www.mongodb.com/cloud/atlas) — database
 - [Mongoose](https://mongoosejs.com/) — MongoDB object modeling
 - [JWT](https://jwt.io/) — authentication
-- [Multer](https://github.com/expressjs/multer) — file/image upload handling (receipt scanning)
+- [Multer](https://github.com/expressjs/multer) — file/image upload handling
 - [express-validator](https://express-validator.github.io/) — request validation
 - [bcryptjs](https://github.com/dcodeIO/bcrypt.js) — password hashing
-- [dotenv](https://github.com/motdotla/dotenv) — environment variables
-- [cors](https://github.com/expressjs/cors) — cross-origin resource sharing
 - [Mocha](https://mochajs.org/) + [Chai](https://www.chaijs.com/) — testing
 
 ---
@@ -26,7 +24,7 @@ The backend for **Trackr**, an expense tracking app built with Node.js and Expre
 - [Node.js](https://nodejs.org/) v18 or higher
 - npm
 - A MongoDB Atlas account with a cluster set up
-- An [OpenRouter](https://openrouter.ai) account (free) for receipt scanning
+- A free [OpenRouter](https://openrouter.ai) API key (for receipt scanning)
 
 ### Environment setup
 Create a `.env` file in `back-end/server/`:
@@ -43,18 +41,6 @@ OPENROUTER_API_KEY=your_openrouter_api_key
 cd back-end/server
 npm install
 ```
-
-This installs all required packages including:
-- `express`
-- `mongoose`
-- `jsonwebtoken`
-- `bcryptjs`
-- `multer`
-- `express-validator`
-- `cors`
-- `dotenv`
-- `nodemon` (dev)
-- `mocha` + `chai` (testing)
 
 ### Run the development server
 ```bash
@@ -83,12 +69,29 @@ npm test
 | DELETE | `/api/expenses/:id` | No | Delete an expense |
 | PUT | `/api/expenses/category/:name` | No | Rename a category |
 | DELETE | `/api/expenses/category/:name` | No | Delete a category and its expenses |
-| POST | `/api/scan-receipt` | No | Scan a receipt image using AI (OpenRouter) |
+| POST | `/api/scan-receipt` | No | Scan a receipt image using AI |
 | GET | `/api/budget` | Yes | Get user's budget |
 | POST | `/api/budget` | Yes | Create/update budget |
 | PUT | `/api/budget` | Yes | Update budget fields |
 | DELETE | `/api/budget` | Yes | Reset budget |
 | GET | `/api/profile/me` | Yes | Get current user profile |
 | PUT | `/api/profile/me` | Yes | Update current user profile |
+| PUT | `/api/profile/me/password` | Yes | Change password |
 | GET | `/api/profile/:id` | No | Get profile by user ID |
 | PUT | `/api/profile/:id` | No | Update profile by user ID |
+
+---
+
+## Project Structure
+
+```
+back-end/server/
+├── config/         # Database connection
+├── middleware/     # Auth middleware
+├── models/         # Mongoose models (User, Expense, Budget, Profile)
+├── validators/     # Request validators
+├── utils/          # Password hashing utilities
+├── test/           # Unit tests
+├── app.js          # Express app and routes
+└── server.js       # Entry point
+```

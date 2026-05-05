@@ -22,7 +22,7 @@ function Budget({ budget, expenses, currencySymbol = "$" }) {
             <h2>Budgeting</h2>
 
             <div className="land-btn-row">
-                <Link to="/budget/create" className="btn-green">Create New Budget</Link>
+                <Link to="/budget/create" className="btn-green">Edit Budget</Link>
                 <Link to="/budget/report" className="btn-plain">Budget Report</Link>
             </div>
 
