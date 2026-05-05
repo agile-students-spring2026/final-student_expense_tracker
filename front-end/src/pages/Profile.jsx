@@ -55,7 +55,7 @@ const CURRENCIES = [
     { code: "ETB", symbol: "Br", name: "Ethiopian Birr" },
 ];
 
-function Profile({ setCurrencySymbol }) {
+function Profile({ setCurrencySymbol, resetAccentColor }) {
     const navigate = useNavigate()
     const [profile, setProfile] = useState({
         name: localStorage.getItem("userName") || "User",
@@ -113,6 +113,10 @@ function Profile({ setCurrencySymbol }) {
     localStorage.setItem("color", color)
 }, [theme, color])
 
+    function handleDefaultAccentColor() {
+        setColor("#169246")
+        if (resetAccentColor) resetAccentColor()
+    }
 
     async function handleSaveCurrency() {
         const token = localStorage.getItem("authToken")
@@ -236,16 +240,18 @@ function Profile({ setCurrencySymbol }) {
                     </select>
                 </div>
 
-                <div style={{ padding: "0 1.5rem" }}>
+                <div style={{ padding: "0 1.5rem", display: "flex", alignItems: "center", gap: "10px", flexWrap: "wrap" }}>
                     <label>Accent Color:</label>
                     <input
                         type="color"
                         value={color}
                         onChange={(e) => setColor(e.target.value)}
-                        style={{ marginLeft: "10px" }}
                     />
+                    <button className="btn-plain" onClick={handleDefaultAccentColor}>
+                        Default
+                    </button>
                 </div>
-            </div>
+                            </div>
 
 
             {/* Password Change */}

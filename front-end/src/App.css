@@ -1543,3 +1543,25 @@ a {
 [data-theme="dark"] .land-stat-box {
   background: var(--card);
 }
+
+
+[data-theme="dark"] .expense-sort,
+[data-theme="dark"] .expense-search {
+  color: #f5f5f5;
+}
+
+[data-theme="dark"] .land-card-row .expense-item-cell,
+[data-theme="dark"] .expense-item-cell {
+  color: #f5f5f5;
+}
+
+[data-theme="dark"] .expense-category-name-row {
+  color: #f5f5f5;
+  background-color: #1e1e1e;
+  border: 1px solid #f5f5f5;
+}
+
+[data-theme="dark"] .expense-search-bar {
+  background-color: #ffffff;
+  color: #111;
+}
